@@ -1,0 +1,23 @@
+@import '../../../animations.css';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: auto;
+  width: 100%;
+  min-width: 100%;
+  animation: 250ms fade-in-bottom linear;
+}
+
+.searchFilterDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  animation: 250ms fade-in-left linear;
+}
+
+.tableDiv {
+  box-shadow: 10px 10px 8px var(--neutral);
+  border-radius: 12px;
+}

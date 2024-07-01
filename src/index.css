@@ -1,0 +1,41 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+body {
+  margin: 0;
+  background: linear-gradient(217deg, hsla(210, 64%, 31%, .6), hsla(0, 0%, 9%, .9) 70.71%),
+              linear-gradient(290deg, hsla(0, 0%, 9%, .9), hsla(210, 64%, 31%, .1) 70.71%),
+              linear-gradient(320deg, hsla(210, 64%, 31%, .5), hsla(0, 0%, 9%, .6) 70.71%);
+              background-attachment: fixed;
+}
+
+:root {
+  --primary: #1C4E80;
+  --primaryContent: #CFDAE6;
+  --secondary: #7C909A;
+  --secondaryContent: #050709;
+  --accent: #EA6947;
+  --accentContent: #130402;
+  --neutral: #23282E;
+  --neutralContent: #CECFD1;
+  --b1: #202020;
+  --b2: #1C1C1C;
+  --b3: #181818;
+  --baseContent: #CDCDCD;
+  --info: #0091D5;
+  --infoContent: #000710;
+  --success: #6BB187;
+  --successContent: #040C06;
+  --warning: #DBAE59;
+  --warningContent: #110B03;
+  --error: #AC3E31;
+  --errorContent: #F2D8D4;
+}

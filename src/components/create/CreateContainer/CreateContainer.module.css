@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 12px;
+  color: var(--neutralContent);
+  text-transform: uppercase;
+  font-family: 'Jura', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  background-color: transparent;
+  padding: 6px;
+
+  @media (min-width: 1920px) { /* Desktop */ 
+    gap: 24px;
+  }
+}
+
+.label {
+  margin: auto;
+  color: var(--neutralContent);
+  text-transform: uppercase;
+  font-family: 'Jura', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 1rem;
+  font-style: normal;
+}

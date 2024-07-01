@@ -1,0 +1,54 @@
+.container {
+  position: relative;
+  display: flex;
+  width: 80%;
+  min-height: 50px;
+  border-radius: 10px;
+  box-shadow: 8px 8px 8px var(--neutral);
+  margin-right: auto;
+  animation: 250ms fade-in-top linear;
+}
+
+.searchInput {
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: black;
+  border-radius: 10px;
+}
+
+.clearBtn {
+  position: absolute;
+  color: var(--neutralContent);
+  text-transform: uppercase;
+  background-color: var(--neutral);
+  right: 0;
+  width: 120px;
+  height: 100%;
+  border-radius: 0 10px 10px 0;
+}
+
+.clearBtn:hover {
+  cursor: pointer;
+  color: var(--neutral);
+  background-color: var(--warning);
+}
+
+.count {
+  position: absolute;
+  left: 10px;
+  bottom: -22px;
+  font-style: italic;
+}
+
+.header {
+  position: absolute;
+  color: var(--warning);
+  text-shadow: 2px 2px 4px var(--neutral);
+  font-size: 2.5rem;
+  font-family: 'Fugaz One', sans-serif;
+  font-weight: 400;
+  top: -36px;
+  left: -40px;
+  z-index: 10;  
+}

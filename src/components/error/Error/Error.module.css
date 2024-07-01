@@ -1,0 +1,26 @@
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    color: var(--neutralContent);
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    width: fit-content;
+  }
+
+  .title {
+    font-family: 'Fugaz One', sans-serif;
+    font-size: 3rem;
+  }
+
+  .subTitle {
+    font-family: 'Jura', sans-serif;
+    font-size: 1.75rem;
+    text-transform: uppercase;
+  }
+
+  .counter {
+    color: var(--warning);
+    font-weight: 600;
+  }

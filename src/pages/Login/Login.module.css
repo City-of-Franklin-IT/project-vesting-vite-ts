@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  margin: 40px auto;
+  background-color: var(--neutralContent);
+  border-radius: 14px;
+  overflow: hidden;
+  animation: 250ms fade-in linear;
+}

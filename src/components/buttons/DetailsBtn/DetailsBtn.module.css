@@ -1,0 +1,9 @@
+.btn {
+  width: fit-content;
+  margin: auto;
+  text-transform: uppercase;
+}
+
+.icon {
+  width: 24px;
+}

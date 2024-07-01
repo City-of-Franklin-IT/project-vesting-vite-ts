@@ -1,0 +1,17 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  height: 14vh;
+  background-color: var(--b3);
+  margin-top: auto;
+}
+
+.text {
+  color: var(--primaryContent);
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: .4rem;
+  text-align: center;
+  margin: auto;
+}

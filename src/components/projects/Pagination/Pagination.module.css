@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  gap: 12px;
+  height: fit-content;
+  margin-top: auto;
+}
+
+.btn {
+  color: var(--neutralContent);
+  background-color: var(--primary);
+  padding: 8px 10px;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, .1);
+  animation: 250ms fade-in-right linear;
+}
+
+.btn:hover {
+  background-color: var(--neutral);
+}
+
+.disabled {
+  color: var(--neutralContent);
+  background-color: var(--primary);
+  padding: 8px 10px;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, .1);
+  opacity: .5;
+  animation: 250ms fade-in-right linear;
+}

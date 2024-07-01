@@ -1,0 +1,28 @@
+@import '../../../animations.css';
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  background-color: rgba(206, 207, 209, 0.05);
+  padding: 12px 60px 60px 60px;
+  margin: auto;
+  overflow: hidden;
+  box-shadow: 8px 8px 8px var(--neutral);
+  animation: 250ms fade-in-bottom linear;
+  
+  @media (min-width: 1920px) { /* Desktop */ 
+    width: 60%;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: -10%;
+  right: -20%;
+  height: 600px;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}

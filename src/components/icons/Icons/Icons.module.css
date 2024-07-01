@@ -1,0 +1,13 @@
+.small {
+  width: 30px;
+  margin-bottom: 6px;
+}
+
+.large {
+  width: 60px;
+  margin-bottom: 4px;
+}
+
+.extraLarge {
+  width: 200px;
+}

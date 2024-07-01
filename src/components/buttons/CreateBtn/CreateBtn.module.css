@@ -1,0 +1,23 @@
+.btn {
+  justify-content: center;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-family: 'Jura', sans-serif;
+  font-weight: 400;
+  font-size: .85rem;
+  padding: 4px;
+  white-space: nowrap;
+  background-color: var(--info);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, .1);
+
+  @media screen and (min-width: 1920px) {
+    font-size: 1rem;
+    padding: 0 12px;
+  }
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: var(--neutralContent);
+  background-color: var(--neutral);
+}

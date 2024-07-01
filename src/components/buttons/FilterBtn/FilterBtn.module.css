@@ -1,0 +1,27 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+  font-family: 'Jura', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  width: 200px;
+  height: 40px;
+  padding: 0 12px;
+  outline: 1px solid white;
+  border-radius: 5px;
+  box-shadow: 6px 6px 0 white;
+  animation: 250ms fade-in-right linear;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: var(--warning);
+}
+
+.label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
