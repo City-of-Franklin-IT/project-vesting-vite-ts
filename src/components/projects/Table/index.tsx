@@ -116,7 +116,7 @@ export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: S
           variant={setIconVariant(firstMilestone)}
           size={'large'} />
         {firstMilestone && firstMilestone.Extension ? (
-          <div style={{ position: "relative", display: "flex", gap: "4px", width: "fit-content" }}>
+          <div className="relative flex gap-1 w-fit">
             <div className={handleMilestoneStyle(firstMilestone)}>{firstMilestone.Extension.date.toString()}<span className={styles.extension}>extended</span></div>
           </div>
         ) : <div className={handleMilestoneStyle(firstMilestone)}>{firstMilestone && firstMilestone.date.toString()}</div>}

@@ -17,7 +17,7 @@ function FilterContainer() {
         <FilterBtn type={'Site Plan'} />
       </div>
       {filter && ( // Clear filter button
-        <div style={{ margin: "auto" }}>
+        <div className="m-auto">
           <FilterBtn />
         </div>
       )}

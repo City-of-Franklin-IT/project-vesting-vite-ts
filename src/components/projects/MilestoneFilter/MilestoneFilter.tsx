@@ -46,8 +46,8 @@ function MilestoneFilter() {
           <button
             type="button"
             className={styles.btn}
-            onClick={() => setState(({ start: '', end: '' }))}
-            >Remove Filter
+            onClick={() => setState(({ start: '', end: '' }))}>
+              Remove Filter
           </button>
         </div>
       )}
