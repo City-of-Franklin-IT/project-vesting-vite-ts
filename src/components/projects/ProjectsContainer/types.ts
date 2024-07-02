@@ -17,7 +17,11 @@ export interface UseSetProjectsProps { // useSetProjects hook props
   data: Project[],
   filter: string,
   showExpired: boolean,
-  searchValue: string
+  searchValue: string,
+  milestoneFilter: {
+    start: string,
+    end: string
+  }
 }
 
 export interface UseSearchProps { // useSearch hook props

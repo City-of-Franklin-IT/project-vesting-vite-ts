@@ -18,6 +18,11 @@ const appReducer = (state: AppReducerProps['state'], action: AppReducerProps['ac
         ...state,
         showExpired: !state.showExpired
       }
+    case 'SET_MILESTONE_FILTER':
+      return {
+        ...state,
+        milestoneFilter: action.payload
+      }
     default:
       return state
   }

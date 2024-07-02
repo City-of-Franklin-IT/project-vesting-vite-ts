@@ -12,7 +12,7 @@ import { LoginFormUseFormState } from './types'
 import LoginBtn from "../../buttons/LoginBtn/LoginBtn"
 
 function LoginForm() {
-  const [cookies, setCookie] = useCookies(["user"])
+  const [_, setCookie] = useCookies(["user"])
 
   const navigate = useNavigate()
 

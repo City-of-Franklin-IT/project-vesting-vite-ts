@@ -8,6 +8,10 @@ import { AppContextObj, AppState, Action } from './types'
 const AppContext = createContext<AppContextObj>({
   dispatch: () => {},
   filter: '',
+  milestoneFilter: {
+    start: '',
+    end: ''
+  },
   searchValue: '',
   showExpired: true
 })
@@ -15,6 +19,10 @@ const AppContext = createContext<AppContextObj>({
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const initialState: AppState = {
     filter: '',
+    milestoneFilter: {
+      start: '',
+      end: ''
+    },
     searchValue: '',
     showExpired: true
   }

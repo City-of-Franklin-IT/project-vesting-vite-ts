@@ -4,6 +4,7 @@ import styles from './FilterContainer.module.css'
 
 // Components
 import FilterBtn from '../../buttons/FilterBtn/FilterBtn'
+import MilestoneFilter from '../MilestoneFilter/MilestoneFilter'
 
 function FilterContainer() {
   const { filter } = useContext(AppContext)
@@ -20,6 +21,9 @@ function FilterContainer() {
           <FilterBtn />
         </div>
       )}
+      <div className="mt-8">
+        <MilestoneFilter />
+      </div>
     </section>
   )
 }

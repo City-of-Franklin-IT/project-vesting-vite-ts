@@ -9,12 +9,13 @@ import { ProjectsContainerProps, ProjectsContainerState } from './types'
 // Components
 import SearchAndFilterContainer from '../SearchAndFilterContainer/SearchAndFilterContainer'
 import ResultsPerPage from '../ResultsPerPage/ResultsPerPage'
+import ShowExpired from '../../buttons/ShowExpired/ShowExpired'
 import Pagination from '../Pagination/Pagination'
 import Table from '../Table/Table'
 import BackToTopBtn from '../../buttons/BackToTopBtn/BackToTopBtn'
 
 function ProjectsContainer({ data }: ProjectsContainerProps) {
-  const { filter, showExpired, searchValue, dispatch } = useContext(AppContext)
+  const { filter, showExpired, searchValue, milestoneFilter, dispatch } = useContext(AppContext)
 
   const [state, setState] = useState<ProjectsContainerState>({ searchValue: searchValue || '', resultsPerPage: 10, activePage: 1 })
 
@@ -22,7 +23,7 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
 
   const handleSearch = useSearch(state, filter, dispatch)
 
-  const projects = useSetProjects(data, filter, showExpired, searchValue)
+  const projects = useSetProjects(data, filter, showExpired, searchValue, milestoneFilter)
 
   const pages = useSetPages(projects, state)
 
@@ -42,15 +43,18 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
         <SearchAndFilterContainer 
           searchValue={state.searchValue} 
           setSearchValue={setState} />
-        <div className="flex flex-col gap-4">
-          <ResultsPerPage
-            resultsPerPage={state.resultsPerPage}
-            setResultsPerPage={setState} />
-          <Pagination
-            activePage={state.activePage}
-            pages={pages}
-            handleNextPage={() => setState(prevState => ({ ...prevState, activePage: state.activePage + 1 }))}
-            handlePrevPage={() => setState(prevState => ({ ...prevState, activePage: state.activePage - 1 }))} />
+        <div className="flex gap-8 items-end">
+          <ShowExpired />
+          <div className="flex flex-col gap-4">
+            <ResultsPerPage
+              resultsPerPage={state.resultsPerPage}
+              setResultsPerPage={setState} />
+            <Pagination
+              activePage={state.activePage}
+              pages={pages}
+              handleNextPage={() => setState(prevState => ({ ...prevState, activePage: state.activePage + 1 }))}
+              handlePrevPage={() => setState(prevState => ({ ...prevState, activePage: state.activePage - 1 }))} />
+          </div>
         </div>
       </div>
       <div className={styles.tableDiv}>

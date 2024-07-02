@@ -17,7 +17,7 @@ export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps
   return () => clearTimeout(cleanTimeout)
 }, [state.searchValue, filter])
 
-export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSetProjectsProps['filter'], showExpired: UseSetProjectsProps['showExpired'], searchValue: UseSetProjectsProps['searchValue']): Project[] => useMemo(() => { // Set projects array
+export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSetProjectsProps['filter'], showExpired: UseSetProjectsProps['showExpired'], searchValue: UseSetProjectsProps['searchValue'], milestoneFilter: UseSetProjectsProps['milestoneFilter']): Project[] => useMemo(() => { // Set projects array
   let array = []
 
   if(filter) { // Type filter applied
@@ -44,14 +44,25 @@ export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSet
           }
         }
       })
-
     } else array = data
+  }
+
+  if(milestoneFilter.start && milestoneFilter.end) { // Milestone filter applied
+    const start = new Date(milestoneFilter.start)
+    const end = new Date(milestoneFilter.end)
+
+    array = array.filter(obj => 
+      obj.VestingMilestones.some(milestone => {
+        const milestoneDate = new Date(milestone.date);
+        return milestoneDate > start && milestoneDate < end;
+      })
+    )
   }
 
   if(showExpired) { // Return expired
     return array
   } else return data.filter(obj => !obj.expired) // Filter out expired
-}, [data, filter, showExpired, searchValue])
+}, [data, filter, showExpired, searchValue, milestoneFilter])
 
 export const useSetPages = (projects: UseSetPagesProps['projects'], state: UseSetPagesProps['state']): number => useMemo(() => { // Set total pages
   return Math.ceil(projects.length / state.resultsPerPage)

@@ -9,6 +9,10 @@ export interface AppReducerProps { // AppReducer props
 export interface AppContextObj { // App context object
   dispatch: Dispatch<Action>,
   filter: string,
+  milestoneFilter: {
+    start: string,
+    end: string
+  },
   searchValue: string,
   showExpired: boolean,
 }
@@ -16,6 +20,10 @@ export interface AppContextObj { // App context object
 export interface AppState { // App context state object
   filter: string,
   searchValue: string,
+  milestoneFilter: {
+    start: string,
+    end: string
+  }
   showExpired: boolean
 }
 
@@ -258,6 +266,7 @@ export type Action =
   | { type: 'SET_FILTER', payload: string }
   | { type: 'SET_SEARCH_VALUE', payload: string }
   | { type: 'TOGGLE_SHOW_EXPIRED', payload: boolean }
+  | { type: 'SET_MILESTONE_FILTER', payload: { start: Date | string | undefined, end: Date | string | undefined } }
 
 export type ProjectTypes = 
   | 'Development Plan'
