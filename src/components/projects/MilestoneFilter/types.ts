@@ -1,6 +1,6 @@
 // Types
 import { Action } from '../../../context/App/types'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch } from 'react'
 
 export interface MilestoneFilterState { // MilestoneFilter state object
   start: string,
