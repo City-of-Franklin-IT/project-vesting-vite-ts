@@ -5,13 +5,7 @@ import { UseSearchProps, UseSetProjectsProps, UseSetPagesProps, UseResetActivePa
 
 export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps['filter'], dispatch: UseSearchProps['dispatch']): () => void => useCallback(() => { // Handle search
   const cleanTimeout = setTimeout(() => {
-    if(state.searchValue) {
-      dispatch({ type: 'SET_SEARCH_VALUE', payload: state.searchValue })
-
-      if(filter) { // Clear filter
-        dispatch({ type: 'SET_FILTER', payload: '' })
-      }
-    }
+    dispatch({ type: 'SET_SEARCH_VALUE', payload: state.searchValue })
   }, 1000)
 
   return () => clearTimeout(cleanTimeout)
@@ -22,6 +16,7 @@ export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSet
 
   if(filter) { // Type filter applied
     array = data.filter(obj => obj.type === filter)
+
     if(searchValue) {
       const regex = new RegExp(searchValue, 'i')
 
@@ -61,7 +56,7 @@ export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSet
 
   if(showExpired) { // Return expired
     return array
-  } else return data.filter(obj => !obj.expired) // Filter out expired
+  } else return array.filter(obj => !obj.expired) // Filter out expired
 }, [data, filter, showExpired, searchValue, milestoneFilter])
 
 export const useSetPages = (projects: UseSetPagesProps['projects'], state: UseSetPagesProps['state']): number => useMemo(() => { // Set total pages

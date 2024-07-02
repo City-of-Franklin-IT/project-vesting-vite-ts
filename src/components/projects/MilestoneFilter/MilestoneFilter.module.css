@@ -4,6 +4,11 @@
   gap: 8px;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  width: fit-content;
+  margin: auto;
+  border: 1px dotted var(--warning);
+  border-radius: 4px;
 }
 
 .title {

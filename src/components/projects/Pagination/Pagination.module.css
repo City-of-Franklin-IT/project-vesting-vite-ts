@@ -7,11 +7,16 @@
 
 .btn {
   color: var(--neutralContent);
+  font-size: .85rem;
   background-color: var(--primary);
-  padding: 8px 10px;
+  padding: 4px;
   text-transform: uppercase;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, .1);
   animation: 250ms fade-in-right linear;
+
+  @media (min-width: 1920px) { /* Desktop */ 
+    padding: 8px 10px;
+  }
 }
 
 .btn:hover {
@@ -20,10 +25,15 @@
 
 .disabled {
   color: var(--neutralContent);
+  font-size: .85rem;
   background-color: var(--primary);
-  padding: 8px 10px;
+  padding: 4px;
+  opacity: .5;
   text-transform: uppercase;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, .1);
-  opacity: .5;
   animation: 250ms fade-in-right linear;
+
+  @media (min-width: 1920px) { /* Desktop */ 
+    padding: 8px 10px;
+  }
 }

@@ -16,7 +16,7 @@ const appReducer = (state: AppReducerProps['state'], action: AppReducerProps['ac
     case 'TOGGLE_SHOW_EXPIRED':
       return {
         ...state,
-        showExpired: !state.showExpired
+        showExpired: action.payload
       }
     case 'SET_MILESTONE_FILTER':
       return {
