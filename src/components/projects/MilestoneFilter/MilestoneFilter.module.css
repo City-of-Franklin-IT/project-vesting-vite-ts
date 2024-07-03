@@ -1,11 +1,11 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 24px;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  width: fit-content;
+  width: 100%;
   margin: auto;
   border: 1px dotted var(--warning);
   border-radius: 4px;

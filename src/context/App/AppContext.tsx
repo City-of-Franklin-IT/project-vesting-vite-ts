@@ -13,6 +13,10 @@ const AppContext = createContext<AppContextObj>({
     end: ''
   },
   searchValue: '',
+  showAchieved: {
+    firstMilestone: true,
+    secondMilestone: true
+  },
   showExpired: true
 })
 
@@ -24,6 +28,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       end: ''
     },
     searchValue: '',
+    showAchieved: {
+      firstMilestone: true,
+      secondMilestone: true
+    },
     showExpired: true
   }
 

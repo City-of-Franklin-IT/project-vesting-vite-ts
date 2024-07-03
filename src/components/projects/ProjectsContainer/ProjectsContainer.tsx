@@ -15,7 +15,7 @@ import Table from '../Table/Table'
 import BackToTopBtn from '../../buttons/BackToTopBtn/BackToTopBtn'
 
 function ProjectsContainer({ data }: ProjectsContainerProps) {
-  const { filter, showExpired, searchValue, milestoneFilter, dispatch } = useContext(AppContext)
+  const { filter, showExpired, showAchieved, searchValue, milestoneFilter, dispatch } = useContext(AppContext)
 
   const [state, setState] = useState<ProjectsContainerState>({ searchValue: searchValue || '', resultsPerPage: 10, activePage: 1 })
 
@@ -23,7 +23,7 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
 
   const handleSearch = useSearch(state, filter, dispatch)
 
-  const projects = useSetProjects(data, filter, showExpired, searchValue, milestoneFilter)
+  const projects = useSetProjects(data, filter, showExpired, searchValue, milestoneFilter, showAchieved)
 
   const pages = useSetPages(projects, state)
 

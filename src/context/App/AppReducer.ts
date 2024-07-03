@@ -23,6 +23,11 @@ const appReducer = (state: AppReducerProps['state'], action: AppReducerProps['ac
         ...state,
         milestoneFilter: action.payload
       }
+    case 'TOGGLE_SHOW_ACHIEVED':
+      return {
+        ...state,
+        showAchieved: action.payload
+      }
     default:
       return state
   }

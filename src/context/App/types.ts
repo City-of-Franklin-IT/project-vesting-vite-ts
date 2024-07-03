@@ -15,6 +15,10 @@ export interface AppContextObj { // App context object
   },
   searchValue: string,
   showExpired: boolean,
+  showAchieved: {
+    firstMilestone: boolean,
+    secondMilestone: boolean
+  }
 }
 
 export interface AppState { // App context state object
@@ -24,7 +28,11 @@ export interface AppState { // App context state object
     start: string,
     end: string
   }
-  showExpired: boolean
+  showExpired: boolean,
+  showAchieved: {
+    firstMilestone: boolean,
+    secondMilestone: boolean
+  }
 }
 
 export interface ReducerAction {
@@ -267,6 +275,7 @@ export type Action =
   | { type: 'SET_SEARCH_VALUE', payload: string }
   | { type: 'TOGGLE_SHOW_EXPIRED', payload: boolean }
   | { type: 'SET_MILESTONE_FILTER', payload: { start: Date | string | undefined, end: Date | string | undefined } }
+  | { type: 'TOGGLE_SHOW_ACHIEVED', payload: { firstMilestone: boolean, secondMilestone: boolean } }
 
 export type ProjectTypes = 
   | 'Development Plan'

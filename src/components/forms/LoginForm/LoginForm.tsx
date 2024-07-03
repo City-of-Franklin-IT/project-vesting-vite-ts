@@ -12,7 +12,7 @@ import { LoginFormUseFormState } from './types'
 import LoginBtn from "../../buttons/LoginBtn/LoginBtn"
 
 function LoginForm() {
-  const [_, setCookie] = useCookies(["user"])
+  const [_, setCookie] = useCookies(["user", "userPreferences"])
 
   const navigate = useNavigate()
 
@@ -23,8 +23,6 @@ function LoginForm() {
       }
     })
 
-  console.log(isValid)
-  
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(formData => onSubmit(formData, setCookie, navigate))}>

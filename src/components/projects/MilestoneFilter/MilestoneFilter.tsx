@@ -6,6 +6,9 @@ import styles from './MilestoneFilter.module.css'
 // Types
 import { MilestoneFilterState } from "./types"
 
+// Components
+import ShowAchieved from "../../buttons/ShowAchived/ShowAchieved"
+
 function MilestoneFilter() {
   const { dispatch } = useContext(AppContext)
 
@@ -23,7 +26,7 @@ function MilestoneFilter() {
         <div className={styles.title}>Milestone Filter</div>
         <small className="italic text-primaryContent">Return projects with qualifying milestones..</small>
       </div>
-      <div className="flex gap-8">
+      <div className="flex gap-10">
         <div className="flex flex-col items-center">
           <label htmlFor="start" className={styles.label}>Start:</label>
           <input 
@@ -51,6 +54,7 @@ function MilestoneFilter() {
           </button>
         </div>
       )}
+      <ShowAchieved />
     </div>
   )
 }

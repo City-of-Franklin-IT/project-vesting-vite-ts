@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react"
+import { useCookies } from "react-cookie"
 import AppContext from "../../../context/App/AppContext"
 import { useShowExpired } from "."
 import styles from './ShowExpired.module.css'
@@ -9,9 +10,11 @@ import { ShowExpiredState } from "./types"
 function ShowExpired() {
   const { dispatch } = useContext(AppContext)
 
-  const [state, setState] = useState<ShowExpiredState>({ showExpired: true })
+  const [cookies, setCookie] = useCookies(["userPreferences"])
 
-  const showExpired = useShowExpired(state, dispatch)
+  const [state, setState] = useState<ShowExpiredState>({ showExpired: cookies.userPreferences?.showExpired ?? true })
+
+  const showExpired = useShowExpired(state, dispatch, cookies, setCookie)
 
   useEffect(() => {
     showExpired()

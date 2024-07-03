@@ -21,6 +21,10 @@ export interface UseSetProjectsProps { // useSetProjects hook props
   milestoneFilter: {
     start: string,
     end: string
+  },
+  showAchieved: {
+    firstMilestone: boolean,
+    secondMilestone: boolean
   }
 }
 

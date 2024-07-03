@@ -10,7 +10,17 @@ export interface LoginFormUseFormState { // LoginForm useForm state object
 export interface OnSubmitProps { // onSubmit fn props
   formData: LoginFormUseFormState,
   setCookie: SetCookieFunction,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  cookies: {
+    user?: {},
+    userPreferences?: {
+      showExpired: boolean,
+      showAchieved: {
+        firstMilestone: boolean,
+        secondMilestone: boolean
+      }
+    }
+  }
 }
 
-type SetCookieFunction = (name: "user", value: any, options?: CookieSetOptions | undefined) => void
+type SetCookieFunction = (name: "user" | "userPreferences", value: any, options?: CookieSetOptions | undefined) => void

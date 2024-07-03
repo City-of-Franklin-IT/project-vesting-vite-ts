@@ -11,7 +11,7 @@ export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps
   return () => clearTimeout(cleanTimeout)
 }, [state.searchValue, filter])
 
-export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSetProjectsProps['filter'], showExpired: UseSetProjectsProps['showExpired'], searchValue: UseSetProjectsProps['searchValue'], milestoneFilter: UseSetProjectsProps['milestoneFilter']): Project[] => useMemo(() => { // Set projects array
+export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSetProjectsProps['filter'], showExpired: UseSetProjectsProps['showExpired'], searchValue: UseSetProjectsProps['searchValue'], milestoneFilter: UseSetProjectsProps['milestoneFilter'], showAchieved: UseSetProjectsProps['showAchieved']): Project[] => useMemo(() => { // Set projects array
   let array = []
 
   if(filter) { // Type filter applied
@@ -48,16 +48,30 @@ export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSet
 
     array = array.filter(obj => 
       obj.VestingMilestones.some(milestone => {
-        const milestoneDate = new Date(milestone.date);
-        return milestoneDate > start && milestoneDate < end;
+        const milestoneDate = !milestone.Extension ? new Date(milestone.date) : new Date(milestone.Extension.date) // Check for extension
+        return milestoneDate > start && milestoneDate < end
       })
     )
+  }
+
+  if(!showAchieved.firstMilestone) { // If !showAchieved.firstMilestone - remove projects with achieved firstMilestone
+    array = array.filter(obj => {
+      const milestone = obj.VestingMilestones.find(milestone => milestone.number === 1)
+      return !milestone?.MilestoneStatus.achieved
+    })
+  }
+
+  if(!showAchieved.secondMilestone) { // If !showAchieved.secondMilestone - remove projects with achieved secondMilestone
+    array = array.filter(obj => {
+      const milestone = obj.VestingMilestones.find(milestone => milestone.number === 2)
+      return !milestone?.MilestoneStatus.achieved
+    })
   }
 
   if(showExpired) { // Return expired
     return array
   } else return array.filter(obj => !obj.expired) // Filter out expired
-}, [data, filter, showExpired, searchValue, milestoneFilter])
+}, [data, filter, showExpired, searchValue, milestoneFilter, showAchieved])
 
 export const useSetPages = (projects: UseSetPagesProps['projects'], state: UseSetPagesProps['state']): number => useMemo(() => { // Set total pages
   return Math.ceil(projects.length / state.resultsPerPage)
