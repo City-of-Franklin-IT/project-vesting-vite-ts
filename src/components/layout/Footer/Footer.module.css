@@ -14,4 +14,8 @@
   letter-spacing: .4rem;
   text-align: center;
   margin: auto;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    font-size: .60rem;
+  }
 }

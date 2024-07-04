@@ -109,7 +109,7 @@ export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: S
   }
 
   return (
-    <section onClick={() => navigate(`/update/${ data.uuid }`)} className={styles.centeredFlexRow}>
+    <section className={styles.dates}>
       <div className={styles.centeredFlexCol}>
         <Icons
           type={'firstMilestone'}
@@ -149,25 +149,15 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
     return hovered ? 'light' : 'dark'
   }
 
-  const handleVestingStyling = (period: VestingPeriod, hovered: boolean) => { // Handle vesting date styling
-    if(period.VestingStatus.expired) {
-      if(hovered) {
-        return styles.expiredHover
-      }
-  
-      return styles.expired
-    }
-  }
-
   return (
-    <section onClick={() => navigate(`/update/${ data.uuid }`)} className={styles.centeredFlexRow}>
+    <section className={styles.dates}>
       {tenYear && ( // Ten year vesting period
         <div className={styles.centeredFlexCol}>
           <Icons
             type={'tenYear'}
             variant={setIconVariant(tenYear)} 
             size={'large'} />
-          <div className={handleVestingStyling(tenYear, hovered)}>
+          <div className="text-center">
             {tenYear.date.toString()}
           </div>
         </div>
@@ -179,7 +169,7 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
             type={'fifteenYear'}
             variant={setIconVariant(fifteenYear)}
             size={'large'} />
-          <div className={handleVestingStyling(fifteenYear, hovered)}>
+          <div className="text-center">
             {fifteenYear.date.toString()}
           </div>
         </div>

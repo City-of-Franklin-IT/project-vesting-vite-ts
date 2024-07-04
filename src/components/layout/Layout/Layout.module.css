@@ -14,7 +14,12 @@
   margin: auto;
   padding: 50px 10px 80px 10px;
 
+  @media (max-width: 1024px) { /* Tablet */ 
+    padding: 20px;
+    width: 100%;
+  }
+
   @media (min-width: 1920px) { /* Desktop */ 
     width: 80%;
-  };
+  }
 }

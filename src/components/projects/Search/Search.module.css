@@ -7,6 +7,11 @@
   box-shadow: 8px 8px 8px var(--neutral);
   margin-right: auto;
   animation: 250ms fade-in-top linear;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    min-height: 40px;
+    width: 100%;
+  }
 }
 
 .searchInput {
@@ -51,4 +56,9 @@
   top: -36px;
   left: -40px;
   z-index: 10;  
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    font-size: 2.25rem;
+    top: -32px;
+  }
 }

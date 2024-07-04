@@ -26,7 +26,7 @@ function LoginForm() {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(formData => onSubmit(formData, setCookie, navigate))}>
-        <img src={image} alt="cof logo" className="w-fit" />
+        <img src={image} alt="cof logo" className="w-fit hidden md:block" />
         <div className={styles.body}>
           <h1 className={styles.title}>Planning Dept Login</h1>
           

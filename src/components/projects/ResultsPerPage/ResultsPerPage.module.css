@@ -15,4 +15,8 @@
 .input {
   cursor: pointer;
   padding: 8px;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    padding: initial;
+  }
 }

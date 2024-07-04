@@ -6,9 +6,12 @@
   justify-content: center;
   padding: 24px;
   width: 100%;
-  margin: auto;
   border: 1px dotted var(--warning);
   border-radius: 4px;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    padding: 24px 14px;
+  }
 }
 
 .title {

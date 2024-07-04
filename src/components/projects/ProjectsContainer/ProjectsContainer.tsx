@@ -43,7 +43,7 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
         <SearchAndFilterContainer 
           searchValue={state.searchValue} 
           setSearchValue={setState} />
-        <div className="flex gap-8 items-end">
+        <div className="flex gap-8 items-end justify-between">
           <ShowExpired />
           <div className="flex flex-col gap-4">
             <ResultsPerPage

@@ -13,6 +13,10 @@
   border-radius: 5px;
   box-shadow: 6px 6px 0 white;
   animation: 250ms fade-in-right linear;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    width: 100%;
+  }
 }
 
 .btn:hover {

@@ -8,6 +8,10 @@
   border-radius: 12px;
   overflow: hidden;
   animation: 250ms fade-in-bottom linear;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    overflow: auto;
+  }
 }
 
 .headerRow {
@@ -84,6 +88,19 @@
   width: fit-content;
   margin: auto;
   padding: 12px;
+}
+
+.dates {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: fit-content;
+  margin: auto;
+  padding: 12px;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    flex-direction: column;
+  }
 }
 
 .icon {
