@@ -10,7 +10,9 @@ export const zoningOrdinance: ZoningOrdinanceObj = { // Zoning ordinance externa
   ['2018-07-01']: 'https://www.franklintn.gov/home/showpublisheddocument/24135/636741747183930000',
   ['2019-12-30']: 'https://web.franklintn.gov/flippingbook/2019franklinzoningordinance/',
   ['2020-12-08']: 'https://web.franklintn.gov/flippingbook/2020FranklinZoningOrdinance',
-  ['2022-01-01']: 'https://web.franklintn.gov/flippingbook/2022franklinzoningordinance/'
+  ['2022-01-01']: 'https://web.franklintn.gov/flippingbook/2022franklinzoningordinance/',
+  ['2023-01-01']: 'https://web.franklintn.gov/FlippingBook/FranklinZoningOrdinance/index.html',
+  ['2024-07-01']: 'https://www.franklintn.gov/home/showpublisheddocument/38613'
 }
 
 export const ordinanceOptions = [ // Zoning ordinance select options
@@ -23,5 +25,7 @@ export const ordinanceOptions = [ // Zoning ordinance select options
   { text: '2018-07-01', value: '2018-07-01' },
   { text: '2019-12-30', value: '2019-12-30' },
   { text: '2020-12-08', value: '2020-12-08' },
-  { text: '2022-01-01', value: '2022-01-01' }
+  { text: '2022-01-01', value: '2022-01-01' },
+  { text: '2023-01-01', value: '2023-01-01' },
+  { text: '2024-07-01', value: '2024-07-01' }
 ]

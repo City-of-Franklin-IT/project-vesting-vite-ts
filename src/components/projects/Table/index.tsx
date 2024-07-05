@@ -80,7 +80,7 @@ export const setProjectCell = (data: SetProjectCellProps['data'], state: SetProj
   )
 }
 
-export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: SetMilestoneCellProps['hovered'], navigate: SetMilestoneCellProps['navigate']) => {
+export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: SetMilestoneCellProps['hovered']) => {
   const firstMilestone = data.VestingMilestones.find((obj: Milestone) => obj.number === 1)
   const secondMilestone = data.VestingMilestones.find((obj: Milestone) => obj.number === 2)
 
@@ -137,7 +137,7 @@ export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: S
   )
 }
 
-export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVestingCellProps['hovered'], navigate: SetVestingCellProps['navigate']) => { // Set project vesting cell
+export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVestingCellProps['hovered']) => { // Set project vesting cell
   const tenYear = data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y") as VestingPeriod
   const fifteenYear = data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y") as VestingPeriod
 

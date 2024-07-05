@@ -1,6 +1,5 @@
 // Types
 import { Dispatch, SetStateAction } from "react"
-import { NavigateFunction } from 'react-router-dom'
 import { Project } from "../../../context/App/types"
 
 export interface TableProps { // Table props
@@ -22,14 +21,12 @@ export interface SetProjectCellProps { // setProjectCell fn props
 
 export interface SetMilestoneCellProps { // setMilestoneCell fn props
   data: Project,
-  hovered: boolean,
-  navigate: NavigateFunction
+  hovered: boolean
 }
 
 export interface SetVestingCellProps { // setVestingCell fn props
   data: Project,
-  hovered: boolean,
-  navigate: NavigateFunction
+  hovered: boolean
 }
 
 export interface HandleRowStylingProps { // handleRowStyling fn props

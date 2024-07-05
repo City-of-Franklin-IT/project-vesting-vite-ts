@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { getUser } from '../../../helpers'
 import { setProjectCell, setMilestoneCell, setVestingCell, handleRowStyling } from '.'
 import styles from './Table.module.css'
@@ -10,8 +9,6 @@ import { TableProps, TableState } from './types'
 
 function Table({ data }: TableProps) {
   const [state, setState] = useState<TableState>({ expanded: [], hovered: '' })
-
-  const navigate = useNavigate()
 
   const user = getUser()
 
@@ -35,8 +32,8 @@ function Table({ data }: TableProps) {
                 className={handleRowStyling(obj, index)}
                 >
                 <td>{setProjectCell(obj, state, setState, state.hovered === obj.uuid, user.token)}</td>
-                <td>{setMilestoneCell(obj, state.hovered === obj.uuid, navigate)}</td>
-                <td>{setVestingCell(obj, state.hovered === obj.uuid, navigate)}</td>
+                <td>{setMilestoneCell(obj, state.hovered === obj.uuid)}</td>
+                <td>{setVestingCell(obj, state.hovered === obj.uuid)}</td>
               </tr>
             )
           })}
