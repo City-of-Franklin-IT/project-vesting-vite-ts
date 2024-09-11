@@ -1,3 +1,5 @@
+<p>Vite and TypeScript built React application utilized by Planning to manage project vesting lifecycles.</p>
+
 <h1>Deployed</h1>
 <a href="https://dev.franklintn.gov/vesting" target="_blank">https://dev.franklintn.gov/vesting</a>
 
