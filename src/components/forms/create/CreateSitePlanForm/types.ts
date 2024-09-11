@@ -31,9 +31,10 @@ export interface CreateSitePlanFormState { // CreateSitePlanForm useForm state
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: CreateSitePlanFormState,
-  navigate: NavigateFunction,
-  token: string
+  formData: CreateSitePlanFormState
+  options: {
+    navigate: NavigateFunction
+  }
 }
 
 export interface UseSetDatesObjProps { // useSetDatesObj hook props
@@ -69,8 +70,10 @@ export interface DatesObj {
 }
 
 export interface UseSetDatesProps { // useSetDates hook props
-  dates: DatesObj,
-  setValue: UseFormSetValue<CreateSitePlanFormState>
+  dates: DatesObj
+  options: {
+    setValue: UseFormSetValue<CreateSitePlanFormState>
+  }
 }
 
 export type SetValueKeys =

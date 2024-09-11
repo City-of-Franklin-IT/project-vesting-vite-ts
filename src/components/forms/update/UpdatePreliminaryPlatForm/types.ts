@@ -22,10 +22,28 @@ export interface UpdatePreliminaryPlatFormState { // UpdatePreliminaryPlatForm u
     tenYear: {
       date: Date | string | undefined
       uuid: string
+      status: {
+        achieved: boolean
+        expired: boolean
+        uuid: string
+      }
+      extension: {
+        date: Date | string | undefined
+        uuid: string
+      }
     }
     fifteenYear: {
       date: Date | string | undefined
       uuid: string
+      status: {
+        achieved: boolean
+        expired: boolean
+        uuid: string
+      }
+      extension: {
+        date: Date | string | undefined
+        uuid: string
+      }
     }
   }
   milestones: {
@@ -78,59 +96,72 @@ export interface UpdatePreliminaryPlatFormState { // UpdatePreliminaryPlatForm u
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: UpdatePreliminaryPlatFormState,
-  reset: UseFormReset<UpdatePreliminaryPlatFormState>
-  navigate: NavigateFunction,
-  token: string
+  formData: UpdatePreliminaryPlatFormState
+  options: {
+    reset: UseFormReset<UpdatePreliminaryPlatFormState>
+    navigate: NavigateFunction
+  }
+}
+
+export interface UseUpdatePreliminaryPlatFormProps { // useUpdatePreliminaryPlatForm hook props
+  data: Project
 }
 
 export interface UseSetDatesObjProps { // useSetdatesObj hook props
   values: {
     approval: {
       FPMC: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
       }
     },
     vesting: {
       tenYear: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
+        extension: {
+          date: Date | string | undefined
+          uuid: string
+        }
       },
       fifteenYear: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
+        extension: {
+          date: Date | string | undefined
+          uuid: string
+        }
       }
     },
     milestones: {
       first: {
-        date: Date | string | undefined,
-        uuid: string,
+        date: Date | string | undefined
+        uuid: string
         extension: {
-          date: Date | string | undefined,
+          date: Date | string | undefined
           uuid: string
         }
       },
       second: {
-        date: Date | string | undefined,
-        uuid: string,
+        date: Date | string | undefined
+        uuid: string
         extension: {
-          date: Date | string | undefined,
+          date: Date | string | undefined
           uuid: string
         }
       }
-    },
+    }
     notifications: {
       initial: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
       },
       lastCall: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
       },
       lostVesting: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
       }
     }
@@ -145,10 +176,18 @@ export interface DatesObj {
   tenYear: {
     date: Date | string | undefined,
     uuid: string
+    extension: {
+      date: Date | string | undefined,
+      uuid: string
+    }
   },
   fifteenYear: {
     date: Date | string | undefined,
     uuid: string
+    extension: {
+      date: Date | string | undefined,
+      uuid: string
+    }
   },
   firstMilestone: {
     date: Date | string | undefined,
@@ -181,36 +220,10 @@ export interface DatesObj {
 }
 
 export interface UseExpireProjectProps { // useExpireProject hook props
-  expired: boolean,
-  milestones: {
-    first: {
-      date: Date | string | undefined
-      uuid: string
-      status: {
-        achieved: boolean
-        expired: boolean
-        uuid: string
-      }
-      extension: {
-        date: Date | string | undefined
-        uuid: string
-      }
-    }
-    second: {
-      date: Date | string | undefined
-      uuid: string
-      status: {
-        achieved: boolean
-        expired: boolean
-        uuid: string
-      }
-      extension: {
-        date: Date | string | undefined
-        uuid: string
-      }
-    }
+  values: UpdatePreliminaryPlatFormState
+  options: {
+    setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
   }
-  setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
 }
 
 export interface UseMilestoneExt { // useMilestoneExt hook props
@@ -242,25 +255,24 @@ export interface UseMilestoneExt { // useMilestoneExt hook props
       }
     }
   }
-  setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
+  options: {
+    setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
+  }
 }
 
 export interface HandleDeleteValueProps { // handleDeleteValue fn props
-  target: SetValueKeys,
-  uuid: string,
-  setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>,
-  token: string
-}
-
-export interface DeleteFunctions { // Delete functions
-  vesting: Promise<ServerResponse>
-  milestones: Promise<ServerResponse>
-  notifications: Promise<ServerResponse>
+  target: SetValueKeys
+  uuid: string
+  options: {
+    setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
+  }
 }
 
 export type SetValueKeys =
   | "vesting.tenYear.date"
   | "vesting.fifteenYear.date"
+  | "vesting.tenYear.extension.date"
+  | "vesting.fifteenYear.extension.date"
   | "milestones.first.date"
   | "milestones.second.date"
   | "milestones.first.extension.date"

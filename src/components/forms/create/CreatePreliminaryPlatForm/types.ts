@@ -32,9 +32,10 @@ export interface CreatePreliminaryPlatFormState { // CreatePreliminaryPlatForm u
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: CreatePreliminaryPlatFormState,
-  navigate: NavigateFunction,
-  token: string
+  formData: CreatePreliminaryPlatFormState
+  options: {
+    navigate: NavigateFunction
+  }
 }
 
 export interface UseSetDatesObjProps { // useSetDatesObj hook props
@@ -72,8 +73,10 @@ export interface DatesObj {
 }
 
 export interface UseSetDatesProps { // useSetDates hook props
-  dates: DatesObj,
-  setValue: UseFormSetValue<CreatePreliminaryPlatFormState>
+  dates: DatesObj
+  options: {
+    setValue: UseFormSetValue<CreatePreliminaryPlatFormState>
+  }
 }
 
 export type SetValueKeys =

@@ -1,12 +1,52 @@
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
+import { useForm, UseFormReturn } from "react-hook-form"
 import { createProject, createResolution, createApproval, createPeriod, createMilestone } from '../../../../context/App/AppActions'
 import { savedPopup, errorPopup } from "../../../../utils/Toast/Toast"
 
 // Types
 import { Periods } from "../../../../context/App/types"
-import { OnSubmitProps, UseSetDatesObjProps, DatesObj, UseSetDatesProps, SetValueKeys } from "./types"
+import { CreateDevelopmentPlanFormState, OnSubmitProps, UseSetDatesObjProps, DatesObj, UseSetDatesProps, SetValueKeys } from "./types"
 
-export const onSubmit = async (formData: OnSubmitProps['formData'], navigate: OnSubmitProps['navigate'], token: OnSubmitProps['token']): Promise<void> => {
+export const useCreateDevelopmentPlanForm = (): UseFormReturn<CreateDevelopmentPlanFormState> => { // CreateDevelopmentPlanForm useForm
+  return useForm<CreateDevelopmentPlanFormState>({
+    defaultValues: {
+      type: 'Development Plan',
+      name: '',
+      cof: undefined,
+      resolution: '',
+      ordinance: undefined,
+      approval: {
+        FPMC: {
+          date: undefined
+        },
+        BOMA: {
+          date: undefined
+        }
+      },
+      vesting: {
+        tenYear: {
+          date: undefined
+        },
+        fifteenYear: {
+          date: undefined
+        }
+      },
+      milestones: {
+        first: {
+          date: undefined
+        },
+        second: {
+          date: undefined
+        }
+      },
+      notes: ''
+    }
+  })
+}
+
+export const onSubmit = async (formData: OnSubmitProps['formData'], options: OnSubmitProps['options']): Promise<void> => { // Handle form submit
+  const { navigate } = options
+
   const projectObj = {
     type: formData.type,
     name: formData.name,
@@ -15,7 +55,7 @@ export const onSubmit = async (formData: OnSubmitProps['formData'], navigate: On
     notes: formData.notes
   }
 
-  const result = await createProject(projectObj, token)
+  const result = await createProject(projectObj)
 
   if(result.success && result.data) {
     const approvalArray = [{ // Approvals
@@ -44,10 +84,10 @@ export const onSubmit = async (formData: OnSubmitProps['formData'], navigate: On
     }]
 
     const response = await Promise.all([
-      createResolution({ resolution: formData.resolution, parentId: result.data.uuid }, token),
-      ...approvalArray.map(obj => createApproval(obj, token)),
-      ...vestingArray.map(obj => createPeriod(obj, token)),
-      ...milestonesArray.map(obj => createMilestone(obj, token))
+      createResolution({ resolution: formData.resolution, parentId: result.data.uuid }),
+      ...approvalArray.map(obj => createApproval(obj)),
+      ...vestingArray.map(obj => createPeriod(obj)),
+      ...milestonesArray.map(obj => createMilestone(obj))
     ])
 
     if(response) {
@@ -68,20 +108,28 @@ export const useSetDatesObj = (values: UseSetDatesObjProps['values']): DatesObj 
   }
 }, [values.approval.FPMC.date, values.approval.BOMA.date, values.vesting.tenYear.date, values.vesting.fifteenYear.date, values.milestones.first.date, values.milestones.second.date])
 
-export const useSetDates = (dates: UseSetDatesProps['dates'], setValue: UseSetDatesProps['setValue']): () => void => useCallback(() => { // Set project vesting period and milestone dates
-  if(dates.bomaDate) { // If approval date
-    const approvalDate = new Date(dates.bomaDate)
+export const useSetDates = (dates: UseSetDatesProps['dates'], options: UseSetDatesProps['options']): void => { // Set milestones and vesting dates on BOMA approval date change
+  const { setValue } = options
 
-    const datesObj: Record<SetValueKeys, number> = {
-      ["milestones.first.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 3),
-      ["milestones.second.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 5),
-      ["vesting.tenYear.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 10),
-      ["vesting.fifteenYear.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 15)
+  const setDates = useCallback(() => {
+    if(dates.bomaDate) { // If approval date
+      const approvalDate = new Date(dates.bomaDate)
+  
+      const datesObj: Record<SetValueKeys, number> = {
+        ["milestones.first.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 3),
+        ["milestones.second.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 5),
+        ["vesting.tenYear.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 10),
+        ["vesting.fifteenYear.date"]: new Date(approvalDate).setFullYear(approvalDate.getFullYear() + 15)
+      }
+  
+      for(const prop in datesObj) {
+        const dateString = new Date(datesObj[prop as SetValueKeys]).toISOString().split("T")[0]
+        setValue(prop as SetValueKeys, dateString);
+      }
     }
+  }, [dates])
 
-    for(const prop in datesObj) {
-      const dateString = new Date(datesObj[prop as SetValueKeys]).toISOString().split("T")[0]
-      setValue(prop as SetValueKeys, dateString);
-    }
-  }
-}, [dates, setValue])
+  useEffect(() => {
+    setDates()
+  }, [dates])
+}

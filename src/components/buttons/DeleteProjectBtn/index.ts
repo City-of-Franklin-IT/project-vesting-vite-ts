@@ -4,12 +4,13 @@ import { savedPopup, errorPopup } from "../../../utils/Toast/Toast"
 // Types
 import { HandleClickProps } from "./types"
 
-export const handleClick = async (active: HandleClickProps['active'], setState: HandleClickProps['setState'], uuid: HandleClickProps['uuid'], navigate: HandleClickProps['navigate'], token: HandleClickProps['token']): Promise<void> => { // Handle delete project button click
+export const handleClick = async (active: HandleClickProps['active'], uuid: HandleClickProps['uuid'], options: HandleClickProps['options']): Promise<void> => { // Handle delete project button click
+  const { setState, navigate } = options
 
   if(!active) {
     setState(({ active: true }))
   } else {
-    const result = await deleteProject(uuid, token)
+    const result = await deleteProject(uuid)
 
     if(result.success) {
       savedPopup(result.msg)

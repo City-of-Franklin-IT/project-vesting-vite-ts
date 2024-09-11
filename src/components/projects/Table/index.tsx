@@ -13,7 +13,9 @@ import { Variants } from "../../icons/Icons/types"
 import { ZoningOrdinanceObj } from '../../../utils/types'
 import { SetProjectCellProps, SetMilestoneCellProps, SetVestingCellProps, HandleRowStylingProps } from './types'
 
-export const setProjectCell = (data: SetProjectCellProps['data'], state: SetProjectCellProps['state'], setState: SetProjectCellProps['setState'], hovered: SetProjectCellProps['hovered'], token: SetProjectCellProps['token']): ReactNode => {
+export const setProjectCell = (data: SetProjectCellProps['data'], hovered: SetProjectCellProps['hovered'], options: SetProjectCellProps['options']): ReactNode => {
+  const { authenticated, state, setState } = options
+  
   const handleBtnClick = (): void => { // Handle view more/less button
     if(state.expanded.includes(data.uuid)) {
       setState(prevState => ({ ...prevState, expanded: state.expanded.filter(obj => obj !== data.uuid) }))
@@ -25,14 +27,26 @@ export const setProjectCell = (data: SetProjectCellProps['data'], state: SetProj
       return hovered ? 'light' : 'red'
     }
 
+    let completed = false
+
+    data.VestingPeriods.forEach(obj => {
+      if(obj.VestingStatus.achieved) {
+        completed = true
+      }
+    })
+
+    if(completed) {
+      return hovered ? 'light' : 'green'
+    }
+
     return hovered ? 'light' : 'dark'
   }
 
-  const name = token ? <Link to={`/update?formType=${ data.type }&uuid=${ data.uuid }`}>{data.name}</Link> : `${ data.name }` // If token present - make link
+  const name = authenticated ? <Link to={`/update?formType=${ data.type }&uuid=${ data.uuid }`}>{data.name}</Link> : `${ data.name }` // If authenticated user - make link
   
   return (
     <div className={styles.projectCell}>
-      <div><span className={token ? styles.nameAsLink : styles.name} title={`Update ${ data.name }`}>{name} // </span><span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ data.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ data.cof } on GeoCivix`}>COF# {data.cof}</a></span>
+      <div><span className={authenticated ? styles.nameAsLink : styles.name} title={`Update ${ data.name }`}>{name} // </span><span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ data.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ data.cof } on GeoCivix`}>COF# {data.cof}</a></span>
       </div>
       <DetailsBtn
         expanded={state.expanded.includes(data.uuid)}
@@ -85,12 +99,12 @@ export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: S
   const secondMilestone = data.VestingMilestones.find((obj: Milestone) => obj.number === 2)
 
   const setIconVariant = (milestone: Milestone | undefined): Variants => { // Set icon variant
-    if(milestone && milestone.MilestoneStatus.expired) {
+    if(milestone && milestone.MilestoneStatus.expired) { // Expired
       return hovered ? 'light' : 'red'
     }
 
-    if(milestone && milestone.MilestoneStatus.achieved) { 
-      return 'green'
+    if(milestone && milestone.MilestoneStatus.achieved) { // Achieved
+      return hovered ? 'light' : 'green'
     }
 
     return hovered ? 'light' : 'dark'
@@ -98,7 +112,7 @@ export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: S
 
   const handleMilestoneStyle = (milestone: Milestone | undefined): string | undefined => { // Handle milestone date styling
     if(milestone && milestone.MilestoneStatus.achieved) {
-      return styles.achieved
+      return hovered ? styles.achievedHover : styles.achieved
     }
 
     if(milestone && milestone.MilestoneStatus.expired) {
@@ -141,12 +155,28 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
   const tenYear = data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y") as VestingPeriod
   const fifteenYear = data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y") as VestingPeriod
 
-  const setIconVariant = (period: VestingPeriod): Variants => { // Set icon variant
-    if(period.VestingStatus.expired) {
+  const setIconVariant = (period: VestingPeriod): Variants => { // Set icon variant  
+    if(period && period.VestingStatus.expired) { // Expired
       return hovered ? 'light' : 'red'
     }
 
+    if(period && period.VestingStatus.achieved) { // Achieved
+      return hovered ? 'light' : 'green'
+    }
+
     return hovered ? 'light' : 'dark'
+  }
+
+  const handleVestingStyle = (period: VestingPeriod): string | undefined => {
+    if(period && period.VestingStatus.achieved) {
+      return hovered ? styles.achievedHover : styles.achieved
+    }
+
+    if(period && period.VestingStatus.expired) {
+      return hovered ? styles.expiredHover : styles.expired
+    }
+
+    return undefined
   }
 
   return (
@@ -157,9 +187,15 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
             type={'tenYear'}
             variant={setIconVariant(tenYear)} 
             size={'large'} />
-          <div className="text-center">
-            {tenYear.date.toString()}
-          </div>
+          {tenYear.VestingExtension ? (
+            <div className="relative flex gap-1 w-fit">
+              <div className={handleVestingStyle(tenYear)}>{tenYear.VestingExtension.date.toString()}<span className={styles.extension}>extended</span></div>
+            </div>
+          ) : (
+            <div className={handleVestingStyle(tenYear)}>
+              {tenYear && tenYear.date.toString()}
+            </div>
+          )}
         </div>
       )}
 
@@ -167,11 +203,17 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
         <div className={styles.centeredFlexCol}>
           <Icons
             type={'fifteenYear'}
-            variant={setIconVariant(fifteenYear)}
+            variant={setIconVariant(fifteenYear)} 
             size={'large'} />
-          <div className="text-center">
-            {fifteenYear.date.toString()}
-          </div>
+          {fifteenYear.VestingExtension ? (
+            <div className="relative flex gap-1 w-fit">
+              <div className={handleVestingStyle(fifteenYear)}>{fifteenYear.VestingExtension.date.toString()}<span className={styles.extension}>extended</span></div>
+            </div>
+          ) : (
+            <div className={handleVestingStyle(fifteenYear)}>
+              {fifteenYear && fifteenYear.date.toString()}
+            </div>
+          )}
         </div>
       )}
     </section>
@@ -179,8 +221,20 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
 }
 
 export const handleRowStyling = (data: HandleRowStylingProps['data'], index: HandleRowStylingProps['index']): string | undefined => { // Handle table row styling
-  if(data.expired) {
+  if(data.expired) { // Expired
     return styles.expiredRow
+  }
+
+  let completed = false
+
+  data.VestingPeriods.forEach(obj => {
+    if(obj.VestingStatus.achieved) {
+      completed = true
+    } else completed = false
+  })
+
+  if(completed) { // Completed / achieved
+    return styles.achievedRow
   }
 
   if(index % 2 === 0) {

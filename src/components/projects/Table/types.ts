@@ -12,11 +12,13 @@ export interface TableState { // Table state object
 }
 
 export interface SetProjectCellProps { // setProjectCell fn props
-  data: Project,
-  state: TableState,
-  setState: Dispatch<SetStateAction<TableState>>,
-  hovered: boolean,
-  token: string
+  data: Project
+  hovered: boolean
+  options: {
+    authenticated: boolean
+    state: TableState
+    setState: Dispatch<SetStateAction<TableState>>
+  }
 }
 
 export interface SetMilestoneCellProps { // setMilestoneCell fn props

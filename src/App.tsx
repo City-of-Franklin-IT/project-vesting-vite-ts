@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { ToastContainer } from "react-toastify"
 import { APP_BASE } from "./config"
+import { UserProvider } from "./context/User/UserContext"
 import 'react-toastify/dist/ReactToastify.css'
 import './animations.css'
 
@@ -19,23 +20,25 @@ const queryClient = new QueryClient()
 
 function App() {
   return (
-    <AppProvider>
-      <CookiesProvider>
-        <QueryClientProvider client={queryClient}>
-          <Router basename={APP_BASE} future={{ v7_startTransition: true }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/create" element={<Create />} />
-              <Route path="/update" element={<Update />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/*" element={<NotFound />} />
-            </Routes>
-          </Router>
-          <ToastContainer />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </CookiesProvider>
-    </AppProvider>
+    <UserProvider>
+      <AppProvider>
+        <CookiesProvider>
+          <QueryClientProvider client={queryClient}>
+            <Router basename={APP_BASE} future={{ v7_startTransition: true }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/create" element={<Create />} />
+                <Route path="/update" element={<Update />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/*" element={<NotFound />} />
+              </Routes>
+            </Router>
+            <ToastContainer />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </CookiesProvider>
+      </AppProvider>
+    </UserProvider>
   )
 }
 

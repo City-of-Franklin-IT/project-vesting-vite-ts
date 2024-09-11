@@ -13,6 +13,7 @@ const AppContext = createContext<AppContextObj>({
     end: ''
   },
   searchValue: '',
+  showCompleted: true,
   showAchieved: {
     firstMilestone: true,
     secondMilestone: true
@@ -28,6 +29,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       end: ''
     },
     searchValue: '',
+    showCompleted: true,
     showAchieved: {
       firstMilestone: true,
       secondMilestone: true

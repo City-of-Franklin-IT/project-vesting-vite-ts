@@ -1,31 +1,19 @@
 import { useNavigate, Link } from "react-router-dom"
-import { useCookies } from "react-cookie"
-import { useForm } from "react-hook-form"
 import image from '../../../assets/icons/cof/cof.jpeg'
-import { onSubmit } from '.'
+import { useLoginForm, onSubmit } from '.'
 import styles from './LoginForm.module.css'
-
-// Types
-import { LoginFormUseFormState } from './types'
 
 // Components
 import LoginBtn from "../../buttons/LoginBtn/LoginBtn"
 
 function LoginForm() {
-  const [_, setCookie] = useCookies(["user", "userPreferences"])
-
   const navigate = useNavigate()
 
-  const { register, handleSubmit, formState: { isValid } } = useForm<LoginFormUseFormState>({
-      defaultValues: {
-        email :'',
-        password: ''
-      }
-    })
+  const { register, handleSubmit, formState: { isValid } } = useLoginForm()
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit(formData => onSubmit(formData, setCookie, navigate))}>
+      <form onSubmit={handleSubmit(formData => onSubmit(formData, navigate))}>
         <img src={image} alt="cof logo" className="w-fit hidden md:block" />
         <div className={styles.body}>
           <h1 className={styles.title}>Planning Dept Login</h1>

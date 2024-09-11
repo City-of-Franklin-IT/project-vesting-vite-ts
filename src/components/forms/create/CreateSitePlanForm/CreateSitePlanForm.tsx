@@ -1,67 +1,27 @@
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
 import { ordinanceOptions } from '../../../../utils'
-import { getUser } from '../../../../helpers'
-import { onSubmit, useSetDatesObj, useSetDates } from '.'
+import { useCreateSitePlanForm, onSubmit, useSetDatesObj, useSetDates } from '.'
 import styles from '../../Forms.module.css'
 
 // Components
 import SaveBtn from '../../../buttons/SaveBtn/SaveBtn'
 import CancelBtn from '../../../buttons/CancelBtn/CancelBtn'
 
-// Types
-import { CreateSitePlanFormState } from './types'
-
 function CreateSitePlanForm() {
   const navigate = useNavigate()
 
-  const user = getUser()
-
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<CreateSitePlanFormState>({
-    defaultValues: {
-      type: 'Site Plan',
-      name: '',
-      cof: undefined,
-      ordinance: undefined,
-      approval: {
-        approvedBy: undefined,
-        date: undefined
-      },
-      vesting: {
-        tenYear: {
-          date: undefined
-        },
-        fifteenYear: {
-          date: undefined
-        }
-      },
-      milestones: {
-        first: {
-          date: undefined
-        },
-        second: {
-          date: undefined
-        }
-      },
-      notes: ''
-    }
-  })
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useCreateSitePlanForm()
 
   const values = watch()
 
   const dates = useSetDatesObj(values)
 
-  const setDates = useSetDates(dates, setValue)
-
-  useEffect(() => {
-    setDates()
-  }, [dates.approvalDate])
+  useSetDates(dates, { setValue })
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Create Site Plan</h1>
-      <form onSubmit={handleSubmit(formData => onSubmit(formData, navigate, user.token))} className="w-full">
+      <form onSubmit={handleSubmit(formData => onSubmit(formData, { navigate }))} className="w-full">
         <div className={styles.body}>
 
           <section className={styles.inputSection}>

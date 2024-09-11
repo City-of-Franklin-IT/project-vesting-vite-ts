@@ -1,17 +1,29 @@
+import { useCallback, useMemo, useContext, useEffect } from 'react'
+import AppContext from '../../../context/App/AppContext'
+
 // Types
-import { useCallback, useMemo } from 'react'
 import { Project } from '../../../context/App/types'
 import { UseSearchProps, UseSetProjectsProps, UseSetPagesProps, UseResetActivePageProps, ScrollToTopProps } from './types'
 
-export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps['filter'], dispatch: UseSearchProps['dispatch']): () => void => useCallback(() => { // Handle search
-  const cleanTimeout = setTimeout(() => {
-    dispatch({ type: 'SET_SEARCH_VALUE', payload: state.searchValue })
-  }, 1000)
+export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps['filter']): void => { // Set search value to ctx on change
+  const { dispatch } = useContext(AppContext)
 
-  return () => clearTimeout(cleanTimeout)
-}, [state.searchValue, filter])
+  const search = useCallback(() => {
+    const cleanTimeout = setTimeout(() => {
+      dispatch({ type: 'SET_SEARCH_VALUE', payload: state.searchValue })
+    }, 1000)
+  
+    return () => clearTimeout(cleanTimeout)
+  }, [state.searchValue, filter])
 
-export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSetProjectsProps['filter'], showExpired: UseSetProjectsProps['showExpired'], searchValue: UseSetProjectsProps['searchValue'], milestoneFilter: UseSetProjectsProps['milestoneFilter'], showAchieved: UseSetProjectsProps['showAchieved']): Project[] => useMemo(() => { // Set projects array
+  useEffect(() => {
+    search()
+  }, [state.searchValue, filter])
+}
+
+export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => { // Set projects array
+  const { filter, searchValue, milestoneFilter, showAchieved, showCompleted, showExpired } = useContext(AppContext)
+
   let array = []
 
   if(filter) { // Type filter applied
@@ -68,18 +80,44 @@ export const useSetProjects = (data: UseSetProjectsProps['data'], filter: UseSet
     })
   }
 
-  if(showExpired) { // Return expired
+  if(showExpired) {
+    array = array
+  } else array = array.filter(obj => !obj.expired) // Filter out expired
+
+  if(showCompleted) {
     return array
-  } else return array.filter(obj => !obj.expired) // Filter out expired
-}, [data, filter, showExpired, searchValue, milestoneFilter, showAchieved])
+  } else {
+    return array.filter(obj => {
+      let completed = false
+
+      obj.VestingPeriods.forEach(period => {
+        if(period.VestingStatus.achieved) {
+          completed = true
+        }
+      })
+
+      if(!completed) {
+        return obj
+      }
+    })
+  }
+}
 
 export const useSetPages = (projects: UseSetPagesProps['projects'], state: UseSetPagesProps['state']): number => useMemo(() => { // Set total pages
   return Math.ceil(projects.length / state.resultsPerPage)
 }, [projects, state.resultsPerPage])
 
-export const useResetActivePage = (filter: UseResetActivePageProps['filter'], searchValue: UseResetActivePageProps['searchValue'], setState: UseResetActivePageProps['setState']): () => void => useCallback(() => { // Reset active page on filter / searchValue change
-  setState(prevState => ({ ...prevState, activePage: 1 }))
-}, [filter, searchValue])
+export const useResetActivePage = (filter: UseResetActivePageProps['filter'], searchValue: UseResetActivePageProps['searchValue'], options: UseResetActivePageProps['options']) => { // Reset active page on filter / searchValue change
+  const { setState } = options
+
+  const setActivePage = useCallback(() => {
+    setState(prevState => ({ ...prevState, activePage: 1 }))
+  }, [filter, searchValue])
+
+  useEffect(() => {
+    setActivePage()
+  }, [filter, searchValue])
+}
 
 export const scrollToTop = (topRef: ScrollToTopProps['topRef']): void => { // Scroll to top
   topRef.current?.scrollIntoView({ behavior: 'smooth' })

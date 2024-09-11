@@ -1,7 +1,7 @@
 // Types
 import { UseFormReset, UseFormSetValue } from "react-hook-form"
 import { NavigateFunction } from "react-router-dom"
-import { Project, ServerResponse } from "../../../../context/App/types"
+import { Project } from "../../../../context/App/types"
 
 export interface UpdateSitePlanFormProps { // UpdateSitePlan props
   data: Project
@@ -21,10 +21,28 @@ export interface UpdateSitePlanFormState { // UpdateSitePlan useForm state objec
     tenYear: {
       date: Date | string | undefined
       uuid: string
+      status: {
+        achieved: boolean
+        expired: boolean
+        uuid: string
+      }
+      extension: {
+        date: Date | string | undefined
+        uuid: string
+      }
     }
     fifteenYear: {
       date: Date | string | undefined
       uuid: string
+      status: {
+        achieved: boolean
+        expired: boolean
+        uuid: string
+      }
+      extension: {
+        date: Date | string | undefined
+        uuid: string
+      }
     }
   }
   milestones: {
@@ -76,11 +94,16 @@ export interface UpdateSitePlanFormState { // UpdateSitePlan useForm state objec
   uuid: string
 }
 
+export interface UseUpdateSitePlanFormProps { // useUpdateSitePlanForm hook props
+  data: Project
+}
+
 export interface OnSubmitProps { // onSubmit fn props
-  formData: UpdateSitePlanFormState,
-  reset: UseFormReset<UpdateSitePlanFormState>
-  navigate: NavigateFunction,
-  token: string
+  formData: UpdateSitePlanFormState
+  options: {
+    reset: UseFormReset<UpdateSitePlanFormState>
+    navigate: NavigateFunction
+  }
 }
 
 export interface UseSetDatesObjProps { // useSetdatesObj hook props
@@ -92,12 +115,20 @@ export interface UseSetDatesObjProps { // useSetdatesObj hook props
     },
     vesting: {
       tenYear: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
+        extension: {
+          date: Date | string | undefined
+          uuid: string
+        }
       },
       fifteenYear: {
-        date: Date | string | undefined,
+        date: Date | string | undefined
         uuid: string
+        extension: {
+          date: Date | string | undefined
+          uuid: string
+        }
       }
     },
     milestones: {
@@ -143,10 +174,18 @@ export interface DatesObj {
   tenYear: {
     date: Date | string | undefined,
     uuid: string
+    extension: {
+      date: Date | string | undefined,
+      uuid: string
+    }
   },
   fifteenYear: {
     date: Date | string | undefined,
     uuid: string
+    extension: {
+      date: Date | string | undefined,
+      uuid: string
+    }
   },
   firstMilestone: {
     date: Date | string | undefined,
@@ -179,36 +218,10 @@ export interface DatesObj {
 }
 
 export interface UseExpireProjectProps { // useExpireProject hook props
-  expired: boolean,
-  milestones: {
-    first: {
-      date: Date | string | undefined
-      uuid: string
-      status: {
-        achieved: boolean
-        expired: boolean
-        uuid: string
-      }
-      extension: {
-        date: Date | string | undefined
-        uuid: string
-      }
-    }
-    second: {
-      date: Date | string | undefined
-      uuid: string
-      status: {
-        achieved: boolean
-        expired: boolean
-        uuid: string
-      }
-      extension: {
-        date: Date | string | undefined
-        uuid: string
-      }
-    }
+  values: UpdateSitePlanFormState
+  options: {
+    setValue: UseFormSetValue<UpdateSitePlanFormState>
   }
-  setValue: UseFormSetValue<UpdateSitePlanFormState>
 }
 
 export interface UseMilestoneExt { // useMilestoneExt hook props
@@ -240,25 +253,24 @@ export interface UseMilestoneExt { // useMilestoneExt hook props
       }
     }
   }
-  setValue: UseFormSetValue<UpdateSitePlanFormState>
+  options: {
+    setValue: UseFormSetValue<UpdateSitePlanFormState>
+  }
 }
 
 export interface HandleDeleteValueProps { // handleDeleteValue fn props
-  target: SetValueKeys,
-  uuid: string,
-  setValue: UseFormSetValue<UpdateSitePlanFormState>,
-  token: string
-}
-
-export interface DeleteFunctions { // Delete functions
-  vesting: Promise<ServerResponse>
-  milestones: Promise<ServerResponse>
-  notifications: Promise<ServerResponse>
+  target: SetValueKeys
+  uuid: string
+  options: {
+    setValue: UseFormSetValue<UpdateSitePlanFormState>
+  }
 }
 
 export type SetValueKeys =
   | "vesting.tenYear.date"
   | "vesting.fifteenYear.date"
+  | "vesting.tenYear.extension.date"
+  | "vesting.fifteenYear.extension.date"
   | "milestones.first.date"
   | "milestones.second.date"
   | "milestones.first.extension.date"

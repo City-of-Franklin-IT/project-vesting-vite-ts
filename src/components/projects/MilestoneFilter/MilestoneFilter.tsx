@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from "react"
-import AppContext from "../../../context/App/AppContext"
+import { useState } from "react"
 import { useSetMilestoneFilter } from '.'
 import styles from './MilestoneFilter.module.css'
 
@@ -10,15 +9,9 @@ import { MilestoneFilterState } from "./types"
 import ShowAchieved from "../../buttons/ShowAchieved/ShowAchieved"
 
 function MilestoneFilter() {
-  const { dispatch } = useContext(AppContext)
-
   const [state, setState] = useState<MilestoneFilterState>({ start: '', end: '' })
 
-  const setMilestoneFilter = useSetMilestoneFilter(state, dispatch)
-
-  useEffect(() => {
-    setMilestoneFilter()
-  }, [state])
+  useSetMilestoneFilter(state)
 
   return (
     <div className={styles.container}>

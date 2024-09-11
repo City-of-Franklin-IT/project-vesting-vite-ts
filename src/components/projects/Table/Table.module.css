@@ -150,8 +150,24 @@
   background-color: var(--error);
 }
 
+.achievedRow {
+  color: var(--success);
+  background-color: #D9EBE6;
+}
+
+.achievedRow:hover {
+  color: var(--neutralContent);
+  background-color: var(--success);
+}
+
 .achieved {
   color: var(--success);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.achievedHover {
+  color: var(--neutralContent);
   font-style: italic;
   font-weight: 600;
 }

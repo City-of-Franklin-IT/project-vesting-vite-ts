@@ -11,9 +11,10 @@ export interface DeleteProjectBtnState { // DeleteProjectBtn state object
 }
 
 export interface HandleClickProps { // handleClick fn props
-  active: boolean,
-  setState: Dispatch<SetStateAction<DeleteProjectBtnState>>,
-  uuid: string,
-  navigate: NavigateFunction,
-  token: string
+  active: boolean
+  uuid: string
+  options: {
+    setState: Dispatch<SetStateAction<DeleteProjectBtnState>>
+    navigate: NavigateFunction
+  }
 }

@@ -14,18 +14,7 @@ export interface ProjectsContainerState { // ProjectsContainer state object
 }
 
 export interface UseSetProjectsProps { // useSetProjects hook props
-  data: Project[],
-  filter: string,
-  showExpired: boolean,
-  searchValue: string,
-  milestoneFilter: {
-    start: string,
-    end: string
-  },
-  showAchieved: {
-    firstMilestone: boolean,
-    secondMilestone: boolean
-  }
+  data: Project[]
 }
 
 export interface UseSearchProps { // useSearch hook props
@@ -40,9 +29,11 @@ export interface UseSetPagesProps { // useSetPages hook props
 }
 
 export interface UseResetActivePageProps { // useResetActivePage hook props
-  filter: string,
-  searchValue: string,
-  setState: Dispatch<SetStateAction<ProjectsContainerState>>
+  filter: string
+  searchValue: string
+  options: {
+    setState: Dispatch<SetStateAction<ProjectsContainerState>>
+  }
 }
 
 export interface ScrollToTopProps { // scrollToTop fn props

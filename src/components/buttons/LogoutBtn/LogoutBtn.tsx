@@ -1,14 +1,19 @@
-import { useCookies } from "react-cookie"
+import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import UserContext from '../../../context/User/UserContext'
+import { handleLogoutClick } from '.'
 import styles from './LogoutBtn.module.css'
 
 function LogoutBtn() {
-  const [_, removeCookies] = useCookies(["user"])
+  const { dispatch } = useContext(UserContext)
+
+  const navigate = useNavigate()
 
   return (
     <button 
       type="button"
       className={styles.btn}
-      onClick={() => removeCookies("user", {}, { path: '/' })}>
+      onClick={() => handleLogoutClick(navigate, dispatch)}>
       Logout
     </button>
   )

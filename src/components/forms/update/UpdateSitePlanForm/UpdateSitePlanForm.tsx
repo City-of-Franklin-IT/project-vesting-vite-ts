@@ -1,9 +1,6 @@
-import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
 import { ordinanceOptions } from "../../../../utils"
-import { getUser } from "../../../../helpers"
-import { onSubmit, useSetDatesObj, useExpireProject, useMilestoneExt, handleDeleteValue } from '.'
+import { useUpdateSitePlanForm, onSubmit, useSetDatesObj, useExpireProject, useMilestoneExt, handleDeleteValue } from '.'
 import styles from '../../Forms.module.css'
 
 // Components
@@ -13,106 +10,26 @@ import CancelBtn from "../../../buttons/CancelBtn/CancelBtn"
 import DeleteProjectBtn from "../../../buttons/DeleteProjectBtn/DeleteProjectBtn"
 
 // Types
-import { VestingPeriod, Milestone, Notification } from "../../../../context/App/types"
-import { UpdateSitePlanFormProps, UpdateSitePlanFormState } from './types'
+import { UpdateSitePlanFormProps } from './types'
 
 
 function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
   const navigate = useNavigate()
 
-  const user = getUser()
-
-  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useForm<UpdateSitePlanFormState>({
-    defaultValues: {
-      expired: data.expired,
-      name: data.name,
-      cof: data.cof,
-      ordinance: data.ordinance,
-      approval: {
-        approvedBy: data.Approvals[0].approvedBy,
-        date: data.Approvals[0].date ?? undefined,
-        uuid: data.Approvals[0].uuid ?? ''
-      },
-      vesting: {
-        tenYear: {
-          date: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.date ?? undefined,
-          uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.uuid ?? ''
-        },
-        fifteenYear: {
-          date: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.date ?? undefined,
-          uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.uuid ?? ''
-        }
-      },
-      milestones: {
-        first: {
-          date: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.date ?? undefined,
-          uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.uuid ?? '',
-          status: {
-            achieved: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.achieved,
-            expired: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.expired,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.uuid
-          },
-          extension: {
-            date: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.date ?? undefined,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.uuid ?? ''
-          }
-        },
-        second: {
-          date: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.date ?? undefined,
-          uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.uuid ?? '',
-          status: {
-            achieved: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.achieved,
-            expired: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.expired,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.uuid ?? ''
-          },
-          extension: {
-            date: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.date ?? undefined,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.uuid ?? ''
-          }
-        }
-      },
-      notifications: {
-        initial: {
-          date: data.Notifications.find((obj: Notification) => obj.type === 'Initial')?.date ?? undefined,
-          type: 'Initial',
-          uuid: data.Notifications.find((obj: Notification) => obj.type === 'Initial')?.uuid ?? ''
-        },
-        lastCall: {
-          date: data.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.date ?? undefined,
-          type: 'Last Call',
-          uuid: data.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.uuid ?? ''
-        },
-        lostVesting: {
-          date: data.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.date ?? undefined,
-          type: 'Lost Vesting',
-          uuid: data.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.uuid ?? ''
-        }
-      },
-      notes: data.notes,
-      uuid: data.uuid
-    }
-  })
+  const { register, handleSubmit, watch, reset, setValue, formState: { errors } } = useUpdateSitePlanForm(data)
 
   const values = watch()
 
   const dates = useSetDatesObj(values)
 
-  const expireProject = useExpireProject(values.expired, values.milestones, setValue)
+  useExpireProject(values, { setValue }) // Handle project expiration
 
-  const handleMilestoneExt = useMilestoneExt(values.milestones, setValue)
-
-  useEffect(() => { // Handle expired project
-    expireProject()
-  }, [values.expired])
-
-  useEffect(() => { // Handle first milestone extension
-    handleMilestoneExt()
-  }, [values.milestones.first.extension.date])
+  useMilestoneExt(values.milestones, { setValue }) // Set second milestone on first milestone extension change
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Update Site Plan</h1>
-      <form onSubmit={handleSubmit(formData => onSubmit(formData, reset, navigate, user.token))} className="w-full">
+      <form onSubmit={handleSubmit(formData => onSubmit(formData, { reset, navigate }))} className="w-full">
         <div className={styles.body}>
 
           <section className="flex gap-1 ml-auto">
@@ -228,47 +145,155 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
             </div>
           </section>
 
-          <section className="flex gap-3">
-            <div className={`${ styles.inputSection } w-1/2`}>
-              <div className="flex">
-                <label htmlFor="10YVesting" className={`${ styles.label } w-1/2`}>10Y Vesting Period</label>
-                <input 
+          <div className={styles.sectionHeader}>Vesting</div>
+          <section className="flex gap-2">
+            <div className={styles.groupedSection}>
+              <div className={styles.inputSection}>
+                <div className="flex">
+                  <label htmlFor="10YVesting" className={`${ styles.label } w-1/2`}>10Y Vesting Period</label>
+                  <input 
                   type="date"
                   id="10YVesting"
                   disabled={values.expired}
-                  { ...register('vesting.tenYear.date', {
+                  {...register("vesting.tenYear.date", {
                     validate: value =>
-                      new Date(value as Date) > new Date(dates.fifteenYear.date as Date) ? "10Y vesting date must be before 15Y vesting date" : true
-                  }) }
+                      value && (new Date(value as Date) > new Date(dates.fifteenYear.date as Date)) ? "10Y vesting date must be before 15Y vesting date" : true
+                  })}
                   className={styles.input} />
+                </div>
+                {dates.tenYear.uuid && !values.expired && (
+                  <DeleteBtn
+                    label={'Remove Vesting Period'}
+                    deleteFn={() => handleDeleteValue('vesting.tenYear.date', dates.tenYear.uuid, { setValue })} />
+                )}
+                {errors.vesting?.tenYear?.date && <p className={styles.error}>{errors.vesting.tenYear.date.message}</p>}
               </div>
-              {dates.tenYear.uuid && !values.expired && (
-                <DeleteBtn
-                  label={'Remove Vesting Period'}
-                  deleteFn={() => handleDeleteValue('vesting.tenYear.date', dates.tenYear.uuid, setValue, user.token)} />
+
+              <div className={styles.inputSection}>
+                <div className="flex">
+                  <label htmlFor="10YVestingExt" className={`${ styles.label } ${ styles.extensionLabel }`}>Extension</label>
+                  <input 
+                    type="date"
+                    id="10YVestingExt"
+                    disabled={values.expired}
+                    {...register("vesting.tenYear.extension.date", {
+                      validate: value =>
+                      new Date(value as Date) < new Date(dates.tenYear.date as Date) ? "Extension must be after original vesting date" : true
+                    })}
+                    className={styles.input} />
+                </div>
+                {dates.tenYear?.extension?.uuid && !values.expired && (
+                  <DeleteBtn 
+                    label={'Remove Extension'}
+                    deleteFn={() => handleDeleteValue('vesting.tenYear.extension.date', dates.tenYear.extension.uuid, { setValue })} />
+                )}
+                {errors.vesting?.tenYear?.extension?.date && <p className={styles.error}>{errors.vesting.tenYear.extension.date.message}</p>}
+              </div>
+              
+              <div className="flex py-6 justify-evenly">
+                <div className={styles.inputSection}>
+                  <label htmlFor="10YAchieved" className={styles.checkboxLabel}>Achieved</label>
+                  <input 
+                    type="checkbox"
+                    id="10YAchieved"
+                    disabled={values.expired}
+                    {...register('vesting.tenYear.status.achieved', {
+                      validate: value =>
+                        value && watch("vesting.tenYear.status.expired") ? "Vesting cannot be both achieved and expired" : true
+                    })}
+                    className={styles.checkbox} />
+                </div>
+
+                <div className={styles.inputSection}>
+                  <label htmlFor="10YExpired" className={styles.checkboxLabel}>Expired</label>
+                  <input 
+                    type="checkbox"
+                    id="10YExpired"
+                    disabled={values.expired}
+                    {...register('vesting.tenYear.status.expired')}
+                    className={styles.checkbox} />
+                </div>
+              </div>
+              
+              {errors.vesting?.tenYear?.status?.achieved && (
+                <div className="m-auto">
+                  <p className={styles.error}>{errors.vesting?.tenYear?.status?.achieved.message }</p>
+                </div>
               )}
-              {errors.vesting?.tenYear?.date && <p className={styles.error}>{errors.vesting.tenYear.date.message}</p>}
             </div>
 
-            <div className={`${ styles.inputSection } w-1/2`}>
-              <div className="flex">
-                <label htmlFor="15YVesting" className={`${ styles.label } w-1/2`}>15Y Vesting Period</label>
-                <input 
-                  type="date"
-                  id="15YVesting"
-                  disabled={values.expired}
-                  { ...register("vesting.fifteenYear.date", {
-                    validate: value =>
-                      new Date(value as Date) < new Date(dates.tenYear.date as Date) ? "15Y vesting date must be after 10Y vesting date" : true
-                  }) } 
-                  className={styles.input} />
+            <div className={styles.groupedSection}>
+              <div className={styles.inputSection}>
+                <div className="flex">
+                  <label htmlFor="15YVesting" className={`${ styles.label } w-1/2`}>15Y Vesting Period</label>
+                  <input 
+                    type="date"
+                    id="15YVesting"
+                    disabled={values.expired}
+                    {...register('vesting.fifteenYear.date', {
+                      validate: value =>
+                        value && (new Date(value) < new Date(dates.tenYear.date as Date)) ? "15Y vesting period must be after 10Y" : true
+                    })} 
+                    className={styles.input} />
+                </div>
+                {dates.fifteenYear.uuid && !values.expired && (
+                  <DeleteBtn
+                    label={'Remove Vesting Period'}
+                    deleteFn={() => handleDeleteValue('vesting.fifteenYear.date', dates.fifteenYear.uuid, { setValue })} />
+                )}
+                {errors.vesting?.fifteenYear?.date && <p className={styles.error}>{errors.vesting?.fifteenYear?.date.message}</p>}
               </div>
-              {dates.fifteenYear.uuid && !values.expired && (
-                <DeleteBtn
-                  label={'Remove Vesting Period'}
-                  deleteFn={() => handleDeleteValue('vesting.fifteenYear.date', dates.fifteenYear.uuid, setValue, user.token)} />
+
+              <div className={styles.inputSection}>
+                <div className="flex">
+                  <label htmlFor="15YExt" className={`${ styles.label } ${ styles.extensionLabel }`}>Extension</label>
+                  <input 
+                    type="date"
+                    id="15YExt"
+                    disabled={values.expired}
+                    {...register('vesting.fifteenYear.extension.date', {
+                      validate: value =>
+                      value && (new Date(value) < new Date(dates.fifteenYear.date || '')) ? "Extension must be after original vesting date" : true
+                    })}
+                    className={styles.input} />
+                </div>
+                {dates.fifteenYear.extension.uuid && !values.expired && (
+                  <DeleteBtn
+                    label={'Remove Extension'}
+                    deleteFn={() => handleDeleteValue('vesting.fifteenYear.extension.date', dates.fifteenYear.extension.uuid, { setValue })} />
+                )}
+                {errors.vesting?.fifteenYear?.extension?.date && <p className={styles.error}>{errors.vesting?.fifteenYear?.extension?.date.message}</p>}
+              </div>
+
+              <div className="flex py-6 justify-evenly">
+                <div className={styles.inputSection}>
+                  <label htmlFor="15YAchieved" className={styles.checkboxLabel}>Achieved</label>
+                  <input 
+                    type="checkbox"
+                    id="15YAchieved"
+                    disabled={values.expired}
+                    {...register('vesting.fifteenYear.status.achieved', {
+                      validate: value =>
+                        value && watch('vesting.fifteenYear.status.expired') ? "Cannot be both achieved and expired" : true
+                    })}
+                    className={styles.checkbox} />
+                </div>
+
+                <div className={styles.inputSection}>
+                  <label htmlFor="15YExpired" className={styles.checkboxLabel}>Expired</label>
+                  <input 
+                    type="checkbox"
+                    id="15YExpired"
+                    disabled={values.expired}
+                    {...register('vesting.fifteenYear.status.expired')}
+                    className={styles.checkbox} />
+                </div>
+              </div>
+              {errors.vesting?.fifteenYear?.status?.achieved && (
+                <div className="m-auto">
+                  <p className={styles.error}>{errors.vesting?.fifteenYear?.status?.achieved.message }</p>
+                </div>
               )}
-              {errors.vesting?.fifteenYear?.date && <p className={styles.error}>{errors.vesting.fifteenYear.date.message}</p>}
             </div>
           </section>
 
@@ -311,7 +336,7 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
                 {dates.firstMilestone.extension.uuid && !values.expired && (
                   <DeleteBtn 
                     label={'Remove Extension'}
-                    deleteFn={() => handleDeleteValue('milestones.first.date', dates.firstMilestone.uuid, setValue, user.token)} />
+                    deleteFn={() => handleDeleteValue('milestones.first.date', dates.firstMilestone.uuid, { setValue })} />
                 )}
                 {errors.milestones?.first?.extension?.date && <p className={styles.error}>{errors.milestones.first.extension.date.message}</p>}
               </div>
@@ -376,7 +401,7 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
                 {dates.secondMilestone.extension.uuid && !values.expired && (
                   <DeleteBtn
                     label={'Remove Extension'}
-                    deleteFn={() => handleDeleteValue('milestones.second.date', dates.secondMilestone.uuid, setValue, user.token)} />
+                    deleteFn={() => handleDeleteValue('milestones.second.date', dates.secondMilestone.uuid, { setValue })} />
                 )}
                 {errors.milestones?.second?.extension?.date && <p className={styles.error}>{errors.milestones.second.extension.date.message}</p>}
               </div>
@@ -421,7 +446,7 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
                 {dates.initialNotification.uuid && !values.expired && (
                   <DeleteBtn
                     label={'Remove Notification'}
-                    deleteFn={() => handleDeleteValue('notifications.initial.date', dates.initialNotification.uuid, setValue, user.token)} />
+                    deleteFn={() => handleDeleteValue('notifications.initial.date', dates.initialNotification.uuid, { setValue })} />
                 )}
               </div>
               <div className={styles.inputSection}>
@@ -437,7 +462,7 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
                 {dates.lastCallNotification.uuid && !values.expired && (
                   <DeleteBtn
                     label={'Remove Notification'}
-                    deleteFn={() => handleDeleteValue('notifications.lastCall.date', dates.lastCallNotification.uuid, setValue, user.token)} />
+                    deleteFn={() => handleDeleteValue('notifications.lastCall.date', dates.lastCallNotification.uuid, { setValue })} />
                 )}
               </div>
               <div className={styles.inputSection}>
@@ -453,7 +478,7 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
                 {dates.lastCallNotification.uuid && !values.expired && (
                   <DeleteBtn
                     label={'Remove Notification'}
-                    deleteFn={() => handleDeleteValue('notifications.lostVesting.date', dates.lostVestingNotification.uuid, setValue, user.token)} />
+                    deleteFn={() => handleDeleteValue('notifications.lostVesting.date', dates.lostVestingNotification.uuid, { setValue })} />
                 )}
               </div>
             </div>
