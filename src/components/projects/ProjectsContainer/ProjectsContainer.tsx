@@ -16,7 +16,7 @@ import Table from '../Table/Table'
 import BackToTopBtn from '../../buttons/BackToTopBtn/BackToTopBtn'
 
 function ProjectsContainer({ data }: ProjectsContainerProps) {
-  const { filter, searchValue } = useContext(AppContext)
+  const { searchValue } = useContext(AppContext)
 
   const [state, setState] = useState<ProjectsContainerState>({ searchValue: searchValue || '', resultsPerPage: 25, activePage: 1 })
 
@@ -26,9 +26,9 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
 
   const pages = useSetPages(projects, state)
 
-  useSearch(state, filter) // Handle search
+  useSearch(state) // Handle search
 
-  useResetActivePage(filter, searchValue, { setState }) // Reset active page
+  useResetActivePage(setState) // Reset active page
 
   return (
     <div className={styles.container}>

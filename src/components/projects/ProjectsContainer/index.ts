@@ -5,7 +5,7 @@ import AppContext from '../../../context/App/AppContext'
 import { Project } from '../../../context/App/types'
 import { UseSearchProps, UseSetProjectsProps, UseSetPagesProps, UseResetActivePageProps, ScrollToTopProps } from './types'
 
-export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps['filter']): void => { // Set search value to ctx on change
+export const useSearch = (state: UseSearchProps['state']): void => { // Set search value to ctx on change
   const { dispatch } = useContext(AppContext)
 
   const search = useCallback(() => {
@@ -14,11 +14,11 @@ export const useSearch = (state: UseSearchProps['state'], filter: UseSearchProps
     }, 1000)
   
     return () => clearTimeout(cleanTimeout)
-  }, [state.searchValue, filter])
+  }, [state.searchValue, dispatch])
 
   useEffect(() => {
     search()
-  }, [state.searchValue, filter])
+  }, [search])
 }
 
 export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => { // Set projects array
@@ -81,7 +81,7 @@ export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => 
   }
 
   if(showExpired) {
-    array = array
+    null
   } else array = array.filter(obj => !obj.expired) // Filter out expired
 
   if(showCompleted) {
@@ -107,16 +107,14 @@ export const useSetPages = (projects: UseSetPagesProps['projects'], state: UseSe
   return Math.ceil(projects.length / state.resultsPerPage)
 }, [projects, state.resultsPerPage])
 
-export const useResetActivePage = (filter: UseResetActivePageProps['filter'], searchValue: UseResetActivePageProps['searchValue'], options: UseResetActivePageProps['options']) => { // Reset active page on filter / searchValue change
-  const { setState } = options
-
+export const useResetActivePage = (setState: UseResetActivePageProps['setState']) => { // Reset active page on filter / searchValue change
   const setActivePage = useCallback(() => {
     setState(prevState => ({ ...prevState, activePage: 1 }))
-  }, [filter, searchValue])
+  }, [setState])
 
   useEffect(() => {
     setActivePage()
-  }, [filter, searchValue])
+  }, [setActivePage])
 }
 
 export const scrollToTop = (topRef: ScrollToTopProps['topRef']): void => { // Scroll to top

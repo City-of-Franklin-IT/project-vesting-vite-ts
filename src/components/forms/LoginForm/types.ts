@@ -9,13 +9,4 @@ export interface LoginFormUseFormState { // LoginForm useForm state object
 export interface OnSubmitProps { // onSubmit fn props
   formData: LoginFormUseFormState
   navigate: NavigateFunction
-  cookies: {
-    userPreferences?: {
-      showExpired: boolean
-      showAchieved: {
-        firstMilestone: boolean
-        secondMilestone: boolean
-      }
-    }
-  }
 }

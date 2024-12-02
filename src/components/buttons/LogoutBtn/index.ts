@@ -4,7 +4,7 @@ import { logoutUser } from "../../../context/User/UserActions"
 // Types
 import { HandleLogoutClick } from "./types"
 
-export const handleLogoutClick = async (navigate: HandleLogoutClick['navigate'], dispatch: HandleLogoutClick['dispatch']): Promise<void> => { // Remove user cookie on btn click and navigate to Login page
+export const handleLogoutClick = async (navigate: HandleLogoutClick['navigate'], dispatch: HandleLogoutClick['dispatch']): Promise<void> => {
   const response = await logoutUser()
 
   if(response.success) {

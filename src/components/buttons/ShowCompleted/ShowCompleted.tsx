@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useCookies } from "react-cookie"
 import { useShowCompleted } from '.'
 import styles from './ShowCompleted.module.css'
 
@@ -7,9 +6,7 @@ import styles from './ShowCompleted.module.css'
 import { ShowCompletedState } from './types'
 
 function ShowCompleted() {
-  const [cookies, _] = useCookies(["userPreferences"])
-
-  const [state, setState] = useState<ShowCompletedState>({ showCompleted: cookies.userPreferences?.showCompleted ?? true })
+  const [state, setState] = useState<ShowCompletedState>({ showCompleted: true })
 
   useShowCompleted(state) // Handle ctx and userPreferences cookie on change
 

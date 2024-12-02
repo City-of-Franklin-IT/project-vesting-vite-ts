@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useCookies } from "react-cookie"
 import { useShowExpired } from "."
 import styles from './ShowExpired.module.css'
 
@@ -7,11 +6,9 @@ import styles from './ShowExpired.module.css'
 import { ShowExpiredState } from "./types"
 
 function ShowExpired() {
-  const [cookies, _] = useCookies(["userPreferences"])
+  const [state, setState] = useState<ShowExpiredState>({ showExpired: true })
 
-  const [state, setState] = useState<ShowExpiredState>({ showExpired: cookies.userPreferences?.showExpired ?? true })
-
-  useShowExpired(state) // Handle ctx and userPreferences cookie on change
+  useShowExpired(state) // Handle ctx on change
 
   return (
     <div className={styles.container}>

@@ -1,6 +1,4 @@
-import { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
-import UserContext from '../../context/User/UserContext'
 import { useValidateUser } from '../../helpers'
 import { useGetProject } from '.'
 
@@ -12,15 +10,13 @@ import ProjectContainer from '../../components/project/ProjectContainer/ProjectC
 import { Project } from '../../context/App/types'
 
 function Update() {
-  const { dispatch } = useContext(UserContext)
-
   const params = new URLSearchParams(useLocation().search)
 
   const uuid = params.get('uuid')
 
   const { data, dataUpdatedAt } = useGetProject(uuid || '')
 
-  useValidateUser(dispatch)
+  useValidateUser()
 
   return (
     <Layout>

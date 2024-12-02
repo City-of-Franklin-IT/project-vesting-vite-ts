@@ -1,7 +1,7 @@
 // Types
 import { UseFormReset, UseFormSetValue } from "react-hook-form"
 import { NavigateFunction } from "react-router-dom"
-import { Project, ServerResponse } from "../../../../context/App/types"
+import { Project } from "../../../../context/App/types"
 
 export interface UpdatePreliminaryPlatFormProps { // UpdatePreliminaryPlatForm props
   data: Project

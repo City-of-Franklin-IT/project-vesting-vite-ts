@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect } from "react"
-import { useCookies } from "react-cookie"
 import AppContext from "../../../context/App/AppContext"
 import { useShowAchieved, handleMilestones } from "."
 import styles from './ShowAchieved.module.css'
@@ -10,15 +9,13 @@ import { ShowAchievedState } from "./types"
 function ShowAchieved() {
   const { dispatch } = useContext(AppContext)
 
-  const [cookies, setCookie] = useCookies(["userPreferences"])
+  const [state, setState] = useState<ShowAchievedState>({ showAchieved: { firstMilestone: true, secondMilestone: true } })
 
-  const [state, setState] = useState<ShowAchievedState>({ showAchieved: { firstMilestone: cookies.userPreferences?.showAchieved.firstMilestone ?? true, secondMilestone: cookies.userPreferences?.showAchieved.secondMilestone ?? true } })
-
-  const showAchieved = useShowAchieved(state, dispatch, cookies, setCookie)
+  const showAchieved = useShowAchieved(state, dispatch)
 
   useEffect(() => {
     showAchieved()
-  }, [state])
+  }, [showAchieved])
 
   return (
     <div className={styles.container}>

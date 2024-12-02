@@ -19,7 +19,6 @@ export interface UseSetProjectsProps { // useSetProjects hook props
 
 export interface UseSearchProps { // useSearch hook props
   state: ProjectsContainerState,
-  filter: string,
   dispatch: Dispatch<Action>
 }
 
@@ -29,11 +28,7 @@ export interface UseSetPagesProps { // useSetPages hook props
 }
 
 export interface UseResetActivePageProps { // useResetActivePage hook props
-  filter: string
-  searchValue: string
-  options: {
-    setState: Dispatch<SetStateAction<ProjectsContainerState>>
-  }
+  setState: Dispatch<SetStateAction<ProjectsContainerState>>
 }
 
 export interface ScrollToTopProps { // scrollToTop fn props

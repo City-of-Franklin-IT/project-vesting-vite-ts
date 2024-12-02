@@ -6,9 +6,9 @@ import Layout from '../../components/layout/Layout/Layout'
 import ProjectsContainer from '../../components/projects/ProjectsContainer/ProjectsContainer'
 
 function Home() {
-  const { data } = useGetProjects()
-
   useValidateUser()
+
+  const { data } = useGetProjects()
 
   return (
     <Layout>
