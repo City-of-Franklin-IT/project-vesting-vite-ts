@@ -1,17 +1,11 @@
-import { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import UserContext from '../../../context/User/UserContext'
+import { Link } from 'react-router-dom'
 import { APP_TITLE } from '../../../config'
 import styles from './Header.module.css'
 
 // Components
-import CreateContainer from '../../create/CreateContainer/CreateContainer'
-import LogoutBtn from '../../buttons/LogoutBtn/LogoutBtn'
+import { Buttons, ReportLink, LoginPageLink } from './components'
 
 function Header() {
-  const { user } = useContext(UserContext)
-
-  const location = useLocation()
 
   return (
     <header className={styles.header}>
@@ -21,18 +15,11 @@ function Header() {
           <h2 className={styles.h2}>{APP_TITLE}</h2>
         </div>
       </Link>
-      {user?.email ? (
-        <div className="flex gap-2">
-          <CreateContainer />
-          <LogoutBtn />
-        </div>
-      ) : (
-        <>
-          {location.pathname !== '/login' && (
-            <Link to={'/login'} className={styles.login}>Planning Dept Login</Link>
-          )}
-        </>
-      )}
+      <div className="flex gap-4">
+        <ReportLink href={'http://cofdbv10/reports/powerbi/IT%20Department/Brian_Dev/Project%20Vesting'} />
+        <Buttons />
+        <LoginPageLink />
+      </div>
     </header>
   )
 }

@@ -44,7 +44,7 @@
   }
 }
 
-.login {
+.link {
   display: flex;
   color: var(--primaryContent);
   font-family: 'Play', sans-serif;
@@ -61,7 +61,7 @@
   }
 }
 
-.login:hover {
+.link:hover {
   color: var(--neutralContent);
   background-color: var(--neutral);
   border-color: var(--neutral);
