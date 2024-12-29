@@ -2,7 +2,7 @@
 import { NavigateFunction } from "react-router-dom"
 import { UseFormSetValue } from "react-hook-form"
 
-export interface CreatePreliminaryPlatFormState { // CreatePreliminaryPlatForm useForm state
+export interface CreatePreliminaryPlatFormUseForm { // CreatePreliminaryPlatForm useForm state
   type: 'Preliminary Plat',
   name: string,
   cof: number,
@@ -32,7 +32,7 @@ export interface CreatePreliminaryPlatFormState { // CreatePreliminaryPlatForm u
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: CreatePreliminaryPlatFormState
+  formData: CreatePreliminaryPlatFormUseForm
   options: {
     navigate: NavigateFunction
   }
@@ -75,7 +75,7 @@ export interface DatesObj {
 export interface UseSetDatesProps { // useSetDates hook props
   dates: DatesObj
   options: {
-    setValue: UseFormSetValue<CreatePreliminaryPlatFormState>
+    setValue: UseFormSetValue<CreatePreliminaryPlatFormUseForm>
   }
 }
 

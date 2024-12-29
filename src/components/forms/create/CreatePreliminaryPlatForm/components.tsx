@@ -1,6 +1,6 @@
-import { useNavigate } from 'react-router-dom'
-import { ordinanceOptions } from '../../../../utils'
-import { useCreateDevelopmentPlanFormContext } from './hooks'
+import { useNavigate } from "react-router-dom"
+import { ordinanceOptions } from "../../../../utils"
+import { useCreatePreliminaryPlatFormContext } from "./hooks"
 import styles from '../../Forms.module.css'
 
 // Components
@@ -10,7 +10,7 @@ import CancelBtn from '../../../buttons/CancelBtn/CancelBtn'
 import SaveBtn from '../../../buttons/SaveBtn/SaveBtn'
 
 export const NameInput = () => { // Name input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   return (
     <div className="flex flex-col gap-2">
@@ -40,10 +40,10 @@ export const NameInput = () => { // Name input
 }
 
 export const COFNumberInput = () => { // COF number input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex-1 flex flex-col gap-2">
       <div className="flex">
         <FormLabel
           label={'COF #'}
@@ -64,36 +64,8 @@ export const COFNumberInput = () => { // COF number input
   )
 }
 
-export const ResolutionInput = () => { // Resolution input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
-
-  return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'Resolution #'}
-          name={'resolution'}
-          required={true} />
-        <input 
-          type="text"
-          id="resolution" 
-          disabled={disabled}
-          { ...methods.register("resolution.resolution", {
-            required: "Resolution # is required",
-            maxLength: {
-              value: 10,
-              message: "Resolution # must be 10 character or less"
-            }
-          }) }
-          className={styles.input} />
-      </div>
-      <FormError field={'resolution.resolution'} />
-    </div>
-  )
-}
-
 export const OrdinanceInput = () => { // Ordinance input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   return (
     <div className="flex-1 flex flex-col gap-2">
@@ -123,12 +95,10 @@ export const OrdinanceInput = () => { // Ordinance input
 }
 
 export const FPMCApprovalInput = () => { // FPMC approval date input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
-
-  const bomaDate = methods.watch('approval.BOMA.date')
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <div className="flex">
         <FormLabel 
           label={'FPMC Approval'}
@@ -140,9 +110,7 @@ export const FPMCApprovalInput = () => { // FPMC approval date input
           disabled={disabled}
           { ...methods.register("approval.FPMC.date", {
             required: "FPMC approval date is required",
-            onBlur: () => methods.trigger('approval.FPMC.date'),
-            validate: value =>
-              !value || new Date(value as Date) > new Date(bomaDate as Date) ? "FPMC approval date must be before BOMA approval date" : true
+            onBlur: () => methods.trigger('approval.FPMC.date')
           }) }
           className={styles.input} />
       </div>
@@ -151,37 +119,8 @@ export const FPMCApprovalInput = () => { // FPMC approval date input
   )
 }
 
-export const BOMAApprovalInput = () => { // BOMA approval date input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
-
-  const fpmcDate = methods.watch('approval.FPMC.date')
-
-  return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'BOMA Approval'}
-          name={'bomaApproval'}
-          required={true} />
-        <input 
-          type="date"
-          id="bomaApproval"
-          disabled={disabled}
-          { ...methods.register("approval.BOMA.date", {
-            required: "BOMA approval date is required",
-            onBlur: () => methods.trigger('approval.BOMA.date'),
-            validate: value => 
-              !value || new Date(value as Date) < new Date(fpmcDate as Date) ? "BOMA approval date must be after FPMC approval date" : true
-          })}
-          className={styles.input} />
-      </div>
-      <FormError field={'approval.BOMA.date'} />
-    </div>
-  )
-}
-
 export const TenYearVestingInput = () => { // Ten year vesting date input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   const fifteenYearDate = methods.watch('vesting.fifteenYear.date')
 
@@ -207,7 +146,7 @@ export const TenYearVestingInput = () => { // Ten year vesting date input
 }
 
 export const FifteenYearVestingInput = () => { // Fifteen year vesting date input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   const tenYearDate = methods.watch('vesting.tenYear.date')
 
@@ -233,7 +172,7 @@ export const FifteenYearVestingInput = () => { // Fifteen year vesting date inpu
 }
 
 export const FirstMilestoneDateInput = () => { // First milestone date input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   const secondMilestoneDate = methods.watch('milestones.second.date')
 
@@ -261,7 +200,7 @@ export const FirstMilestoneDateInput = () => { // First milestone date input
 }
 
 export const SecondMilestoneDateInput = () => { // Second milestone date input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   const firstMilestoneDate = methods.watch('milestones.first.date')
 
@@ -290,7 +229,7 @@ export const SecondMilestoneDateInput = () => { // Second milestone date input
 }
 
 export const NotesInput = () => { // Notes input
-  const { methods, disabled } = useCreateDevelopmentPlanFormContext()
+  const { methods, disabled } = useCreatePreliminaryPlatFormContext()
 
   return (
     <div className="flex">

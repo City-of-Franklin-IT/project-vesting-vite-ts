@@ -7,7 +7,7 @@ export interface UpdatePreliminaryPlatFormProps { // UpdatePreliminaryPlatForm p
   data: Project
 }
 
-export interface UpdatePreliminaryPlatFormState { // UpdatePreliminaryPlatForm useForm state object
+export interface UpdatePreliminaryPlatFormUseForm { // UpdatePreliminaryPlatForm useForm state object
   expired: boolean,
   name: string,
   cof: number,
@@ -96,9 +96,9 @@ export interface UpdatePreliminaryPlatFormState { // UpdatePreliminaryPlatForm u
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: UpdatePreliminaryPlatFormState
+  formData: UpdatePreliminaryPlatFormUseForm
   options: {
-    reset: UseFormReset<UpdatePreliminaryPlatFormState>
+    reset: UseFormReset<UpdatePreliminaryPlatFormUseForm>
     navigate: NavigateFunction
   }
 }
@@ -220,9 +220,9 @@ export interface DatesObj {
 }
 
 export interface UseExpireProjectProps { // useExpireProject hook props
-  values: UpdatePreliminaryPlatFormState
+  values: UpdatePreliminaryPlatFormUseForm
   options: {
-    setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
+    setValue: UseFormSetValue<UpdatePreliminaryPlatFormUseForm>
   }
 }
 
@@ -256,7 +256,7 @@ export interface UseMilestoneExt { // useMilestoneExt hook props
     }
   }
   options: {
-    setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
+    setValue: UseFormSetValue<UpdatePreliminaryPlatFormUseForm>
   }
 }
 
@@ -264,7 +264,7 @@ export interface HandleDeleteValueProps { // handleDeleteValue fn props
   target: SetValueKeys
   uuid: string
   options: {
-    setValue: UseFormSetValue<UpdatePreliminaryPlatFormState>
+    setValue: UseFormSetValue<UpdatePreliminaryPlatFormUseForm>
   }
 }
 
