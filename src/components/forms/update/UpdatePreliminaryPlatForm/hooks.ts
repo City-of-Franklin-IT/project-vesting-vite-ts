@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 
 // Types
 import { UseFormReturn } from "react-hook-form"
 import { Approval, VestingPeriod, Milestone, Notification } from '../../../../context/App/types'
-import { UpdatePreliminaryPlatFormProps, UpdatePreliminaryPlatFormUseForm, UseSetDatesObjProps, DatesObj, UseMilestoneExt, UseExpireProjectProps } from "./types"
+import { UpdatePreliminaryPlatFormProps, UpdatePreliminaryPlatFormUseForm, UseMilestoneExt, UseExpireProjectProps } from "./types"
 
 export const useUpdatePreliminaryPlatForm = (data: UpdatePreliminaryPlatFormProps['data']) => {
   return useForm<UpdatePreliminaryPlatFormUseForm>({
@@ -105,59 +105,6 @@ export const useUpdatePreliminaryPlatFormContext = (): { methods: UseFormReturn<
 
   return { methods, disabled }
 }
-
-export const useSetDatesObj = (values: UseSetDatesObjProps['values']): DatesObj => useMemo(() => { // Return datesObj
-  return {
-    FPMC: {
-      date: values.approval.FPMC.date,
-      uuid: values.approval.FPMC.uuid
-    },
-    tenYear: {
-      date: values.vesting.tenYear.date,
-      uuid: values.vesting.tenYear.uuid,
-      extension: {
-        date: values.vesting.tenYear.extension.date,
-        uuid: values.vesting.tenYear.extension.uuid
-      }
-    },
-    fifteenYear: {
-      date: values.vesting.fifteenYear.date,
-      uuid: values.vesting.fifteenYear.uuid,
-      extension: {
-        date: values.vesting.fifteenYear.extension.date,
-        uuid: values.vesting.fifteenYear.extension.uuid
-      }
-    },
-    firstMilestone: {
-      date: values.milestones.first.date,
-      uuid: values.milestones.first.uuid,
-      extension: {
-        date: values.milestones.first.extension.date,
-        uuid: values.milestones.first.extension.uuid
-      }
-    },
-    secondMilestone: {
-      date: values.milestones.second.date,
-      uuid: values.milestones.second.uuid,
-      extension: {
-        date: values.milestones.second.extension.date,
-        uuid: values.milestones.second.extension.uuid
-      }
-    },
-    initialNotification: {
-      date: values.notifications.initial.date,
-      uuid: values.notifications.initial.uuid
-    },
-    lastCallNotification: {
-      date: values.notifications.lastCall.date,
-      uuid: values.notifications.lastCall.uuid
-    },
-    lostVestingNotification: {
-      date: values.notifications.lostVesting.date,
-      uuid: values.notifications.lostVesting.uuid
-    }
-  }
-}, [values])
 
 export const useExpireProject = (values: UseExpireProjectProps['values'], options: UseExpireProjectProps['options']) => { // Handle milestones on project expiration
   const { expired, milestones, vesting } = values

@@ -7,7 +7,7 @@ export interface UpdateSitePlanFormProps { // UpdateSitePlan props
   data: Project
 }
 
-export interface UpdateSitePlanFormState { // UpdateSitePlan useForm state object
+export interface UpdateSitePlanFormUseForm { // UpdateSitePlan useForm state object
   expired: boolean,
   name: string,
   cof: number,
@@ -99,9 +99,9 @@ export interface UseUpdateSitePlanFormProps { // useUpdateSitePlanForm hook prop
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: UpdateSitePlanFormState
+  formData: UpdateSitePlanFormUseForm
   options: {
-    reset: UseFormReset<UpdateSitePlanFormState>
+    reset: UseFormReset<UpdateSitePlanFormUseForm>
     navigate: NavigateFunction
   }
 }
@@ -218,9 +218,9 @@ export interface DatesObj {
 }
 
 export interface UseExpireProjectProps { // useExpireProject hook props
-  values: UpdateSitePlanFormState
+  values: UpdateSitePlanFormUseForm
   options: {
-    setValue: UseFormSetValue<UpdateSitePlanFormState>
+    setValue: UseFormSetValue<UpdateSitePlanFormUseForm>
   }
 }
 
@@ -254,7 +254,7 @@ export interface UseMilestoneExt { // useMilestoneExt hook props
     }
   }
   options: {
-    setValue: UseFormSetValue<UpdateSitePlanFormState>
+    setValue: UseFormSetValue<UpdateSitePlanFormUseForm>
   }
 }
 
@@ -262,7 +262,7 @@ export interface HandleDeleteValueProps { // handleDeleteValue fn props
   target: SetValueKeys
   uuid: string
   options: {
-    setValue: UseFormSetValue<UpdateSitePlanFormState>
+    setValue: UseFormSetValue<UpdateSitePlanFormUseForm>
   }
 }
 

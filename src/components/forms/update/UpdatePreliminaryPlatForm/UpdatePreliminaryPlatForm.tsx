@@ -1,19 +1,15 @@
 import { useNavigate } from "react-router-dom"
 import { FormProvider } from "react-hook-form"
-import { ordinanceOptions } from "../../../../utils"
-import { useUpdatePreliminaryPlatForm, useSetDatesObj, useExpireProject, useMilestoneExt} from './hooks'
-import { onSubmit, handleDeleteValue } from './utils'
+import { useUpdatePreliminaryPlatForm, useExpireProject, useMilestoneExt} from './hooks'
+import { onSubmit } from './utils'
 import styles from '../../Forms.module.css'
 
 // Types
 import { UpdatePreliminaryPlatFormProps } from './types'
 
 // Components
-import DeleteBtn from "../../../buttons/DeleteBtn/DeleteBtn"
-import SaveBtn from "../../../buttons/SaveBtn/SaveBtn"
-import CancelBtn from "../../../buttons/CancelBtn/CancelBtn"
 import DeleteProjectBtn from "../../../buttons/DeleteProjectBtn/DeleteProjectBtn"
-import { NameInput, COFNumberInput, ResolutionInput, OrdinanceInput, FPMCApprovalInput, TenYearVestingInput, FifteenYearVestingInput, FirstMilestoneDateInput, SecondMilestoneDateInput, NotesInput, Buttons } from '../../create/CreateDevelopmentPlanForm/components'
+import { NameInput, COFNumberInput, OrdinanceInput, FPMCApprovalInput, TenYearVestingInput, FifteenYearVestingInput, FirstMilestoneDateInput, SecondMilestoneDateInput, NotesInput, Buttons } from '../../create/CreatePreliminaryPlatForm/components'
 import { ExpiredCheckbox, TenYearVestingExtensionInput, TenYearVestingAchievedCheckbox, TenYearVestingExpiredCheckbox, FifteenYearVestingExtensionInput, FifteenYearVestingAchievedCheckbox, FifteenYearVestingExpiredCheckbox, FirstMilestoneExtensionInput, FirstMilestoneAchievedCheckbox, FirstMilestoneExpiredCheckbox, SecondMilestoneExtensionInput, SecondMilestoneAchievedCheckbox, SecondMilestoneExpiredCheckbox, InitialNotificationInput, LastCallNotificationInput, LostVestingNotificationInput } from './components'
 
 function UpdatePreliminaryPlatForm({ data }: UpdatePreliminaryPlatFormProps) {
@@ -22,8 +18,6 @@ function UpdatePreliminaryPlatForm({ data }: UpdatePreliminaryPlatFormProps) {
   const methods = useUpdatePreliminaryPlatForm(data)
 
   const values = methods.watch()
-
-  const dates = useSetDatesObj(values)
 
   useExpireProject(values, { setValue: methods.setValue }) // Handle project expiration
 
@@ -41,10 +35,9 @@ function UpdatePreliminaryPlatForm({ data }: UpdatePreliminaryPlatFormProps) {
             <ExpiredCheckbox />
 
             <NameInput />
-            <COFNumberInput />
 
             <div className="flex gap-3">
-              <ResolutionInput />
+              <COFNumberInput />
               <OrdinanceInput />
             </div>
 

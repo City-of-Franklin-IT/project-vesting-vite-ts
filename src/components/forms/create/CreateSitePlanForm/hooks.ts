@@ -1,15 +1,13 @@
 import { useMemo, useCallback, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { createProject, createApproval, createPeriod, createMilestone } from '../../../../context/App/AppActions'
-import { savedPopup, errorPopup } from "../../../../utils/Toast/Toast"
+import { useForm, useFormContext } from 'react-hook-form'
 
 // Types
 import { UseFormReturn } from 'react-hook-form'
-import { Periods } from '../../../../context/App/types'
-import { CreateSitePlanFormState, OnSubmitProps, UseSetDatesObjProps, DatesObj, UseSetDatesProps, SetValueKeys } from "./types"
+import { UpdateSitePlanFormUseForm } from '../../update/UpdateSitePlanForm/types'
+import { CreateSitePlanFormUseForm, UseSetDatesObjProps, DatesObj, UseSetDatesProps, SetValueKeys } from "./types"
 
-export const useCreateSitePlanForm = (): UseFormReturn<CreateSitePlanFormState> => { // CreateSitePlanForm useForm
-  return useForm<CreateSitePlanFormState>({
+export const useCreateSitePlanForm = (): UseFormReturn<CreateSitePlanFormUseForm> => { // CreateSitePlanForm useForm
+  return useForm<CreateSitePlanFormUseForm>({
     defaultValues: {
       type: 'Site Plan',
       name: '',
@@ -40,46 +38,12 @@ export const useCreateSitePlanForm = (): UseFormReturn<CreateSitePlanFormState> 
   })
 }
 
-export const onSubmit = async (formData: OnSubmitProps['formData'], options: OnSubmitProps['options']): Promise<void> => { // Handle form submit
-  const { navigate } = options
-  
-  const projectObj = {
-    type: formData.type,
-    name: formData.name,
-    cof: formData.cof,
-    ordinance: formData.ordinance,
-    notes: formData.notes
-  }
+export const useCreateSitePlanFormContext = (): { methods: UseFormReturn<CreateSitePlanFormUseForm|UpdateSitePlanFormUseForm>, disabled: boolean } => { // CreateSitePlanForm context
+  const methods = useFormContext<CreateSitePlanFormUseForm|UpdateSitePlanFormUseForm>()
 
-  const result = await createProject(projectObj)
+  const disabled = methods.watch('expired')
 
-  if(result.success && result.data) {
-    const vestingArray = []
-
-    formData.vesting.tenYear.date && vestingArray.push({ type: "10Y" as Periods, date: formData.vesting.tenYear.date as Date, parentId: result.data.uuid })
-    formData.vesting.fifteenYear.date as Date && vestingArray.push({ type: "15Y" as Periods, date: formData.vesting.fifteenYear.date as Date, parentId: result.data.uuid })
-
-    const milestonesArray = [{
-      number: 1,
-      date: formData.milestones.first.date as Date,
-      parentId: result.data.uuid
-    },{
-      number: 2,
-      date: formData.milestones.second.date as Date,
-      parentId: result.data.uuid
-    }]
-
-    const response = await Promise.all([
-      createApproval({ date: formData.approval.date as Date, approvedBy: formData.approval.approvedBy as string, parentId: result.data.uuid }),
-      ...vestingArray.map(obj => createPeriod(obj)),
-      ...milestonesArray.map(obj => createMilestone(obj))
-    ])
-
-    if(response) {
-      savedPopup(result.msg || undefined)
-      navigate('/')
-    } else errorPopup()
-  } else errorPopup()
+  return { methods, disabled }
 }
 
 export const useSetDatesObj = (values: UseSetDatesObjProps['values']): DatesObj => useMemo(() => { // Return datesObj

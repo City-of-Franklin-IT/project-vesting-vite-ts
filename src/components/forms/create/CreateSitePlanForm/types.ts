@@ -2,7 +2,7 @@
 import { NavigateFunction } from "react-router-dom"
 import { UseFormSetValue } from "react-hook-form"
 
-export interface CreateSitePlanFormState { // CreateSitePlanForm useForm state
+export interface CreateSitePlanFormUseForm { // CreateSitePlanForm useForm state
   type: 'Site Plan',
   name: string,
   cof: number,
@@ -31,7 +31,7 @@ export interface CreateSitePlanFormState { // CreateSitePlanForm useForm state
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: CreateSitePlanFormState
+  formData: CreateSitePlanFormUseForm
   options: {
     navigate: NavigateFunction
   }
@@ -72,7 +72,7 @@ export interface DatesObj {
 export interface UseSetDatesProps { // useSetDates hook props
   dates: DatesObj
   options: {
-    setValue: UseFormSetValue<CreateSitePlanFormState>
+    setValue: UseFormSetValue<CreateSitePlanFormUseForm>
   }
 }
 
