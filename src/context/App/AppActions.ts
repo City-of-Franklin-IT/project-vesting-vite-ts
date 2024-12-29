@@ -1,4 +1,4 @@
-import { API_URL as baseUrl } from '../../config'
+import { APP_URL as baseUrl } from '../../config'
 
 // Types
 import { ServerResponse, GetProjectsResponse, GetProjectResponse, CreateProjectProps, UpdateProjectProps, DeleteProjectsProps, CreateApprovalProps, UpdateApprovalProps, DeleteApprovalProps, CreateResolutionProps, UpdateResolutionProps, CreatePeriodProps, UpdatePeriodProps, UpdatePeriodStatusProps, DeletePeriodProps, CreateMilestoneProps, UpdateMilestoneProps, UpdateMilestoneStatusProps, DeleteMilestoneProps, CreateExtensionProps, UpdateExtensionProps, DeleteExtensionProps, CreateNotificationProps, UpdateNotificationProps, DeleteNotificationProps, CreateProjectResponse } from './types'

@@ -1,4 +1,4 @@
-export const API_URL = 'http://cofasv38/api/v1/eng'
+export const APP_URL = 'http://cofasv38/api/v1/eng'
 export const LDAP_URL = 'http://cofasv38/api/v1/ldap'
 // export const LDAP_URL = 'https://dev.franklintn.gov/api/v1/ldap'
 export const APP_BASE = '/vesting'

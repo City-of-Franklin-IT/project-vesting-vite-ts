@@ -7,7 +7,7 @@ export interface UpdateDevelopmentPlanFormProps { // UpdateDevelopmentPlanForm p
   data: Project
 }
 
-export interface UpdateDevelopmentPlanFormState { // UpdateDevelopmentPlanForm useForm state object
+export interface UpdateDevelopmentPlanFormUseForm { // UpdateDevelopmentPlanForm useForm state object
   expired: boolean
   name: string
   cof: number
@@ -104,137 +104,17 @@ export interface UpdateDevelopmentPlanFormState { // UpdateDevelopmentPlanForm u
 }
 
 export interface OnSubmitProps { // onSubmit fn props
-  formData: UpdateDevelopmentPlanFormState
+  formData: UpdateDevelopmentPlanFormUseForm
   options: {
-    reset: UseFormReset<UpdateDevelopmentPlanFormState>
+    reset: UseFormReset<UpdateDevelopmentPlanFormUseForm>
     navigate: NavigateFunction
   }
 }
 
-export interface UseSetDatesObjProps { // useSetDatesObj hook props
-  values: {
-    approval: {
-      FPMC: {
-        date: Date | string | undefined
-        uuid: string
-      },
-      BOMA: {
-        date: Date | string | undefined
-        uuid: string
-      }
-    },
-    vesting: {
-      tenYear: {
-        date: Date | string | undefined
-        uuid: string
-        extension: {
-          date: Date | string | undefined
-          uuid: string
-        }
-      },
-      fifteenYear: {
-        date: Date | string | undefined
-        uuid: string
-        extension: {
-          date: Date | string | undefined
-          uuid: string
-        }
-      }
-    },
-    milestones: {
-      first: {
-        date: Date | string | undefined
-        uuid: string
-        extension: {
-          date: Date | string | undefined
-          uuid: string
-        }
-      },
-      second: {
-        date: Date | string | undefined
-        uuid: string
-        extension: {
-          date: Date | string | undefined
-          uuid: string
-        }
-      }
-    }
-    notifications: {
-      initial: {
-        date: Date | string | undefined
-        uuid: string
-      },
-      lastCall: {
-        date: Date | string | undefined
-        uuid: string
-      },
-      lostVesting: {
-        date: Date | string | undefined
-        uuid: string
-      }
-    }
-  }
-}
-
-export interface DatesObj {
-  FPMC: {
-    date: Date | string | undefined,
-    uuid: string
-  },
-  BOMA: {
-    date: Date | string | undefined,
-    uuid: string
-  },
-  tenYear: {
-    date: Date | string | undefined,
-    uuid: string
-    extension: {
-      date: Date | string | undefined,
-      uuid: string
-    }
-  },
-  fifteenYear: {
-    date: Date | string | undefined,
-    uuid: string
-    extension: {
-      date: Date | string | undefined,
-      uuid: string
-    }
-  },
-  firstMilestone: {
-    date: Date | string | undefined,
-    uuid: string,
-    extension: {
-      date: Date | string | undefined,
-      uuid: string
-    }
-  },
-  secondMilestone: {
-    date: Date | string | undefined,
-    uuid: string,
-    extension: {
-      date: Date | string | undefined,
-      uuid: string
-    }
-  },
-  initialNotification: {
-    date: Date | string | undefined,
-    uuid: string
-  },
-  lastCallNotification: {
-    date: Date | string | undefined,
-    uuid: string
-  },
-  lostVestingNotification: {
-    date: Date | string | undefined,
-    uuid: string
-  }
-}
-
 export interface UseExpireProjectProps { // useExpireProject hook props
-  values: UpdateDevelopmentPlanFormState
+  values: UpdateDevelopmentPlanFormUseForm
   options: {
-    setValue: UseFormSetValue<UpdateDevelopmentPlanFormState>
+    setValue: UseFormSetValue<UpdateDevelopmentPlanFormUseForm>
   }
 }
 
@@ -268,7 +148,7 @@ export interface UseMilestoneExt { // useMilestoneExt hook props
     }
   }
   options: {
-    setValue: UseFormSetValue<UpdateDevelopmentPlanFormState>
+    setValue: UseFormSetValue<UpdateDevelopmentPlanFormUseForm>
   }
 }
 
@@ -276,7 +156,7 @@ export interface HandleDeleteValueProps { // handleDeleteValue fn props
   target: SetValueKeys
   uuid: string
   options: {
-    setValue: UseFormSetValue<UpdateDevelopmentPlanFormState>
+    setValue: UseFormSetValue<UpdateDevelopmentPlanFormUseForm>
   }
 }
 

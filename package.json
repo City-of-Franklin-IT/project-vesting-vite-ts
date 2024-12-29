@@ -31,6 +31,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/ui": "^2.1.4",
     "autoprefixer": "^10.4.19",
+    "daisyui": "^4.12.23",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
