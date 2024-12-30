@@ -3,7 +3,7 @@ import AppContext from '../../../context/App/AppContext'
 
 // Types
 import { Project } from '../../../context/App/types'
-import { UseSearchProps, UseSetProjectsProps, UseSetPagesProps, UseResetActivePageProps, ScrollToTopProps } from './types'
+import { UseSearchProps, UseSetProjectsProps, UseSetPagesProps, UseResetActivePageProps } from './types'
 
 export const useSearch = (state: UseSearchProps['state']): void => { // Set search value to ctx on change
   const { dispatch } = useContext(AppContext)
@@ -115,8 +115,4 @@ export const useResetActivePage = (setState: UseResetActivePageProps['setState']
   useEffect(() => {
     setActivePage()
   }, [setActivePage])
-}
-
-export const scrollToTop = (topRef: ScrollToTopProps['topRef']): void => { // Scroll to top
-  topRef.current?.scrollIntoView({ behavior: 'smooth' })
 }

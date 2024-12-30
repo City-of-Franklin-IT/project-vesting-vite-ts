@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom"
 import { FormProvider } from "react-hook-form"
-import { useUpdateSitePlanForm, useSetDatesObj, useExpireProject, useMilestoneExt } from './hooks'
+import { useUpdateSitePlanForm, useExpireProject, useMilestoneExt } from './hooks'
 import { onSubmit } from './utils'
 import styles from '../../Forms.module.css'
 
 // Components
+import DeleteProjectBtn from "../../../buttons/DeleteProjectBtn/DeleteProjectBtn"
 import { NameInput, COFNumberInput, OrdinanceInput, ApprovedBySelect, ApprovedOnInput, TenYearVestingInput, FifteenYearVestingInput, FirstMilestoneDateInput, SecondMilestoneDateInput, NotesInput, Buttons } from '../../create/CreateSitePlanForm/components'
 import { ExpiredCheckbox, TenYearVestingExtensionInput, TenYearVestingAchievedCheckbox, TenYearVestingExpiredCheckbox, FifteenYearVestingExtensionInput, FifteenYearVestingAchievedCheckbox, FifteenYearVestingExpiredCheckbox, FirstMilestoneExtensionInput, FirstMilestoneAchievedCheckbox, FirstMilestoneExpiredCheckbox, SecondMilestoneExtensionInput, SecondMilestoneAchievedCheckbox, SecondMilestoneExpiredCheckbox, InitialNotificationInput, LastCallNotificationInput, LostVestingNotificationInput } from './components'
 
@@ -12,14 +13,12 @@ import { ExpiredCheckbox, TenYearVestingExtensionInput, TenYearVestingAchievedCh
 import { UpdateSitePlanFormProps } from './types'
 
 
-function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
+function UpdateSitePlanForm({ project }: UpdateSitePlanFormProps) {
   const navigate = useNavigate()
 
-  const methods = useUpdateSitePlanForm(data)
+  const methods = useUpdateSitePlanForm(project)
 
   const values = methods.watch()
-
-  const dates = useSetDatesObj(values)
 
   useExpireProject(values, { setValue: methods.setValue }) // Handle project expiration
 
@@ -112,6 +111,10 @@ function UpdateSitePlanForm({ data }: UpdateSitePlanFormProps) {
 
           </form>
       </FormProvider>
+
+      <div className="mt-8 ml-auto">
+        <DeleteProjectBtn uuid={project.uuid} />
+      </div>
     </div>
   )
 }

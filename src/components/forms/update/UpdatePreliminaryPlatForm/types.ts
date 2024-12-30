@@ -4,7 +4,7 @@ import { NavigateFunction } from "react-router-dom"
 import { Project } from "../../../../context/App/types"
 
 export interface UpdatePreliminaryPlatFormProps { // UpdatePreliminaryPlatForm props
-  data: Project
+  project: Project
 }
 
 export interface UpdatePreliminaryPlatFormUseForm { // UpdatePreliminaryPlatForm useForm state object

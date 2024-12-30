@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useSetMilestoneFilter } from '.'
+import { useSetMilestoneFilter } from './hooks'
 import styles from './MilestoneFilter.module.css'
 
 // Types

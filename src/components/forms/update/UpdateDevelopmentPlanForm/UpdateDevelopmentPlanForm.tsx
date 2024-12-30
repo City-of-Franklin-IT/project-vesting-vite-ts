@@ -12,10 +12,10 @@ import DeleteProjectBtn from "../../../buttons/DeleteProjectBtn/DeleteProjectBtn
 import { NameInput, COFNumberInput, ResolutionInput, OrdinanceInput, FPMCApprovalInput, BOMAApprovalInput, TenYearVestingInput, FifteenYearVestingInput, FirstMilestoneDateInput, SecondMilestoneDateInput, NotesInput, Buttons } from '../../create/CreateDevelopmentPlanForm/components'
 import { ExpiredCheckbox, TenYearVestingExtensionInput, TenYearVestingAchievedCheckbox, TenYearVestingExpiredCheckbox, FifteenYearVestingExtensionInput, FifteenYearVestingAchievedCheckbox, FifteenYearVestingExpiredCheckbox, FirstMilestoneExtensionInput, FirstMilestoneAchievedCheckbox, FirstMilestoneExpiredCheckbox, SecondMilestoneExtensionInput, SecondMilestoneAchievedCheckbox, SecondMilestoneExpiredCheckbox, InitialNotificationInput, LastCallNotificationInput, LostVestingNotificationInput } from './components'
 
-function UpdateDevelopmentPlanForm({ data }: UpdateDevelopmentPlanFormProps) {
+function UpdateDevelopmentPlanForm({ project }: UpdateDevelopmentPlanFormProps) {
   const navigate = useNavigate()
 
-  const methods = useUpdateDevelopmentPlanForm(data) // useForm
+  const methods = useUpdateDevelopmentPlanForm(project) // useForm
 
   const values = methods.watch()
 
@@ -112,7 +112,7 @@ function UpdateDevelopmentPlanForm({ data }: UpdateDevelopmentPlanFormProps) {
         </form>
         
         <div className="mt-8 ml-auto">
-          <DeleteProjectBtn uuid={data.uuid} />
+          <DeleteProjectBtn uuid={project.uuid} />
         </div>
 
       </FormProvider>

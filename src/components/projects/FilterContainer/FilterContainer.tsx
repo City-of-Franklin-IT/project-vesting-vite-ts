@@ -1,13 +1,11 @@
-import { useContext } from 'react'
-import AppContext from '../../../context/App/AppContext'
 import styles from './FilterContainer.module.css'
 
 // Components
 import FilterBtn from '../../buttons/FilterBtn/FilterBtn'
 import MilestoneFilter from '../MilestoneFilter/MilestoneFilter'
+import { ClearFilterBtn } from './components'
 
 function FilterContainer() {
-  const { filter } = useContext(AppContext)
 
   return (
     <section className={styles.container}>
@@ -16,11 +14,7 @@ function FilterContainer() {
         <FilterBtn type={'Preliminary Plat'} />
         <FilterBtn type={'Site Plan'} />
       </div>
-      {filter && ( // Clear filter button
-        <div className="mt-6 m-none md:m-auto">
-          <FilterBtn />
-        </div>
-      )}
+      <ClearFilterBtn />
       <div className="mt-8">
         <MilestoneFilter />
       </div>

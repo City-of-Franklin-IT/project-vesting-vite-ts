@@ -12,10 +12,10 @@ import DeleteProjectBtn from "../../../buttons/DeleteProjectBtn/DeleteProjectBtn
 import { NameInput, COFNumberInput, OrdinanceInput, FPMCApprovalInput, TenYearVestingInput, FifteenYearVestingInput, FirstMilestoneDateInput, SecondMilestoneDateInput, NotesInput, Buttons } from '../../create/CreatePreliminaryPlatForm/components'
 import { ExpiredCheckbox, TenYearVestingExtensionInput, TenYearVestingAchievedCheckbox, TenYearVestingExpiredCheckbox, FifteenYearVestingExtensionInput, FifteenYearVestingAchievedCheckbox, FifteenYearVestingExpiredCheckbox, FirstMilestoneExtensionInput, FirstMilestoneAchievedCheckbox, FirstMilestoneExpiredCheckbox, SecondMilestoneExtensionInput, SecondMilestoneAchievedCheckbox, SecondMilestoneExpiredCheckbox, InitialNotificationInput, LastCallNotificationInput, LostVestingNotificationInput } from './components'
 
-function UpdatePreliminaryPlatForm({ data }: UpdatePreliminaryPlatFormProps) {
+function UpdatePreliminaryPlatForm({ project }: UpdatePreliminaryPlatFormProps) {
   const navigate = useNavigate()
 
-  const methods = useUpdatePreliminaryPlatForm(data)
+  const methods = useUpdatePreliminaryPlatForm(project)
 
   const values = methods.watch()
 
@@ -109,7 +109,7 @@ function UpdatePreliminaryPlatForm({ data }: UpdatePreliminaryPlatFormProps) {
       </FormProvider>
       
       <div className="mt-8 ml-auto">
-        <DeleteProjectBtn uuid={data.uuid} />
+        <DeleteProjectBtn uuid={project.uuid} />
       </div>
     </div>
   )

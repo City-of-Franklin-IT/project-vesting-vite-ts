@@ -13,23 +13,23 @@ import { Variants } from "../../icons/Icons/types"
 import { ZoningOrdinanceObj } from '../../../utils/types'
 import { SetProjectCellProps, SetMilestoneCellProps, SetVestingCellProps, HandleRowStylingProps } from './types'
 
-export const setProjectCell = (data: SetProjectCellProps['data'], hovered: SetProjectCellProps['hovered'], options: SetProjectCellProps['options']): ReactNode => {
+export const setProjectCell = (project: SetProjectCellProps['project'], hovered: SetProjectCellProps['hovered'], options: SetProjectCellProps['options']): ReactNode => {
   const { authenticated, state, setState } = options
   
   const handleBtnClick = (): void => { // Handle view more/less button
-    if(state.expanded.includes(data.uuid)) {
-      setState(prevState => ({ ...prevState, expanded: state.expanded.filter(obj => obj !== data.uuid) }))
-    } else setState(prevState => ({ ...prevState, expanded: [ ...state.expanded, data.uuid ] }))
+    if(state.expanded.includes(project.uuid)) {
+      setState(prevState => ({ ...prevState, expanded: state.expanded.filter(obj => obj !== project.uuid) }))
+    } else setState(prevState => ({ ...prevState, expanded: [ ...state.expanded, project.uuid ] }))
   }
 
   const setIconVariant = (): Variants => { // Set icon variant
-    if(data.expired) {
+    if(project.expired) {
       return hovered ? 'light' : 'red'
     }
 
     let completed = false
 
-    data.VestingPeriods.forEach(obj => {
+    project.VestingPeriods.forEach(obj => {
       if(obj.VestingStatus.achieved) {
         completed = true
       }
@@ -42,17 +42,17 @@ export const setProjectCell = (data: SetProjectCellProps['data'], hovered: SetPr
     return hovered ? 'light' : 'dark'
   }
 
-  const name = authenticated ? <Link to={`/update?formType=${ data.type }&uuid=${ data.uuid }`}>{data.name}</Link> : `${ data.name }` // If authenticated user - make link
+  const name = authenticated ? <Link to={`/update?formType=${ project.type }&uuid=${ project.uuid }`}>{project.name}</Link> : `${ project.name }` // If authenticated user - make link
   
   return (
     <div className={styles.projectCell}>
-      <div><span className={authenticated ? styles.nameAsLink : styles.name} title={`Update ${ data.name }`}>{name} // </span><span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ data.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ data.cof } on GeoCivix`}>COF# {data.cof}</a></span>
+      <div><span className={authenticated ? styles.nameAsLink : styles.name} title={`Update ${ project.name }`}>{name} // </span><span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ project.cof } on GeoCivix`}>COF# {project.cof}</a></span>
       </div>
       <DetailsBtn
-        expanded={state.expanded.includes(data.uuid)}
+        expanded={state.expanded.includes(project.uuid)}
         hovered={hovered}
         handleClick={() => handleBtnClick()} />
-      {state.expanded.includes(data.uuid) && (
+      {state.expanded.includes(project.uuid) && (
         <section className={styles.detailsDiv}>
           <div className="flex justify-between">
             <div className={styles.centeredFlexCol}>
@@ -61,7 +61,7 @@ export const setProjectCell = (data: SetProjectCellProps['data'], hovered: SetPr
                 variant={setIconVariant()}
                 size={'small'} />
               <small className="underline">Type:</small>
-              <small>{data.type}</small>
+              <small>{project.type}</small>
             </div>
 
             <div className={styles.centeredFlexCol}>
@@ -70,23 +70,23 @@ export const setProjectCell = (data: SetProjectCellProps['data'], hovered: SetPr
                 variant={setIconVariant()}
                 size={'small'} />
               <small className="underline">Ordinance:</small>
-              <a href={zoningOrdinance[data.ordinance.toString() as keyof ZoningOrdinanceObj]} target="_blank"><small className={styles.ordinance} title={`View ${ data.ordinance } Ordinance`}>{data.ordinance.toString()}</small></a>
+              <a href={zoningOrdinance[project.ordinance.toString() as keyof ZoningOrdinanceObj]} target="_blank"><small className={styles.ordinance} title={`View ${ project.ordinance } Ordinance`}>{project.ordinance.toString()}</small></a>
             </div>
 
-            {data.Resolution?.resolution && (
+            {project.Resolution?.resolution && (
               <div className={styles.centeredFlexCol}>
                 <Icons
                   type={'resolution'}
                   variant={setIconVariant()}
                   size={'small'} />
                 <small className="underline">Resolution:</small>
-                <small>{data.Resolution.resolution}</small>
+                <small>{project.Resolution.resolution}</small>
               </div>
             )}
           </div>
 
-          {data.notes && (
-            <small className="wrap text-center italic">"{data.notes}"</small>
+          {project.notes && (
+            <small className="wrap text-center italic">"{project.notes}"</small>
           )}
         </section>
       )}
@@ -94,9 +94,9 @@ export const setProjectCell = (data: SetProjectCellProps['data'], hovered: SetPr
   )
 }
 
-export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: SetMilestoneCellProps['hovered']) => {
-  const firstMilestone = data.VestingMilestones.find((obj: Milestone) => obj.number === 1)
-  const secondMilestone = data.VestingMilestones.find((obj: Milestone) => obj.number === 2)
+export const setMilestoneCell = (project: SetMilestoneCellProps['project'], hovered: SetMilestoneCellProps['hovered']) => {
+  const firstMilestone = project.VestingMilestones.find((obj: Milestone) => obj.number === 1)
+  const secondMilestone = project.VestingMilestones.find((obj: Milestone) => obj.number === 2)
 
   const setIconVariant = (milestone: Milestone | undefined): Variants => { // Set icon variant
     if(milestone && milestone.MilestoneStatus.expired) { // Expired
@@ -151,7 +151,7 @@ export const setMilestoneCell = (data: SetMilestoneCellProps['data'], hovered: S
   )
 }
 
-export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVestingCellProps['hovered']) => { // Set project vesting cell
+export const setVestingCell = (data: SetVestingCellProps['project'], hovered: SetVestingCellProps['hovered']) => { // Set project vesting cell
   const tenYear = data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y") as VestingPeriod
   const fifteenYear = data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y") as VestingPeriod
 
@@ -220,14 +220,14 @@ export const setVestingCell = (data: SetVestingCellProps['data'], hovered: SetVe
   )
 }
 
-export const handleRowStyling = (data: HandleRowStylingProps['data'], index: HandleRowStylingProps['index']): string | undefined => { // Handle table row styling
-  if(data.expired) { // Expired
+export const handleRowStyling = (project: HandleRowStylingProps['project'], index: HandleRowStylingProps['index']): string | undefined => { // Handle table row styling
+  if(project.expired) { // Expired
     return styles.expiredRow
   }
 
   let completed = false
 
-  data.VestingPeriods.forEach(obj => {
+  project.VestingPeriods.forEach(obj => {
     if(obj.VestingStatus.achieved) {
       completed = true
     } else completed = false

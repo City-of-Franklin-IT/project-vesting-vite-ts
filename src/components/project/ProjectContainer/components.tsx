@@ -6,16 +6,16 @@ import UpdatePreliminaryPlatForm from '../../forms/update/UpdatePreliminaryPlatF
 // Types
 import { Project } from '../../../context/App/types'
 
-export const setFormType = (data: Project ) => { // Set update form type
-  const { type } = data
+export const Form = ({ project }: { project: Project } ) => { // Set update form type
+  const { type } = project
 
   switch(type) {
     case 'Development Plan':
-      return <UpdateDevelopmentPlanForm data={data} />
+      return <UpdateDevelopmentPlanForm project={project} />
     case 'Site Plan':
-      return <UpdateSitePlanForm data={data} />
+      return <UpdateSitePlanForm project={project} />
     case 'Preliminary Plat':
-      return <UpdatePreliminaryPlatForm data={data} />
+      return <UpdatePreliminaryPlatForm project={project} />
     default:
       return null
   }

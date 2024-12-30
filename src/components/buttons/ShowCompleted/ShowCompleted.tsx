@@ -16,7 +16,7 @@ function ShowCompleted() {
       <input 
         type="checkbox"
         checked={state.showCompleted}
-        className={styles.checkbox}
+        className="checkbox checkbox-primary"
         onChange={() => setState(prevState => ({ showCompleted: !prevState.showCompleted }))} />
     </div>
   )

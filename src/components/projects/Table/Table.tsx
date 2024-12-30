@@ -1,16 +1,12 @@
-import { useState, useContext } from 'react'
-import UserContext from '../../../context/User/UserContext'
-import { setProjectCell, setMilestoneCell, setVestingCell, handleRowStyling } from '.'
 import styles from './Table.module.css'
 
 // Types
-import { Project } from '../../../context/App/types'
-import { TableProps, TableState } from './types'
+import { TableProps } from './types'
 
-function Table({ data }: TableProps) {
-  const { user } = useContext(UserContext)
+// Components
+import { TableBody } from './components'
 
-  const [state, setState] = useState<TableState>({ expanded: [], hovered: '' })
+function Table({ projects }: TableProps) {
 
   return (
     <section className={styles.container}>
@@ -22,22 +18,7 @@ function Table({ data }: TableProps) {
             <th className="p-3 w-1/3">Vesting</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((obj: Project, index: number) => {
-            return (
-              <tr 
-                key={`table-row-${ obj.uuid }`}
-                onMouseEnter={() => setState(prevState => ({ ...prevState, hovered: obj.uuid }))}
-                onMouseLeave={() => setState(prevState => ({ ...prevState, hovered: '' }))}
-                className={handleRowStyling(obj, index)}
-                >
-                <td>{setProjectCell(obj, state.hovered === obj.uuid, { state, setState, authenticated: user?.email ? true : false })}</td>
-                <td>{setMilestoneCell(obj, state.hovered === obj.uuid)}</td>
-                <td>{setVestingCell(obj, state.hovered === obj.uuid)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
+        <TableBody projects={projects} />
       </table>
     </section>
   )

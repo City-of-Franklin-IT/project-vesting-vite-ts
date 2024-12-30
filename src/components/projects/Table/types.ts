@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react"
 import { Project } from "../../../context/App/types"
 
 export interface TableProps { // Table props
-  data: Project[]
+  projects: Project[]
 }
 
 export interface TableState { // Table state object
@@ -12,7 +12,7 @@ export interface TableState { // Table state object
 }
 
 export interface SetProjectCellProps { // setProjectCell fn props
-  data: Project
+  project: Project
   hovered: boolean
   options: {
     authenticated: boolean
@@ -22,18 +22,18 @@ export interface SetProjectCellProps { // setProjectCell fn props
 }
 
 export interface SetMilestoneCellProps { // setMilestoneCell fn props
-  data: Project,
+  project: Project
   hovered: boolean
 }
 
 export interface SetVestingCellProps { // setVestingCell fn props
-  data: Project,
+  project: Project
   hovered: boolean
 }
 
 export interface HandleRowStylingProps { // handleRowStyling fn props
-  data: Project,
-  index: number,
+  project: Project
+  index: number
 }
 
 export interface TableRow extends Project {

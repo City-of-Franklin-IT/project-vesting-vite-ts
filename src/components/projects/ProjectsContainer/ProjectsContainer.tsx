@@ -1,6 +1,7 @@
 import { useState, useContext, useRef } from 'react'
 import AppContext from '../../../context/App/AppContext'
-import { useSearch, useSetProjects, useSetPages, useResetActivePage, scrollToTop } from '.'
+import { useSearch, useSetProjects, useSetPages, useResetActivePage } from './hooks'
+import { scrollToTop } from './utils'
 import styles from './ProjectsContainer.module.css'
 
 // Types
@@ -18,7 +19,7 @@ import BackToTopBtn from '../../buttons/BackToTopBtn/BackToTopBtn'
 function ProjectsContainer({ data }: ProjectsContainerProps) {
   const { searchValue } = useContext(AppContext)
 
-  const [state, setState] = useState<ProjectsContainerState>({ searchValue: searchValue || '', resultsPerPage: 25, activePage: 1 })
+  const [state, setState] = useState<ProjectsContainerState>({ searchValue: searchValue || '', resultsPerPage: 100, activePage: 1 })
 
   const topRef = useRef<HTMLDivElement>(null)
 
@@ -56,7 +57,7 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
       </div>
 
       <div className={styles.tableDiv}>
-        <Table data={projects ? projects.slice((state.activePage * state.resultsPerPage) - state.resultsPerPage, state.activePage * state.resultsPerPage) : []} />
+        <Table projects={projects ? projects.slice((state.activePage * state.resultsPerPage) - state.resultsPerPage, state.activePage * state.resultsPerPage) : []} />
       </div>
 
       <div className="ml-auto">

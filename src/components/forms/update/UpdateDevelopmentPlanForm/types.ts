@@ -4,7 +4,7 @@ import { NavigateFunction } from "react-router-dom"
 import { Project } from "../../../../context/App/types"
 
 export interface UpdateDevelopmentPlanFormProps { // UpdateDevelopmentPlanForm props
-  data: Project
+  project: Project
 }
 
 export interface UpdateDevelopmentPlanFormUseForm { // UpdateDevelopmentPlanForm useForm state object

@@ -4,6 +4,7 @@ import styles from './ResultsPerPage.module.css'
 import { ResultsPerPageProps } from './types'
 
 function ResultsPerPage({ resultsPerPage, setResultsPerPage }: ResultsPerPageProps) {
+  
   return (
     <div className={styles.container}>
       <label htmlFor="resultsPerPage" className={styles.label}>Results Per Page:</label>

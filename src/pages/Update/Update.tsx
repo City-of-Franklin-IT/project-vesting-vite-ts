@@ -23,7 +23,7 @@ function Update() {
       {data && (
         <ProjectContainer 
           key={`project-update-${ dataUpdatedAt }`}
-          data={data.data as Project} />
+          project={data.data as Project} />
       )}
     </Layout>
   )

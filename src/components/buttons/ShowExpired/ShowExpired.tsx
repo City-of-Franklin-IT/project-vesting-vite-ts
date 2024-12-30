@@ -16,7 +16,7 @@ function ShowExpired() {
       <input 
         type="checkbox"
         checked={state.showExpired}
-        className={styles.checkbox}
+        className="checkbox checkbox-primary"
         onChange={() => setState(prevState => ({ showExpired: !prevState.showExpired }))} />
     </div>
   )
