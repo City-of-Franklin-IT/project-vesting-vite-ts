@@ -3,9 +3,6 @@ import { Link, useLocation } from "react-router-dom"
 import UserContext from "../../../context/User/UserContext"
 import styles from './Header.module.css'
 
-// Types
-import { ReactNode } from "react"
-
 // Components
 import CreateContainer from "../../create/CreateContainer/CreateContainer"
 import LogoutBtn from "../../buttons/LogoutBtn/LogoutBtn"

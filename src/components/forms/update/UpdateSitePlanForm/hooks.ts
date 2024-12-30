@@ -1,10 +1,10 @@
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 import { useForm, useFormContext } from "react-hook-form"
 
 // Types
 import { UseFormReturn } from "react-hook-form"
 import { VestingPeriod, Milestone, Notification } from '../../../../context/App/types'
-import { UseUpdateSitePlanFormProps, UpdateSitePlanFormUseForm, UseSetDatesObjProps, DatesObj, UseMilestoneExt, UseExpireProjectProps } from "./types"
+import { UseUpdateSitePlanFormProps, UpdateSitePlanFormUseForm, UseMilestoneExt, UseExpireProjectProps } from "./types"
 
 export const useUpdateSitePlanForm = (data: UseUpdateSitePlanFormProps['data']) => {
   return useForm<UpdateSitePlanFormUseForm>({

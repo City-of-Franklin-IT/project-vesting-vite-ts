@@ -6,94 +6,94 @@ import { UseFormReturn } from "react-hook-form"
 import { Approval, VestingPeriod, Milestone, Notification } from '../../../../context/App/types'
 import { UpdatePreliminaryPlatFormProps, UpdatePreliminaryPlatFormUseForm, UseMilestoneExt, UseExpireProjectProps } from "./types"
 
-export const useUpdatePreliminaryPlatForm = (data: UpdatePreliminaryPlatFormProps['data']) => {
+export const useUpdatePreliminaryPlatForm = (project: UpdatePreliminaryPlatFormProps['project']) => {
   return useForm<UpdatePreliminaryPlatFormUseForm>({
     defaultValues: {
-      expired: data.expired,
-      name: data.name,
-      cof: data.cof,
-      ordinance: data.ordinance,
+      expired: project.expired,
+      name: project.name,
+      cof: project.cof,
+      ordinance: project.ordinance,
       approval: {
         FPMC: {
-          date: data.Approvals.find((obj: Approval) => obj.approvedBy === 'FPMC')?.date ?? undefined,
-          uuid: data.Approvals.find((obj: Approval) => obj.approvedBy === 'FPMC')?.uuid ?? ''
+          date: project.Approvals.find((obj: Approval) => obj.approvedBy === 'FPMC')?.date ?? undefined,
+          uuid: project.Approvals.find((obj: Approval) => obj.approvedBy === 'FPMC')?.uuid ?? ''
         },
       },
       vesting: {
         tenYear: {
-          date: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.date ?? undefined,
-          uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.uuid ?? '',
+          date: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.date ?? undefined,
+          uuid: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.uuid ?? '',
           status: {
-            achieved: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingStatus.achieved,
-            expired: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingStatus.expired,
-            uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingStatus.uuid
+            achieved: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingStatus.achieved,
+            expired: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingStatus.expired,
+            uuid: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingStatus.uuid
           },
           extension: {
-            date: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingExtension?.date ?? undefined,
-            uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingExtension?.uuid ?? ''
+            date: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingExtension?.date ?? undefined,
+            uuid: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "10Y")?.VestingExtension?.uuid ?? ''
           }
         },
         fifteenYear: {
-          date: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.date ?? undefined,
-          uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.uuid ?? '',
+          date: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.date ?? undefined,
+          uuid: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.uuid ?? '',
           status: {
-            achieved: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingStatus.achieved,
-            expired: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingStatus.expired,
-            uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingStatus.uuid
+            achieved: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingStatus.achieved,
+            expired: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingStatus.expired,
+            uuid: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingStatus.uuid
           },
           extension: {
-            date: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingExtension?.date ?? undefined,
-            uuid: data.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingExtension?.uuid ?? ''
+            date: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingExtension?.date ?? undefined,
+            uuid: project.VestingPeriods.find((obj: VestingPeriod) => obj.type === "15Y")?.VestingExtension?.uuid ?? ''
           }
         }
       },
       milestones: {
         first: {
-          date: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.date ?? undefined,
-          uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.uuid ?? '',
+          date: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.date ?? undefined,
+          uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.uuid ?? '',
           status: {
-            achieved: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.achieved,
-            expired: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.expired,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.uuid
+            achieved: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.achieved,
+            expired: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.expired,
+            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.uuid
           },
           extension: {
-            date: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.date ?? undefined,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.uuid ?? ''
+            date: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.date ?? undefined,
+            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.uuid ?? ''
           }
         },
         second: {
-          date: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.date ?? undefined,
-          uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.uuid ?? '',
+          date: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.date ?? undefined,
+          uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.uuid ?? '',
           status: {
-            achieved: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.achieved,
-            expired: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.expired,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.uuid ?? ''
+            achieved: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.achieved,
+            expired: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.expired,
+            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.uuid ?? ''
           },
           extension: {
-            date: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.date ?? undefined,
-            uuid: data.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.uuid ?? ''
+            date: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.date ?? undefined,
+            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.uuid ?? ''
           }
         }
       },
       notifications: {
         initial: {
-          date: data.Notifications.find((obj: Notification) => obj.type === 'Initial')?.date ?? undefined,
+          date: project.Notifications.find((obj: Notification) => obj.type === 'Initial')?.date ?? undefined,
           type: 'Initial',
-          uuid: data.Notifications.find((obj: Notification) => obj.type === 'Initial')?.uuid ?? ''
+          uuid: project.Notifications.find((obj: Notification) => obj.type === 'Initial')?.uuid ?? ''
         },
         lastCall: {
-          date: data.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.date ?? undefined,
+          date: project.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.date ?? undefined,
           type: 'Last Call',
-          uuid: data.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.uuid ?? ''
+          uuid: project.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.uuid ?? ''
         },
         lostVesting: {
-          date: data.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.date ?? undefined,
+          date: project.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.date ?? undefined,
           type: 'Lost Vesting',
-          uuid: data.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.uuid ?? ''
+          uuid: project.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.uuid ?? ''
         }
       },
-      notes: data.notes,
-      uuid: data.uuid
+      notes: project.notes,
+      uuid: project.uuid
     }
   })
 }
