@@ -1,13 +1,12 @@
 import { useLocation } from 'react-router-dom'
 import { useValidateUser } from '../../helpers'
-import { useGetProject } from '.'
+import { useGetProject } from './hooks'
 
 // Components
 import Layout from "../../components/layout/Layout/Layout"
-import ProjectContainer from '../../components/project/ProjectContainer/ProjectContainer'
 
-// Types
-import { Project } from '../../context/App/types'
+// Components
+import { Project } from './components'
 
 function Update() {
   const params = new URLSearchParams(useLocation().search)
@@ -20,11 +19,9 @@ function Update() {
 
   return (
     <Layout>
-      {data && (
-        <ProjectContainer 
-          key={`project-update-${ dataUpdatedAt }`}
-          project={data.data as Project} />
-      )}
+      <Project
+        key={`project-${ data?.data.uuid }-${ dataUpdatedAt }`}
+        project={data?.data} />
     </Layout>
   )
 }

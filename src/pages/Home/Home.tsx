@@ -1,5 +1,5 @@
 import { useValidateUser } from '../../helpers'
-import { useGetProjects } from '.'
+import { useGetProjects } from './hooks'
 
 // Components
 import Layout from '../../components/layout/Layout/Layout'
