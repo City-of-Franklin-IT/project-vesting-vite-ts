@@ -99,7 +99,7 @@ export const setMilestoneCell = (project: SetMilestoneCellProps['project'], hove
   const secondMilestone = project.VestingMilestones.find((obj: Milestone) => obj.number === 2)
 
   const setIconVariant = (milestone: Milestone | undefined): Variants => { // Set icon variant
-    if(milestone && milestone.MilestoneStatus.expired) { // Expired
+    if(milestone && milestone.MilestoneStatus.expired || project.expired) { // Expired
       return hovered ? 'light' : 'red'
     }
 

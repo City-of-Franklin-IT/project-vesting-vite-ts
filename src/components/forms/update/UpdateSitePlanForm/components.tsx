@@ -9,12 +9,15 @@ import FormError from "../../FormError/FormError"
 export const ExpiredCheckbox = () => { // Project expired checkbox
   const { methods } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('expired')
+
   return (
     <div className="flex gap-1 ml-auto">
       <label htmlFor="expired" className={styles.checkboxLabel}>Project Expired</label>
       <input 
         type="checkbox"
         id="expired"
+        checked={checked}
         {...methods.register('expired')}
         className="checkbox checkbox-secondary" />
     </div>
@@ -49,6 +52,8 @@ export const TenYearVestingExtensionInput = () => { // Ten year vesting period e
 export const TenYearVestingAchievedCheckbox = () => { // Ten year vesting period achieved checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('vesting.tenYear.status.achieved')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="10YAchieved" className={styles.checkboxLabel}>Achieved</label>
@@ -56,6 +61,7 @@ export const TenYearVestingAchievedCheckbox = () => { // Ten year vesting period
         type="checkbox"
         id="10YAchieved"
         disabled={disabled}
+        checked={checked}
         {...methods.register('vesting.tenYear.status.achieved', {
           validate: value =>
             value && methods.watch("vesting.tenYear.status.expired") ? "Vesting cannot be both achieved and expired" : true
@@ -69,12 +75,15 @@ export const TenYearVestingAchievedCheckbox = () => { // Ten year vesting period
 export const TenYearVestingExpiredCheckbox = () => { // Ten year vesting period expired checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('vesting.tenYear.status.expired')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="10YExpired" className={styles.checkboxLabel}>Expired</label>
       <input 
         type="checkbox"
         id="10YExpired"
+        checked={checked}
         disabled={disabled}
         {...methods.register('vesting.tenYear.status.expired')}
         className="checkbox checkbox-secondary" />
@@ -110,12 +119,15 @@ export const FifteenYearVestingExtensionInput = () => { // Fifteen year vesting 
 export const FifteenYearVestingAchievedCheckbox = () => { // Fifteen year vesting achieved checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('vesting.fifteenYear.status.achieved')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="15YAchieved" className={styles.checkboxLabel}>Achieved</label>
       <input 
         type="checkbox"
         id="15YAchieved"
+        checked={checked}
         disabled={disabled}
         {...methods.register('vesting.fifteenYear.status.achieved', {
           validate: value =>
@@ -130,12 +142,15 @@ export const FifteenYearVestingAchievedCheckbox = () => { // Fifteen year vestin
 export const FifteenYearVestingExpiredCheckbox = () => { // Fifteen year vesting expired checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('vesting.fifteenYear.status.expired')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="15YExpired" className={styles.checkboxLabel}>Expired</label>
       <input 
         type="checkbox"
         id="15YExpired"
+        checked={checked}
         disabled={disabled}
         {...methods.register('vesting.fifteenYear.status.expired')}
         className="checkbox checkbox-secondary" />
@@ -171,12 +186,15 @@ export const FirstMilestoneExtensionInput = () => { //
 export const FirstMilestoneAchievedCheckbox = () => { // First milestone achieved checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('milestones.first.status.achieved')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="firstMilestoneAchieved" className={styles.checkboxLabel}>Achieved</label>
       <input 
         type="checkbox"
         id="firstMilestoneAchieved"
+        checked={checked}
         disabled={disabled}
         {...methods.register('milestones.first.status.achieved', {
           validate: value =>
@@ -191,12 +209,15 @@ export const FirstMilestoneAchievedCheckbox = () => { // First milestone achieve
 export const FirstMilestoneExpiredCheckbox = () => { // First milestone expired checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('milestones.first.status.expired')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="firstMilestoneExpired" className={styles.checkboxLabel}>Expired</label>
       <input 
         type="checkbox"
         id="firstMilestoneExpired"
+        checked={checked}
         disabled={disabled}
         {...methods.register('milestones.first.status.expired')}
         className="checkbox checkbox-secondary" />
@@ -232,12 +253,15 @@ export const SecondMilestoneExtensionInput = () => { // Second milsetone extensi
 export const SecondMilestoneAchievedCheckbox = () => { // Second milestone achieved checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('milestones.second.status.achieved')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="secondMilestoneAchieved" className={styles.checkboxLabel}>Achieved</label>
       <input 
         type="checkbox"
         id="secondMilestoneAchieved"
+        checked={checked}
         disabled={disabled}
         {...methods.register('milestones.second.status.achieved', {
           validate: value =>
@@ -251,12 +275,15 @@ export const SecondMilestoneAchievedCheckbox = () => { // Second milestone achie
 export const SecondMilestoneExpiredCheckbox = () => { // Second milestone expired checkbox
   const { methods, disabled } = useUpdateSitePlanFormContext()
 
+  const checked = methods.watch('milestones.second.status.expired')
+
   return (
     <div className="flex flex-col items-center gap-2">
       <label htmlFor="secondMilestoneExpired" className={styles.checkboxLabel}>Expired</label>
       <input 
         type="checkbox"
         id="secondMilestoneExpired"
+        checked={checked}
         disabled={disabled}
         {...methods.register('milestones.second.status.expired')}
         className="checkbox checkbox-secondary" />
