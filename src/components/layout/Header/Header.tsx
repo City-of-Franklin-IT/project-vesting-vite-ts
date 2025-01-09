@@ -16,7 +16,7 @@ function Header() {
         </div>
       </Link>
       <div className="flex gap-4">
-        <ReportLink href={'http://cofdbv10/reports/powerbi/IT%20Department/Brian_Dev/Project%20Vesting'} />
+        <ReportLink href={'http://cofdbv10/reports/powerbi/Planning/Project%20Vesting'} />
         <Buttons />
         <LoginPageLink />
       </div>

@@ -8,6 +8,7 @@ import FormLabel from '../../FormLabel/FormLabel'
 import FormError from '../../FormError/FormError'
 import CancelBtn from '../../../buttons/CancelBtn/CancelBtn'
 import SaveBtn from '../../../buttons/SaveBtn/SaveBtn'
+import { DeleteTenYearBtn, DeleteFifteenYearBtn } from "../../update/UpdateSitePlanForm/components"
 
 export const NameInput = () => { // Name input
   const { methods, disabled } = useCreateSitePlanFormContext()
@@ -168,7 +169,10 @@ export const TenYearVestingInput = () => { // Ten year vesting date input
           }) }
           className={styles.input} />
       </div>
-      <FormError field={'vesting.tenYear.date'} />
+      <div className="flex gap-2">
+        <DeleteTenYearBtn />
+        <FormError field={'vesting.tenYear.date'} />
+      </div>
     </div>
   )
 }
@@ -193,7 +197,10 @@ export const FifteenYearVestingInput = () => { // Fifteen year vesting date inpu
               new Date(value as Date) < new Date(tenYearDate as Date) ? "15Y vesting date must be after 10Y vesting date" : true
           }) }
           className={styles.input} />
-          <FormError field={'vesting.fifteenYear.date'} />
+      </div>
+      <div className="flex gap-2">
+        <DeleteFifteenYearBtn />
+        <FormError field={'vesting.fifteenYear.date'} />
       </div>
     </div>
   )

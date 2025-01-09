@@ -8,6 +8,7 @@ import FormLabel from '../../FormLabel/FormLabel'
 import FormError from '../../FormError/FormError'
 import CancelBtn from '../../../buttons/CancelBtn/CancelBtn'
 import SaveBtn from '../../../buttons/SaveBtn/SaveBtn'
+import { DeleteTenYearBtn, DeleteFifteenYearBtn } from '../../update/UpdateDevelopmentPlanForm/components'
 
 export const NameInput = () => { // Name input
   const { methods, disabled } = useCreateDevelopmentPlanFormContext()
@@ -78,7 +79,7 @@ export const ResolutionInput = () => { // Resolution input
           type="text"
           id="resolution" 
           disabled={disabled}
-          { ...methods.register("resolution.resolution", {
+          { ...methods.register("resolution", {
             required: "Resolution # is required",
             maxLength: {
               value: 10,
@@ -87,7 +88,7 @@ export const ResolutionInput = () => { // Resolution input
           }) }
           className={styles.input} />
       </div>
-      <FormError field={'resolution.resolution'} />
+      <FormError field={'resolution'} />
     </div>
   )
 }
@@ -198,10 +199,14 @@ export const TenYearVestingInput = () => { // Ten year vesting date input
           { ...methods.register("vesting.tenYear.date", {
             validate: value =>
               new Date(value as Date) > new Date(fifteenYearDate as Date) ? "10Y vesting date must be before 15Y vesting date" : true
+            , onChange: () => methods.trigger('vesting.tenYear.date')
           }) }
           className={styles.input} />
       </div>
-      <FormError field={'vesting.tenYear.date'} />
+      <div className="flex gap-2">
+        <DeleteTenYearBtn />
+        <FormError field={'vesting.tenYear.date'} />
+      </div>
     </div>
   )
 }
@@ -226,7 +231,10 @@ export const FifteenYearVestingInput = () => { // Fifteen year vesting date inpu
               new Date(value as Date) < new Date(tenYearDate as Date) ? "15Y vesting date must be after 10Y vesting date" : true
           }) }
           className={styles.input} />
-          <FormError field={'vesting.fifteenYear.date'} />
+      </div>
+      <div className="flex gap-2">
+        <DeleteFifteenYearBtn />
+        <FormError field={'vesting.fifteenYear.date'} />
       </div>
     </div>
   )

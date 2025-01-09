@@ -321,19 +321,55 @@ export const LostVestingNotificationInput = () => { // Lost vesting notification
   )
 }
 
+export const DeleteTenYearBtn = () => { // Delete ten year vesting period button
+  const { methods, disabled } = useUpdateDevelopmentPlanFormContext() 
+
+  const tenYear = methods.getValues('vesting.tenYear.uuid')
+
+  const visible = tenYear && !disabled
+
+  if(!visible) return null
+
+  return (
+    <DeleteBtn
+      label={'Remove Vesting Period'}
+      deleteFn={() => handleDeleteValue('vesting.tenYear.date', tenYear, {
+        setValue: methods.setValue
+      })} />
+  )
+}
+
+export const DeleteFifteenYearBtn = () => { // Delete fifteen year vesting period button
+  const { methods, disabled } = useUpdateDevelopmentPlanFormContext()
+
+  const fifteenYear = methods.getValues('vesting.fifteenYear.uuid')
+
+  const visible = fifteenYear && !disabled
+
+  if(!visible) return null
+
+  return (
+    <DeleteBtn
+      label={'Remove Vesting Period'}
+      deleteFn={() => handleDeleteValue('vesting.fifteenYear.date', fifteenYear, {
+        setValue: methods.setValue
+      })} />
+  )
+}
+
 const DeleteTenYearExtensionBtn = () => { // Delete ten year vesting extension button
   const { methods, disabled } = useUpdateDevelopmentPlanFormContext()
 
   const tenYearExt = methods.watch('vesting.tenYear.extension.uuid')
 
+  const visible = tenYearExt && !disabled 
+
+  if(!visible) return null
+
   return (
-    <>
-      {tenYearExt && !disabled && (
-        <DeleteBtn 
-          label={'Remove Extension'}
-          deleteFn={() => handleDeleteValue('vesting.tenYear.extension.date', tenYearExt, { setValue: methods.setValue })} />
-      )}
-    </>
+    <DeleteBtn 
+      label={'Remove Extension'}
+      deleteFn={() => handleDeleteValue('vesting.tenYear.extension.date', tenYearExt, { setValue: methods.setValue })} />
   )
 }
 
