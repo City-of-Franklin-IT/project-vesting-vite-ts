@@ -129,9 +129,9 @@ export const setMilestoneCell = (project: SetMilestoneCellProps['project'], hove
           type={'firstMilestone'}
           variant={setIconVariant(firstMilestone)}
           size={'large'} />
-        {firstMilestone && firstMilestone.Extension ? (
+        {firstMilestone && firstMilestone.MilestoneExtension ? (
           <div className="relative flex gap-1 w-fit">
-            <div className={handleMilestoneStyle(firstMilestone)}>{firstMilestone.Extension.date.toString()}<span className={styles.extension}>extended</span></div>
+            <div className={handleMilestoneStyle(firstMilestone)}>{firstMilestone.MilestoneExtension.date.toString()}<span className={styles.extension}>extended</span></div>
           </div>
         ) : <div className={handleMilestoneStyle(firstMilestone)}>{firstMilestone && firstMilestone.date.toString()}</div>}
       </div>
@@ -141,9 +141,9 @@ export const setMilestoneCell = (project: SetMilestoneCellProps['project'], hove
           type={'secondMilestone'}
           variant={setIconVariant(secondMilestone)}
           size={'large'} />
-        {secondMilestone && secondMilestone.Extension ? (
+        {secondMilestone && secondMilestone.MilestoneExtension ? (
           <div className="relative flex gap-2 w-fit">
-            <div className={handleMilestoneStyle(secondMilestone)}>{secondMilestone.Extension.date.toString()}<span className={styles.extension}>extended</span></div>
+            <div className={handleMilestoneStyle(secondMilestone)}>{secondMilestone.MilestoneExtension.date.toString()}<span className={styles.extension}>extended</span></div>
           </div>
         ) : <div className={handleMilestoneStyle(secondMilestone)}>{secondMilestone && secondMilestone.date.toString()}</div>}
       </div>

@@ -60,7 +60,7 @@ export const useSetProjects = (projects: UseSetProjectsProps['projects']): Proje
 
     array = array.filter(obj => 
       obj.Milestones.some(milestone => {
-        const milestoneDate = !milestone.Extension ? new Date(milestone.date) : new Date(milestone.Extension.date) // Check for extension
+        const milestoneDate = !milestone.MilestoneExtension ? new Date(milestone.date) : new Date(milestone.MilestoneExtension.date) // Check for extension
         return milestoneDate > start && milestoneDate < end
       })
     )

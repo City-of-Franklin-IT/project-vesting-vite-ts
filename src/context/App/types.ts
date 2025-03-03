@@ -288,11 +288,11 @@ export interface Milestone extends BaseObj {
   number: 1 | 2
   date: Date
   parentId: string
-  Extension: Extension
+  MilestoneExtension: MilestoneExtension
   MilestoneStatus: MilestoneStatus
 }
 
-interface Extension extends BaseObj {
+interface MilestoneExtension extends BaseObj {
   date: Date
   parentId: string
 }

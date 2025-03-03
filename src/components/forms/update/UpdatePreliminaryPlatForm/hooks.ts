@@ -57,8 +57,8 @@ export const useUpdatePreliminaryPlatForm = (project: UpdatePreliminaryPlatFormP
             uuid: project.Milestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.uuid
           },
           extension: {
-            date: project.Milestones.find((obj: Milestone) => obj.number === 1)?.Extension?.date ?? undefined,
-            uuid: project.Milestones.find((obj: Milestone) => obj.number === 1)?.Extension?.uuid ?? ''
+            date: project.Milestones.find((obj: Milestone) => obj.number === 1)?.MilestoneExtension?.date ?? undefined,
+            uuid: project.Milestones.find((obj: Milestone) => obj.number === 1)?.MilestoneExtension?.uuid ?? ''
           }
         },
         second: {
@@ -70,8 +70,8 @@ export const useUpdatePreliminaryPlatForm = (project: UpdatePreliminaryPlatFormP
             uuid: project.Milestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.uuid ?? ''
           },
           extension: {
-            date: project.Milestones.find((obj: Milestone) => obj.number === 2)?.Extension?.date ?? undefined,
-            uuid: project.Milestones.find((obj: Milestone) => obj.number === 2)?.Extension?.uuid ?? ''
+            date: project.Milestones.find((obj: Milestone) => obj.number === 2)?.MilestoneExtension?.date ?? undefined,
+            uuid: project.Milestones.find((obj: Milestone) => obj.number === 2)?.MilestoneExtension?.uuid ?? ''
           }
         }
       },
