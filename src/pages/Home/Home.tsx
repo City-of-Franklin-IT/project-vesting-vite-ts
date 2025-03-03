@@ -8,7 +8,6 @@ import HandleLoading from '../../utils/HandleLoading'
 
 function Home() {
   useValidateUser()
-
   const { data, isSuccess } = useGetProjects()
 
   return (

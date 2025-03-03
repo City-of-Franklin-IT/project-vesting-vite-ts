@@ -40,7 +40,7 @@ export const useValidateUser = (): { isAuthenticated: boolean, isLoading: boolea
     if(refreshToken.isSuccess && !refreshToken.data?.success) {
       if(state.retries >= 5) {
         dispatch({ type: 'SET_USER', payload: undefined })
-        navigate('/login')
+        navigate('/')
       } else {
         setState(prevState => ({ retries: prevState.retries + 1 }))
       }
