@@ -95,8 +95,8 @@ export const setProjectCell = (project: SetProjectCellProps['project'], hovered:
 }
 
 export const setMilestoneCell = (project: SetMilestoneCellProps['project'], hovered: SetMilestoneCellProps['hovered']) => {
-  const firstMilestone = project.VestingMilestones.find((obj: Milestone) => obj.number === 1)
-  const secondMilestone = project.VestingMilestones.find((obj: Milestone) => obj.number === 2)
+  const firstMilestone = project.Milestones.find((obj: Milestone) => obj.number === 1)
+  const secondMilestone = project.Milestones.find((obj: Milestone) => obj.number === 2)
 
   const setIconVariant = (milestone: Milestone | undefined): Variants => { // Set icon variant
     if(milestone && milestone.MilestoneStatus.expired || project.expired) { // Expired

@@ -53,9 +53,7 @@ export interface ServerResponse { // Server response object
 
 export interface GetProjectsResponse extends ServerResponse { // getProjects fn response object
   count: number
-  data: {
-    records: Project[]
-  }
+  data: Project[]
 }
 
 export interface GetProjectResponse extends ServerResponse { // getProject fn response object
@@ -233,8 +231,8 @@ export interface Project extends BaseObj {
   notes: string
   Approvals: Approval[]
   Resolution: Resolution
-  Notification: Notification
-  VestingMilestones: Milestone[]
+  VestingNotifications: VestingNotification[]
+  Milestones: Milestone[]
   VestingPeriods: VestingPeriod[]
   [key: string]: any
 }
@@ -280,7 +278,7 @@ interface Resolution extends BaseObj {
   parentId: string
 }
 
-export interface Notification extends BaseObj {
+export interface VestingNotification extends BaseObj {
   date: Date
   type: NotificationTypes
   parentId: string

@@ -16,14 +16,14 @@ import Pagination from '../Pagination/Pagination'
 import Table from '../Table/Table'
 import BackToTopBtn from '../../buttons/BackToTopBtn/BackToTopBtn'
 
-function ProjectsContainer({ data }: ProjectsContainerProps) {
+function ProjectsContainer({ projects }: ProjectsContainerProps) {
   const { searchValue } = useContext(AppContext)
 
   const [state, setState] = useState<ProjectsContainerState>({ searchValue: searchValue || '', resultsPerPage: 100, activePage: 1 })
 
   const topRef = useRef<HTMLDivElement>(null)
 
-  const projects = useSetProjects(data)
+  const tableData = useSetProjects(projects)
 
   const pages = useSetPages(projects, state)
 
@@ -57,7 +57,7 @@ function ProjectsContainer({ data }: ProjectsContainerProps) {
       </div>
 
       <div className={styles.tableDiv}>
-        <Table projects={projects ? projects.slice((state.activePage * state.resultsPerPage) - state.resultsPerPage, state.activePage * state.resultsPerPage) : []} />
+        <Table projects={tableData ? projects.slice((state.activePage * state.resultsPerPage) - state.resultsPerPage, state.activePage * state.resultsPerPage) : []} />
       </div>
 
       <div className="ml-auto">

@@ -7,6 +7,7 @@ import FormContainer from '../../forms/FormContainer/FormContainer'
 import { ProjectContainerProps } from './types'
 
 function ProjectContainer({ project }: ProjectContainerProps) {
+  
   return (
     <div className="w-full">
       <FormContainer>

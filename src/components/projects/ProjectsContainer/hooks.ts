@@ -21,20 +21,20 @@ export const useSearch = (state: UseSearchProps['state']): void => { // Set sear
   }, [search])
 }
 
-export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => { // Set projects array
+export const useSetProjects = (projects: UseSetProjectsProps['projects']): Project[] => { // Set projects array
   const { filter, searchValue, milestoneFilter, showAchieved, showCompleted, showExpired } = useContext(AppContext)
 
   let array = []
 
   if(filter) { // Type filter applied
-    array = data.filter(obj => obj.type === filter)
+    array = projects.filter(project => project.type === filter)
 
     if(searchValue) {
       const regex = new RegExp(searchValue, 'i')
 
-      array = array.filter(obj => { // Search by project name and COF #
-        for(const prop in obj) {
-          if(['name', 'cof'].includes(prop) && regex.test(obj[prop])) {
+      array = array.filter(project => { // Search by project name and COF #
+        for(const prop in project) {
+          if(['name', 'cof'].includes(prop) && regex.test(project[prop])) {
             return true
           }
         }
@@ -44,14 +44,14 @@ export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => 
     if(searchValue) {
       const regex = new RegExp(searchValue, 'i')
 
-      array = data.filter(obj => { // Search by project name and COF #
-        for(const prop in obj) {
-          if(['name', 'cof', 'ordinance'].includes(prop) && regex.test(obj[prop])) {
+      array = projects.filter(project => { // Search by project name and COF #
+        for(const prop in project) {
+          if(['name', 'cof', 'ordinance'].includes(prop) && regex.test(project[prop])) {
             return true
           }
         }
       })
-    } else array = data
+    } else array = projects
   }
 
   if(milestoneFilter.start && milestoneFilter.end) { // Milestone filter applied
@@ -59,7 +59,7 @@ export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => 
     const end = new Date(milestoneFilter.end)
 
     array = array.filter(obj => 
-      obj.VestingMilestones.some(milestone => {
+      obj.Milestones.some(milestone => {
         const milestoneDate = !milestone.Extension ? new Date(milestone.date) : new Date(milestone.Extension.date) // Check for extension
         return milestoneDate > start && milestoneDate < end
       })
@@ -68,14 +68,14 @@ export const useSetProjects = (data: UseSetProjectsProps['data']): Project[] => 
 
   if(!showAchieved.firstMilestone) { // If !showAchieved.firstMilestone - remove projects with achieved firstMilestone
     array = array.filter(obj => {
-      const milestone = obj.VestingMilestones.find(milestone => milestone.number === 1)
+      const milestone = obj.Milestones.find(milestone => milestone.number === 1)
       return !milestone?.MilestoneStatus.achieved
     })
   }
 
   if(!showAchieved.secondMilestone) { // If !showAchieved.secondMilestone - remove projects with achieved secondMilestone
     array = array.filter(obj => {
-      const milestone = obj.VestingMilestones.find(milestone => milestone.number === 2)
+      const milestone = obj.Milestones.find(milestone => milestone.number === 2)
       return !milestone?.MilestoneStatus.achieved
     })
   }

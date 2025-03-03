@@ -4,7 +4,7 @@ import { Action } from "../../../context/App/types"
 import { Project } from "../../../context/App/types"
 
 export interface ProjectsContainerProps { // ProjectsContainer props
-  data: Project[]
+  projects: Project[]
 }
 
 export interface ProjectsContainerState { // ProjectsContainer state object
@@ -14,7 +14,7 @@ export interface ProjectsContainerState { // ProjectsContainer state object
 }
 
 export interface UseSetProjectsProps { // useSetProjects hook props
-  data: Project[]
+  projects: Project[]
 }
 
 export interface UseSearchProps { // useSearch hook props

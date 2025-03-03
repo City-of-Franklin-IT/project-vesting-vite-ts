@@ -3,7 +3,7 @@ import { useForm, useFormContext } from "react-hook-form"
 
 // Types
 import { UseFormReturn } from "react-hook-form"
-import { Notification } from "../../../../context/App/types"
+import { VestingNotification } from "../../../../context/App/types"
 import { Approval, VestingPeriod, Milestone } from "../../../../context/App/types"
 import { UpdateDevelopmentPlanFormProps, UpdateDevelopmentPlanFormUseForm, UseExpireProjectProps, UseMilestoneExt } from "./types"
 
@@ -58,47 +58,47 @@ export const useUpdateDevelopmentPlanForm = (project: UpdateDevelopmentPlanFormP
       },
       milestones: {
         first: {
-          date: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.date ?? undefined,
-          uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.uuid ?? '',
+          date: project.Milestones.find((obj: Milestone) => obj.number === 1)?.date ?? undefined,
+          uuid: project.Milestones.find((obj: Milestone) => obj.number === 1)?.uuid ?? '',
           status: {
-            achieved: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.achieved,
-            expired: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.expired,
-            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.uuid
+            achieved: project.Milestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.achieved,
+            expired: project.Milestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.expired,
+            uuid: project.Milestones.find((obj: Milestone) => obj.number === 1)?.MilestoneStatus.uuid
           },
           extension: {
-            date: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.date ?? undefined,
-            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 1)?.Extension?.uuid ?? ''
+            date: project.Milestones.find((obj: Milestone) => obj.number === 1)?.Extension?.date ?? undefined,
+            uuid: project.Milestones.find((obj: Milestone) => obj.number === 1)?.Extension?.uuid ?? ''
           }
         },
         second: {
-          date: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.date ?? undefined,
-          uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.uuid ?? '',
+          date: project.Milestones.find((obj: Milestone) => obj.number === 2)?.date ?? undefined,
+          uuid: project.Milestones.find((obj: Milestone) => obj.number === 2)?.uuid ?? '',
           status: {
-            achieved: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.achieved,
-            expired: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.expired,
-            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.uuid ?? ''
+            achieved: project.Milestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.achieved,
+            expired: project.Milestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.expired,
+            uuid: project.Milestones.find((obj: Milestone) => obj.number === 2)?.MilestoneStatus.uuid ?? ''
           },
           extension: {
-            date: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.date ?? undefined,
-            uuid: project.VestingMilestones.find((obj: Milestone) => obj.number === 2)?.Extension?.uuid ?? ''
+            date: project.Milestones.find((obj: Milestone) => obj.number === 2)?.Extension?.date ?? undefined,
+            uuid: project.Milestones.find((obj: Milestone) => obj.number === 2)?.Extension?.uuid ?? ''
           }
         }
       },
       notifications: {
         initial: {
-          date: project.Notifications.find((obj: Notification) => obj.type === 'Initial')?.date ?? undefined,
+          date: project.VestingNotifications.find((obj: VestingNotification) => obj.type === 'Initial')?.date ?? undefined,
           type: 'Initial',
-          uuid: project.Notifications.find((obj: Notification) => obj.type === 'Initial')?.uuid ?? ''
+          uuid: project.VestingNotifications.find((obj: VestingNotification) => obj.type === 'Initial')?.uuid ?? ''
         },
         lastCall: {
-          date: project.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.date ?? undefined,
+          date: project.VestingNotifications.find((obj: VestingNotification) => obj.type === 'Last Call')?.date ?? undefined,
           type: 'Last Call',
-          uuid: project.Notifications.find((obj: Notification) => obj.type === 'Last Call')?.uuid ?? ''
+          uuid: project.VestingNotifications.find((obj: VestingNotification) => obj.type === 'Last Call')?.uuid ?? ''
         },
         lostVesting: {
-          date: project.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.date ?? undefined,
+          date: project.VestingNotifications.find((obj: VestingNotification) => obj.type === 'Lost Vesting')?.date ?? undefined,
           type: 'Lost Vesting',
-          uuid: project.Notifications.find((obj: Notification) => obj.type === 'Lost Vesting')?.uuid ?? ''
+          uuid: project.VestingNotifications.find((obj: VestingNotification) => obj.type === 'Lost Vesting')?.uuid ?? ''
         }
       },
       notes: project.notes,
