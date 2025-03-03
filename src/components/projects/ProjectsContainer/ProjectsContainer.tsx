@@ -57,7 +57,7 @@ function ProjectsContainer({ projects }: ProjectsContainerProps) {
       </div>
 
       <div className={styles.tableDiv}>
-        <Table projects={tableData ? projects.slice((state.activePage * state.resultsPerPage) - state.resultsPerPage, state.activePage * state.resultsPerPage) : []} />
+        <Table projects={!!tableData ? tableData.slice((state.activePage * state.resultsPerPage) - state.resultsPerPage, state.activePage * state.resultsPerPage) : []} />
       </div>
 
       <div className="ml-auto">
