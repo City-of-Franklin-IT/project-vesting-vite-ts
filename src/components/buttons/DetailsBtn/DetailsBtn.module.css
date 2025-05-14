@@ -8,6 +8,10 @@
   }
 }
 
+.btn:hover {
+  cursor: pointer;
+}
+
 .icon {
   width: 24px;
 }

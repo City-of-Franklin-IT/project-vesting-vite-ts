@@ -1,16 +1,13 @@
 // Types
-import { Project as ProjectType } from "../../context/App/types"
+import { ProjectInterface } from "../../context/App/types"
 
 // Components
-import ProjectContainer from "../../components/project/ProjectContainer/ProjectContainer"
+import ProjectContainer from "../../components/projects/containers/ProjectContainer"
 
-export const Project = ({ project }: { project: ProjectType | undefined }) => {
+export const Project = ({ project }: { project: ProjectInterface | undefined }) => {
+  if(!project) return null
 
   return (
-    <>
-      {project && (
-        <ProjectContainer project={project} />
-      )}
-    </>
+    <ProjectContainer project={project} />
   )
 }

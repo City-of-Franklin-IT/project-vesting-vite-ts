@@ -13,19 +13,19 @@
 }
 
 .savedPopup {
-  background-color: var(--success);
+  background-color: var(--color-success);
 }
 
 .errorPopup {
-  background-color: var(--b3);
+  background-color: var(--color-b3);
 }
 
 .authPopup {
-  background-color: var(--success);
+  background-color: var(--color-success);
 }
 
 .infoPopup {
-  background-color: var(--infoContent);
+  background-color: var(--color-info-content);
 }
 
 .icon {

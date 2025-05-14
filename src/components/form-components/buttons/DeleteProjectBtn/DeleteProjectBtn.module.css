@@ -1,0 +1,21 @@
+.btn {
+  color: var(--color-error-content);
+  font-size: 1rem;
+  font-family: 'Jura', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  width: fit-content;
+}
+
+.btn:hover {
+  cursor: pointer;
+  color: var(--color-error);
+  background-color: var(--color-b3);
+}
+
+.btnActive {
+  background: var(--color-b3);
+  color: var(--color-error);
+  animation: 2s confirm-delete-pulse infinite;
+}

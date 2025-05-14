@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    color: var(--neutralContent);
+    color: var(--color-neutral-content);
     text-align: center;
     align-items: center;
     margin: auto;
@@ -21,6 +21,6 @@
   }
 
   .counter {
-    color: var(--warning);
+    color: var(--color-warning);
     font-weight: 600;
   }

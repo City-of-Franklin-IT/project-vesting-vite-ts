@@ -7,6 +7,7 @@ import { DetailsBtnProps } from './types'
 import Icons from '../../icons/Icons/Icons'
 
 function DetailsBtn({ expanded, hovered, handleClick }: DetailsBtnProps) {
+  
   return (
     <button 
       type="button"

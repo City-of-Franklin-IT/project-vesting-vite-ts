@@ -5,23 +5,22 @@ export interface IconsProps { // Icons props
 }
 
 export interface Options { // Options object
-  ordinance: IconVariants,
-  type: IconVariants,
-  resolution: IconVariants,
-  firstMilestone: IconVariants,
-  secondMilestone: IconVariants,
-  tenYear: IconVariants,
-  fifteenYear: IconVariants,
-  expand: IconVariants,
-  minimize: IconVariants,
-  sadFace: IconVariants,
+  ordinance: IconVariants
+  type: IconVariants
+  resolution: IconVariants
+  firstMilestone: IconVariants
+  secondMilestone: IconVariants
+  tenYear: IconVariants
+  fifteenYear: IconVariants
+  expand: IconVariants
+  minimize: IconVariants
 }
 
 export interface IconVariants {
-  dark: string | null,
-  light: string | null,
-  red: string | null,
-  green: string | null,
+  dark: string | null
+  light: string | null
+  red: string | null
+  green: string | null
   normal: string | null
 }
 

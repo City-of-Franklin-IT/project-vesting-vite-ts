@@ -1,0 +1,301 @@
+import { useState } from "react"
+import { setIconVariant, ZoningOrdinanceMap, handleMilestoneStyle, handleVestingStyle, handleRowStyling, setMilestoneIconVariant, setVestingIconVariant } from './utils'
+import styles from './Table.module.css'
+
+// Types
+import { MilestoneInterface, ProjectInterface, VestingPeriodInterface } from "@/context/App/types"
+
+// Components
+import DetailsBtn from "@/components/buttons/DetailsBtn/DetailsBtn"
+import Icons from "@/components/icons/Icons/Icons"
+
+export const TableBody = ({ projects }: { projects: ProjectInterface[] }) => { // Projects table body
+
+  return (
+    <tbody>
+      {projects.map((project, index) => {
+        return (
+          <TableRow
+            key={`project-table-row-${ project.uuid }`}
+            index={index}
+            project={project} />
+        )
+      })}
+    </tbody>
+  )
+}
+
+const TableRow = ({ project, index }: { project: ProjectInterface, index: number }) => {
+  const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
+
+  return (
+    <tr 
+      key={`table-row-${ project.uuid }`}
+      onMouseEnter={() => setState(prevState => ({ ...prevState, hovered: true }))}
+      onMouseLeave={() => setState(prevState => ({ ...prevState, hovered: false }))}
+      className={handleRowStyling(project, index)}>
+        <td>
+          <ProjectCell
+            project={project}
+            hovered={state.hovered} />
+        </td>
+        <td>
+          <Milestones
+            project={project}
+            hovered={state.hovered} />
+        </td>
+        <td>
+          <VestingPeriods
+            project={project}
+            hovered={state.hovered} />
+        </td>
+    </tr>
+  )
+}
+
+const ProjectCell = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+  const [state, setState] = useState<{ expanded: boolean }>({ expanded: false })
+
+  return (
+    <td className={styles.projectCell}>
+      <div>
+        <span className={styles.name} title={`Update ${ project.name }`}>{project.name} // </span>
+        <span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ project.cof } on GeoCivix`}>COF# {project.cof}</a></span>
+      </div>
+      <DetailsBtn
+        expanded={state.expanded}
+        hovered={hovered}
+        handleClick={() => setState(prevState => ({ expanded: !prevState.expanded }))} />
+      <ProjectDetails
+        project={project}
+        hovered={hovered}
+        expanded={state.expanded} />
+    </td>
+  )
+}
+
+const ProjectDetails = ({ project, hovered, expanded }: { project: ProjectInterface, hovered: boolean, expanded: boolean }) => {
+  if(!expanded) return null
+
+  return (
+    <div className={styles.detailsDiv}>
+      <div className="flex justify-between">
+        <ProjectType
+          project={project}
+          hovered={hovered} />
+        <Ordinance
+          project={project}
+          hovered={hovered} />
+        <Resolution
+          project={project}
+          hovered={hovered} />
+      </div>
+
+      <ProjectNotes project={project} />
+    </div>
+  )
+}
+
+const ProjectType = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+  
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'type'}
+        variant={setIconVariant(project, hovered)}
+        size={'small'} />
+      <small className="underline">Type:</small>
+      <small>{project.type}</small>
+    </div>
+  )
+}
+
+const Ordinance = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'ordinance'}
+        variant={setIconVariant(project, hovered)}
+        size={'small'} />
+      <small className="underline">Ordinance:</small>
+      <OrdinanceLink project={project} />
+    </div>
+  )
+}
+
+const OrdinanceLink = ({ project }: { project: ProjectInterface }) => {
+  const ordinanceLink = ZoningOrdinanceMap.get(project.ordinance)
+
+  return (
+    <a href={ordinanceLink} target="_blank"><small className={styles.ordinance} title={`View ${ project.ordinance } Ordinance`}>{project.ordinance}</small></a>
+  )
+}
+
+const Resolution = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+  if(!project.Resolution) return null
+
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'resolution'}
+        variant={setIconVariant(project, hovered)}
+        size={'small'} />
+      <small className="underline">Resolution:</small>
+      <small>{project.Resolution.resolution}</small>
+    </div>
+  )
+}
+
+const ProjectNotes = ({ project }: { project: ProjectInterface }) => {
+  if(!project.notes) return null
+
+  return (
+    <small className="wrap text-center italic">"{project.notes}"</small>
+  )
+}
+
+const Milestones = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+
+  return (
+    <div className={styles.dates}>
+      <FirstMilestone
+        project={project}
+        hovered={hovered} />
+      <SecondMilestone
+        project={project}
+        hovered={hovered} />
+    </div>
+  )
+}
+
+const FirstMilestone = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+  const firstMilestone = project.Milestones?.find(milestone => milestone.number === 1)
+
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'firstMilestone'}
+        variant={setMilestoneIconVariant(firstMilestone, project, hovered)}
+        size={'large'} />
+      <Milestone
+        milestone={firstMilestone}
+        hovered={hovered} />
+      <MilestoneExtension
+        milestone={firstMilestone}
+        hovered={hovered} />
+    </div>
+  )
+}
+
+const Milestone = ({ milestone, hovered }: { milestone: MilestoneInterface | undefined, hovered: boolean }) => {
+  if(!milestone || milestone?.MilestoneExtension) return null
+
+  return (
+    <span className={handleMilestoneStyle(milestone, hovered)}>{milestone.date}</span>
+  )
+}
+
+const MilestoneExtension = ({ milestone, hovered }: { milestone: MilestoneInterface | undefined, hovered: boolean }) => {
+  if(!milestone?.MilestoneExtension) return null
+
+  return (
+    <div className="relative flex gap-1 w-fit">
+      <div className={handleMilestoneStyle(milestone, hovered)}>{milestone.MilestoneExtension.date}<span className={styles.extension}>extended</span></div>
+    </div>
+  )
+}
+
+const SecondMilestone = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+
+  const secondMilestone = project.Milestones?.find(milestone => milestone.number === 2)
+
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'secondMilestone'}
+        variant={setMilestoneIconVariant(secondMilestone, project, hovered)}
+        size={'large'} />
+      <Milestone
+        milestone={secondMilestone}
+        hovered={hovered} />
+      <MilestoneExtension
+        milestone={secondMilestone}
+        hovered={hovered} />
+    </div>
+  )
+}
+
+const VestingPeriods = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+
+  return (
+    <div className={styles.dates}>
+      <TenYearVesting
+        project={project}
+        hovered={hovered} />
+      <FifteenYearVesting
+        project={project}
+        hovered={hovered} />
+    </div>
+  )
+}
+
+const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+  const tenYearVesting = project.VestingPeriods?.find(period => period.type === "10Y")
+
+  if(!tenYearVesting) return null
+
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'tenYear'}
+        variant={setVestingIconVariant(tenYearVesting, project, hovered)} 
+        size={'large'} />
+      <VestingPeriod
+        period={tenYearVesting}
+        hovered={hovered} />
+      <VestingPeriodExtension
+        period={tenYearVesting}
+        hovered={hovered} />
+    </div>
+  )
+}
+
+const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+  const fifteenYearVesting = project.VestingPeriods?.find(period => period.type === "15Y")
+
+  if(!fifteenYearVesting) return null
+
+  return (
+    <div className={styles.centeredFlexCol}>
+      <Icons
+        type={'fifteenYear'}
+        variant={setVestingIconVariant(fifteenYearVesting, project, hovered)} 
+        size={'large'} />
+      <VestingPeriod
+        period={fifteenYearVesting}
+        hovered={hovered} />
+      <VestingPeriodExtension
+        period={fifteenYearVesting}
+        hovered={hovered} />
+    </div>
+  )
+}
+
+const VestingPeriod = ({ period, hovered }: { period: VestingPeriodInterface, hovered: boolean }) => {
+  if(!period || period?.VestingExtension) return null
+
+  return (
+    <span className={handleVestingStyle(period, hovered)}>{period.date}</span>
+  )
+}
+
+const VestingPeriodExtension = ({ period, hovered }: { period: VestingPeriodInterface, hovered: boolean }) => {
+  if(!period?.VestingExtension) return null
+
+  return (
+    <div className="relative flex gap-1 w-fit">
+      <div className={handleVestingStyle(period, hovered)}>{period.VestingExtension.date}<span className={styles.extension}>extended</span></div>
+    </div>
+  )
+}

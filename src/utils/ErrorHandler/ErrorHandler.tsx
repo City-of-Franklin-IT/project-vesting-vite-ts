@@ -1,11 +1,12 @@
 // Components
-import Layout from "../../components/layout/Layout/Layout"
+import Layout from "../../components/layout/Layout"
 import Error from '../../components/error/Error/Error'
 
 // Types
 import { ErrorHandlerProps } from "./types"
 
 function ErrorHandler({ title, subtitle }: ErrorHandlerProps) {
+  
   return (
     <Layout>
       <div className="m-auto">

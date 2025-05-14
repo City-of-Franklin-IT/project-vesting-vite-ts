@@ -1,5 +1,120 @@
+import { ZoningOrdinanceMap } from "@/components/projects/table/Table/utils"
+
 // Types
-import { Dispatch, ReactNode } from "react"
+import { Dispatch } from "react"
+
+export interface ProjectInterface extends BaseInterface { 
+  type: ProjectTypes
+  name: string
+  cof: number
+  ordinance: ZoningOrdinanceType
+  expired: boolean
+  notes: string
+  Approvals?: ApprovalInterface[]
+  Resolution?: ResolutionInterface
+  VestingNotifications?: VestingNotificationInterface[]
+  Milestones?: MilestoneInterface[]
+  VestingPeriods?: VestingPeriodInterface[]
+  [key: string]: any
+}
+
+export interface ProjectCreateInterface extends Omit<ProjectInterface, 'Approvals' | 'Resolution' | 'VestingNotifications' | 'Milestones' | 'VestingPeriods' | 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{
+  Approvals: ApprovalCreateInterface[]
+  Resolution: ResolutionCreateInterface
+  Milestones: MilestoneCreateInterface[]
+  VestingPeriods: VestingPeriodCreateInterface[]
+  VestingNotifications?: VestingNotificationCreateInterface[]
+  uuid?: string
+}
+
+export interface ApprovalInterface extends BaseInterface {
+  date: string
+  approvedBy: "Admin" | "FPMC" | "BOMA"
+  parentId: string
+}
+
+export interface ApprovalCreateInterface extends Omit<ApprovalInterface, 'approvedBy' | 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{
+  approvedBy: 'Admin' | 'FPMC' | 'BOMA' | ''
+  uuid?: string
+}
+
+export interface ResolutionInterface extends BaseInterface {
+  resolution: string
+  parentId: string
+}
+
+export interface ResolutionCreateInterface extends Omit<ResolutionInterface, 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{
+  uuid?: string
+}
+
+export interface MilestoneInterface extends BaseInterface {
+  number: 1 | 2
+  date: string
+  parentId: string
+  MilestoneExtension?: MilestoneExtensionInterface
+  MilestoneStatus?: MilestoneStatusInterface
+}
+
+export interface MilestoneCreateInterface extends Omit<MilestoneInterface, 'MilestoneExtension' | 'MilestoneStatus' | 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{
+  MilestoneExtension: MilestoneExtensionCreateInterface
+  MilestoneStatus: MilestoneStatusUpdateInterface
+  uuid?: string
+}
+
+export interface MilestoneExtensionInterface extends BaseInterface {
+  date: string
+  parentId: string
+}
+
+export interface MilestoneExtensionCreateInterface extends Omit<MilestoneExtensionInterface, 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{ uuid?: string }
+
+export interface MilestoneStatusInterface extends BaseInterface {
+  achieved: boolean
+  expired: boolean
+  parentId: string
+}
+
+export interface MilestoneStatusUpdateInterface extends Omit<MilestoneStatusInterface, 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{}
+
+export interface VestingPeriodInterface extends BaseInterface {
+  type: "10Y" | "15Y"
+  date: string
+  parentId: string
+  VestingExtension?: VestingExtensionInterface
+  VestingStatus?: VestingStatusInterface
+}
+
+export interface VestingPeriodCreateInterface extends Omit<VestingPeriodInterface, 'VestingExtension' | 'VestingStatus' | 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{
+  VestingExtension?: VestingExtensionCreateInterface
+  VestingStatus?: VestingStatusUpdateInterface
+  uuid?: string
+}
+
+export interface VestingStatusInterface extends BaseInterface {
+  achieved: boolean
+  expired: boolean
+  parentId: string
+}
+
+export interface VestingStatusUpdateInterface extends Omit<VestingStatusInterface, 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{}
+
+export interface VestingExtensionInterface extends BaseInterface {
+  date: string
+  parentId: string
+}
+
+export interface VestingExtensionCreateInterface extends Omit<VestingExtensionInterface, 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{ uuid?: string }
+
+export interface VestingNotificationInterface extends BaseInterface {
+  date: string
+  type: NotificationTypes
+  parentId: string
+}
+
+export interface VestingNotificationCreateInterface extends Omit<VestingNotificationInterface, 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{
+  parentId: string
+  uuid?: string
+}
 
 export interface AppReducerProps { // AppReducer props
   state: AppState
@@ -7,7 +122,7 @@ export interface AppReducerProps { // AppReducer props
 }
 
 export interface AppContextObj { // App context object
-  dispatch: Dispatch<Action>
+  dispatch: Dispatch<ReducerAction>
   filter: string
   milestoneFilter: {
     start: string
@@ -37,287 +152,51 @@ export interface AppState { // App context state object
   }
 }
 
-export interface ReducerAction {
-  type: string, payload: any
-}
-
-export interface AppProviderProps {
-  children: ReactNode
-}
-
-export interface ServerResponse { // Server response object
-  success: boolean
-  data?: object | object[]
-  msg?: string
-}
-
-export interface GetProjectsResponse extends ServerResponse { // getProjects fn response object
-  count: number
-  data: Project[]
-}
-
-export interface GetProjectResponse extends ServerResponse { // getProject fn response object
-  data: Project
-}
-
-export interface CreateProjectProps { // createProject fn props
-  formData: {
-    type: ProjectTypes
-    name: string
-    cof: number
-    ordinance: Date
-    notes: string
-  }
-}
-
-export interface CreateProjectResponse extends ServerResponse { // createProject fn response
-  data: BaseObj & {
-    type: ProjectTypes
-    name: string
-    cof: number
-    ordinance: Date
-    expired: boolean
-    notes: string
-  }
-}
-
-export interface UpdateProjectProps { // updateProject fn props
-  formData: {
-    name: string
-    cof: number
-    ordinance: Date
-    expired: boolean
-    notes: string
-    uuid: string
-  }
-}
-
-export interface DeleteProjectsProps { // deleteProject fn props
-  uuid: string
-}
-
-export interface CreateApprovalProps { // createApproval fn props
-  formData: {
-    date: Date
-    approvedBy: string
-    parentId: string
-  },
-}
-
-export interface UpdateApprovalProps { // updateApproval fn props
-  formData: {
-    date: Date | string | undefined
-    approvedBy?: string
-    uuid: string
-  }
-}
-
-export interface DeleteApprovalProps { // deleteApproval fn props
-  uuid: string
-}
-
-export interface CreateResolutionProps { // createResolution fn props
-  formData: {
-    resolution: string
-    parentId: string
-  }
-}
-
-export interface UpdateResolutionProps { // updateResolution fn props
-  formData: {
-    resolution: string
-    uuid: string
-  }
-}
-
-export interface CreatePeriodProps { // createPeriod fn props
-  formData: {
-    type: Periods
-    date: Date
-    parentId: string
-  }
-}
-
-export interface UpdatePeriodProps { // updatePeriod fn props
-  formData: {
-    type: Periods
-    date: Date
-    uuid: string
-  }
-}
-
-export interface UpdatePeriodStatusProps { // updatePeriodStatus fn props
-  formData: {
-    achieved: boolean
-    expired: boolean
-    uuid: string
-  }
-}
-
-export interface DeletePeriodProps { // deletePeriod fn props
-  uuid: string
-}
-
-export interface CreateMilestoneProps { // createMilestone fn props
-  formData: {
-    number: number
-    date: Date
-    parentId: string
-  }
-}
-
-export interface UpdateMilestoneProps { // updateMilestone fn props
-  formData: {
-    date: Date | string | undefined
-    uuid: string
-  }
-}
-
-export interface UpdateMilestoneStatusProps { // updateMilestoneStatus fn props
-  formData: {
-    achieved: boolean
-    expired: boolean
-    uuid: string
-  }
-}
-
-export interface DeleteMilestoneProps { // deleteMilestone fn props
-  uuid: string
-}
-
-export interface CreateExtensionProps { // createExtension fn props
-  formData: {
-    date: Date
-    parentId: string
-  }
-}
-
-export interface UpdateExtensionProps { // updateExtension fn props
-  formData: {
-    date: Date
-    uuid: string
-  }
-}
-
-export interface DeleteExtensionProps { // deleteExtension fn props
-  uuid: string
-}
-
-export interface CreateNotificationProps { // createNotification fn props
-  formData: {
-    date: Date
-    type: NotificationTypes
-    parentId: string
-  }
-}
-
-export interface UpdateNotificationProps { // updateNotification fn props
-  formData: {
-    date: Date
-    uuid: string
-  }
-}
-
-export interface DeleteNotificationProps { // deleteNotification fn props
-  uuid: string
-}
-
-export interface Project extends BaseObj { 
-  type: ProjectTypes
-  name: string
-  cof: number
-  ordinance: Date
-  expired: boolean
-  notes: string
-  Approvals: Approval[]
-  Resolution: Resolution
-  VestingNotifications: VestingNotification[]
-  Milestones: Milestone[]
-  VestingPeriods: VestingPeriod[]
-  [key: string]: any
-}
-
-export type Action = 
+export type ReducerAction =
   | { type: 'SET_FILTER', payload: string }
   | { type: 'SET_SEARCH_VALUE', payload: string }
   | { type: 'TOGGLE_SHOW_EXPIRED', payload: boolean }
-  | { type: 'SET_MILESTONE_FILTER', payload: { start: Date | string | undefined, end: Date | string | undefined } }
+  | { type: 'SET_MILESTONE_FILTER', payload: { start: string, end: string } }
   | { type: 'TOGGLE_SHOW_ACHIEVED', payload: { firstMilestone: boolean, secondMilestone: boolean } }
   | { type: 'TOGGLE_SHOW_COMPLETED', payload: boolean }
 
-export type ProjectTypes = 
-  | 'Development Plan'
-  | 'Preliminary Plat'
-  | 'Site Plan'
+export interface ServerResponse { // Server response object
+  success: boolean
+  msg?: string
+}
 
 export type NotificationTypes =
   | 'Initial'
   | 'Last Call'
   | 'Lost Vesting'
 
-export type Periods =
+export type VestingPeriods =
   | "10Y"
   | "15Y"
 
-type BaseObj = {
+export type ZoningOrdinanceType =
+  | '2014-09-29'
+  | '2016-02-23'
+  | '2017-01-01'
+  | '2017-04-01'
+  | '2018-03-01'
+  | '2018-07-01'
+  | '2019-12-30'
+  | '2020-12-30'
+  | '2020-12-08'
+  | '2022-01-01'
+  | '2023-01-01'
+  | '2024-07-01'
+
+type ProjectTypes = 
+  | 'Development Plan'
+  | 'Preliminary Plat'
+  | 'Site Plan'
+
+type BaseInterface = {
   uuid: string
   createdBy: string
   createdAt: Date
   updatedBy: string
   updatedAt: Date
-}
-
-export interface Approval extends BaseObj {
-  date: Date
-  approvedBy: "Admin" | "FPMC" | "BOMA"
-  parentId: string
-}
-
-interface Resolution extends BaseObj {
-  resolution: string
-  parentId: string
-}
-
-export interface VestingNotification extends BaseObj {
-  date: Date
-  type: NotificationTypes
-  parentId: string
-}
-
-export interface Milestone extends BaseObj {
-  number: 1 | 2
-  date: Date
-  parentId: string
-  MilestoneExtension: MilestoneExtension
-  MilestoneStatus: MilestoneStatus
-}
-
-interface MilestoneExtension extends BaseObj {
-  date: Date
-  parentId: string
-}
-
-interface MilestoneStatus extends BaseObj {
-  achieved: boolean
-  expired: boolean
-  parentId: string
-}
-
-export interface VestingPeriod extends BaseObj {
-  type: Periods
-  date: Date
-  parentId: string
-  VestingExtension: VestingExtension
-  VestingStatus: VestingStatus
-}
-
-interface VestingStatus extends BaseObj {
-  achieved: boolean
-  expired: boolean
-  parentId: string
-}
-
-interface VestingExtension extends BaseObj {
-  date: Date
-  parentId: string
 }

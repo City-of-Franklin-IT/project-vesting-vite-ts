@@ -1,9 +1,9 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 
 // Components
-import CreateDevelopmentPlanForm from '../../components/forms/create/CreateDevelopmentPlanForm/CreateDevelopmentPlanForm'
-import CreatePreliminaryPlatForm from '../../components/forms/create/CreatePreliminaryPlatForm/CreatePreliminaryPlatForm'
-import CreateSitePlanForm from '../../components/forms/create/CreateSitePlanForm/CreateSitePlanForm'
+import CreateDevelopmentPlanForm from '../../components/projects/forms/create/CreateDevelopmentPlanForm'
+import CreatePreliminaryPlatForm from '../../components/projects/forms/create/CreatePreliminaryPlatForm'
+import CreateSitePlanForm from '../../components/projects/forms/create/CreateSitePlanForm'
 
 import { FormTypes } from './types'
 

@@ -4,6 +4,7 @@ import styles from './BackToTopBtn.module.css'
 import { BackToTopBtnProps } from './types'
 
 function BackToTopBtn({ handleClick }: BackToTopBtnProps) {
+  
   return (
     <button
       type="button" 

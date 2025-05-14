@@ -1,0 +1,180 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Play', sans-serif;
+  width: 100%;
+  min-width: 100%;
+  margin: auto;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: 250ms fade-in-bottom linear;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    overflow: auto;
+  }
+}
+
+.headerRow {
+  color: var(--color-primary-content);
+  font-size: 1rem;
+  text-transform: uppercase;
+  background-color: var(--color-primary);
+}
+
+.headerCell {
+  padding: 12px;
+}
+
+.projectCell {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100%;
+  padding: 20px;
+}
+
+.name {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: wrap;
+  line-height: 1.5;
+}
+
+.nameAsLink {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: wrap;
+  line-height: 1.5;
+}
+
+.nameAsLink:hover {
+  color: yellow;
+}
+
+.cof {
+  font-size: .85rem;
+  font-weight: 300;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.cof:hover {
+  color: yellow;
+}
+
+.ordinance:hover {
+  color: yellow;
+}
+
+.detailsDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: 250ms fade-in linear;
+}
+
+.centeredFlexCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.centeredFlexRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: fit-content;
+  margin: auto;
+  padding: 12px;
+}
+
+.dates {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: fit-content;
+  margin: auto;
+  padding: 12px;
+
+  @media (max-width: 1024px) { /* Tablet */ 
+    flex-direction: column;
+  }
+}
+
+.icon {
+  width: 30px;
+  margin-bottom: 6px;
+}
+
+.largeIcon {
+  width: 60px;
+  margin-bottom: 4px;
+}
+
+.extension {
+  position: absolute;
+  font-size: .6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  bottom: -7px;
+  right: -6px;
+}
+
+.evenRow {
+  background-color: whitesmoke;
+}
+
+.evenRow:hover {
+  color: var(--color-neutral-content);
+  background-color: var(--color-neutral);
+}
+
+.oddRow {
+  background-color: var(--color-primary-content);
+}
+
+.oddRow:hover {
+  color: var(--color-neutral-content);
+  background-color: var(--color-neutral);
+}
+
+.expiredRow {
+  color: var(--color-error);
+  background-color: var(--color-error-content);
+}
+
+.expiredRow:hover {
+  color: var(--color-neutral-content);
+  background-color: var(--color-error);
+}
+
+.achievedRow {
+  color: var(--color-success);
+  background-color: #D9EBE6;
+}
+
+.achievedRow:hover {
+  color: var(--color-neutral-content);
+  background-color: var(--color-success);
+}
+
+.achieved {
+  color: var(--color-success);
+  font-style: italic;
+}
+
+.achievedHover {
+  color: var(--color-neutral-content);
+  font-style: italic;
+}
+
+.expired {
+  color: var(--color-error);
+  font-style: italic;
+}
+
+.expiredHover {
+  color: var(--color-neutral-content);
+}

@@ -3,7 +3,7 @@ import appReducer from './AppReducer'
 
 // Types
 import { ReactNode } from 'react'
-import { AppContextObj, AppState, Action } from './types'
+import { AppContextObj, AppState, ReducerAction } from './types'
 
 const AppContext = createContext<AppContextObj>({
   dispatch: () => {},
@@ -37,7 +37,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     showExpired: true
   }
 
-  const [state, dispatch] = useReducer<Reducer<AppState, Action>>(appReducer, initialState)
+  const [state, dispatch] = useReducer<Reducer<AppState, ReducerAction>>(appReducer, initialState)
 
   return (
     <AppContext.Provider value={{ ...state, dispatch }}>
