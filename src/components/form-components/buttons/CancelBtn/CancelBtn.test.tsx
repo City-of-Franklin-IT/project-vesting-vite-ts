@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 
 // Components
-import CancelBtn from './CancelBtn'
+import CancelBtn from '.'
 
 describe('CancelBtn', () => {
   const handleClickMock = vi.fn()

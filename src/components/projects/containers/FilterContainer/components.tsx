@@ -2,7 +2,7 @@ import { useContext } from "react"
 import ProjectsCtx from "../ProjectsContainer/context"
 
 // Types
-import { ProjectInterface } from "@/context/App/types"
+import { ProjectInterface } from "@/context/types"
 
 export const FilterBtns = () => { 
   const { filter } = useContext(ProjectsCtx)

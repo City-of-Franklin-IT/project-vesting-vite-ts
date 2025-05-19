@@ -1,13 +1,15 @@
 import { useState } from "react"
+import { useMsal } from "@azure/msal-react"
 import { setIconVariant, ZoningOrdinanceMap, handleMilestoneStyle, handleVestingStyle, handleRowStyling, setMilestoneIconVariant, setVestingIconVariant } from './utils'
 import styles from './Table.module.css'
 
 // Types
-import { MilestoneInterface, ProjectInterface, VestingPeriodInterface } from "@/context/App/types"
+import { MilestoneInterface, ProjectInterface, VestingPeriodInterface } from "@/context/types"
 
 // Components
 import DetailsBtn from "@/components/buttons/DetailsBtn/DetailsBtn"
 import Icons from "@/components/icons/Icons/Icons"
+import { Link } from "react-router"
 
 export const TableBody = ({ projects }: { projects: ProjectInterface[] }) => { // Projects table body
 
@@ -57,9 +59,9 @@ const ProjectCell = ({ project, hovered }: { project: ProjectInterface, hovered:
   const [state, setState] = useState<{ expanded: boolean }>({ expanded: false })
 
   return (
-    <td className={styles.projectCell}>
+    <div className={styles.projectCell}>
       <div>
-        <span className={styles.name} title={`Update ${ project.name }`}>{project.name} // </span>
+        <ProjectName project={project} />
         <span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ project.cof } on GeoCivix`}>COF# {project.cof}</a></span>
       </div>
       <DetailsBtn
@@ -70,7 +72,19 @@ const ProjectCell = ({ project, hovered }: { project: ProjectInterface, hovered:
         project={project}
         hovered={hovered}
         expanded={state.expanded} />
-    </td>
+    </div>
+  )
+}
+
+const ProjectName = ({ project }: { project: ProjectInterface }) => {
+  const { instance } = useMsal()
+
+  const activeAccount = instance.getActiveAccount()
+
+  // if(!activeAccount) return <span className={styles.name} title={`Update ${ project.name }`}>{project.name} // </span>
+
+  return (
+    <Link to={`/update/${ project.uuid }`} className={styles.name} title={`Update ${ project.name }`}>{project.name} //</Link>
   )
 }
 

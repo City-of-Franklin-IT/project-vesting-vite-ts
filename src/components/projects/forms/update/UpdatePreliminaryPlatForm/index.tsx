@@ -3,7 +3,7 @@ import { useUpdatePreliminaryPlatForm, useHandleFormSubmit } from './hooks'
 import styles from '@/components/form-components/Forms.module.css'
 
 // Types
-import { ProjectInterface } from "@/context/App/types"
+import { ProjectInterface } from "@/context/types"
 
 // Components
 import DeleteProjectBtn from "../../../../form-components/buttons/DeleteProjectBtn/DeleteProjectBtn"

@@ -1,9 +1,9 @@
 import { authHeaders } from '@/helpers/utils'
-import * as AppActions from '@/context/App/AppActions'
-import { savedPopup, errorPopup } from "../../../../../utils/Toast/Toast"
+import * as AppActions from '@/context/AppActions'
+import { savedPopup, errorPopup } from "@/utils/Toast/Toast"
 
 // Types
-import { ProjectCreateInterface } from "@/context/App/types"
+import { ProjectCreateInterface } from "@/context/types"
 
 export const handleCreateDevelopmentPlan = async (formData: ProjectCreateInterface, token: string): Promise<void> => { // Handle form submit
   const result = await AppActions.createProject(formData, authHeaders(token))

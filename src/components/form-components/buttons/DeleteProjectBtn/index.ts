@@ -1,5 +1,5 @@
-import { deleteProject } from "../../../../context/App/AppActions"
-import { savedPopup, errorPopup } from "../../../../utils/Toast/Toast"
+import { deleteProject } from "@/context/AppActions"
+import { savedPopup, errorPopup } from "@/utils/Toast/Toast"
 
 // Types
 import { HandleClickProps } from "./types"

@@ -1,10 +1,10 @@
 import { authHeaders } from "@/helpers/utils"
-import * as AppActions from '@/context/App/AppActions'
+import * as AppActions from '@/context/AppActions'
 import { handleMilestoneExtension, handleVestingPeriod, handleVestingExtension, handleNotification } from "@/helpers/utils"
 import { savedPopup, errorPopup } from "../../../../../utils/Toast/Toast"
 
 // Types
-import { ProjectCreateInterface } from "@/context/App/types"
+import { ProjectCreateInterface } from "@/context/types"
 
 export const handleUpdateSitePlan = async (formData: ProjectCreateInterface, token: string) => {
   const result = await AppActions.updateProject(formData, authHeaders(token))

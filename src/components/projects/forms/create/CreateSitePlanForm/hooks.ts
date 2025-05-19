@@ -8,7 +8,7 @@ import { errorPopup } from '@/utils/Toast/Toast'
 
 // Types
 import { UseFormReturn } from 'react-hook-form'
-import { ProjectCreateInterface } from '@/context/App/types'
+import { ProjectCreateInterface } from '@/context/types'
 
 export const useCreateSitePlanForm = (): UseFormReturn<ProjectCreateInterface> => { // CreateSitePlanForm useForm
 

@@ -3,7 +3,7 @@ import { useSetTableData, useResetActivePage, useSetTotalPages } from './hooks'
 import { scrollToTop } from './utils'
 
 // Types
-import { ProjectInterface } from '@/context/App/types'
+import { ProjectInterface } from '@/context/types'
 
 // Components
 import SearchAndFilterContainer from '../SearchAndFilterContainer'

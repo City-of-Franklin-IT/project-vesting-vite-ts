@@ -1,16 +1,10 @@
-import { useFormContext, Path } from 'react-hook-form'
 import styles from '../Forms.module.css'
 
-// Types
-import { ProjectCreateInterface, ProjectUpdateInterface } from '@/context/App/types'
-
-function FormError({ field }: { field: Path<ProjectCreateInterface|ProjectUpdateInterface> }) {
-  const { formState: { errors } } = useFormContext()
+function FormError({ error }: { error: string | undefined }) {
+  if(!error) return null
 
   return (
-    errors[field] ? (
-      <div data-testid="form-error" className={styles.error}>{errors[field].message?.toString()}</div>
-    ) : null
+      <div data-testid="form-error" className={styles.error}>{error}</div>
   )
 }
 

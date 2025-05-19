@@ -6,6 +6,8 @@
   background-color: rgba(206, 207, 209, 0.05);
   padding: 12px 60px 60px 60px;
   margin: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
   overflow: hidden;
   box-shadow: 8px 8px 8px var(--color-neutral);
   animation: 250ms fade-in-bottom linear;

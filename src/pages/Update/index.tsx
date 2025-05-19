@@ -6,18 +6,21 @@ import Layout from "../../components/layout/Layout"
 
 // Components
 import { Project } from './components'
+import ErrorBoundary from '@/components/error/ErrorBoundary/ErrorBoundary'
 import HandleLoading from '../../utils/HandleLoading'
 
 function Update() {
-  useRedirect()
+  // useRedirect()
   
   const { data, isSuccess } = useGetProject()
 
   return (
     <Layout>
-      <HandleLoading isLoaded={isSuccess}>
-        <Project project={data?.data} />
-      </HandleLoading>
+      {/* <ErrorBoundary href={'/projects'}> */}
+        <HandleLoading isLoaded={isSuccess}>
+          <Project project={data?.data} />
+        </HandleLoading>
+      {/* </ErrorBoundary> */}
     </Layout>
   )
 }

@@ -5,7 +5,7 @@ import { useMsal } from "@azure/msal-react"
 import { NODE_ENV } from '../config'
 
 // Types
-import { ProjectCreateInterface } from "@/context/App/types"
+import { ProjectCreateInterface } from "@/context/types"
 
 export const useGetToken = () => {
   const [state, setState] = useState<{ token: string | undefined }>({ token: undefined })
@@ -56,7 +56,7 @@ export const useGetToken = () => {
     }
 
     if(!activeAccount) { // !Active account - redirect to login
-      navigate('/')
+      navigate('/projects')
     }
   }
 

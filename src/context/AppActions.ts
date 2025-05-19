@@ -1,4 +1,4 @@
-import { APP_URL as baseUrl } from '../../config'
+import { APP_URL as baseUrl } from '../config'
 
 // Types
 import * as Types from './types'

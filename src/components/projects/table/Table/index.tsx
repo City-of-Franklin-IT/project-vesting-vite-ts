@@ -1,7 +1,7 @@
 import styles from './Table.module.css'
 
 // Types
-import { ProjectInterface } from '@/context/App/types'
+import { ProjectInterface } from '@/context/types'
 
 // Components
 import { TableBody } from './components'

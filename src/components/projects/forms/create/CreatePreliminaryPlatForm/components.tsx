@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router"
+import { Controller } from "react-hook-form"
 import { useProjectCreateCtx } from "@/helpers/hooks"
 import { useHandleFPMCDateChange } from "./hooks"
 import styles from '@/components/form-components/Forms.module.css'
@@ -6,12 +7,12 @@ import styles from '@/components/form-components/Forms.module.css'
 // Components
 import FormLabel from '../../../../form-components/FormLabel/FormLabel'
 import FormError from '../../../../form-components/FormError/FormError'
-import CancelBtn from '../../../../form-components/buttons/CancelBtn/CancelBtn'
-import SaveBtn from '../../../../form-components/buttons/SaveBtn/SaveBtn'
+import CancelBtn from '../../../../form-components/buttons/CancelBtn'
+import SaveBtn from '../../../../form-components/buttons/SaveBtn'
 import { OrdinanceOptions } from "@/helpers/components"
 
 export const NameInput = () => { // Name input
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { formState: { errors }, register } } = useProjectCreateCtx()
 
   return (
     <div className="flex flex-col gap-2">
@@ -22,26 +23,22 @@ export const NameInput = () => { // Name input
           required={true} />
         <input 
           type="text" 
-          id="name"
-          disabled={disabled}
-          { ...methods.register('name', {
+          className={styles.input}
+          { ...register('name', {
             required: "Project name is required",
             maxLength: {
               value: 255,
               message: "Project name must be 255 characters or less"
-            },
-            onBlur: () => methods.trigger('name'),
-            onChange: () => methods.trigger('name')
-          }) }
-          className={styles.input} />
+            }
+          }) } />
       </div>
-      <FormError field={'name'} />
+      <FormError error={errors?.name?.message?.toString()} />
     </div>
   )
 }
 
 export const COFNumberInput = () => { // COF number input
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { formState: { errors }, register } } = useProjectCreateCtx()
 
   return (
     <div className="flex-1 flex flex-col gap-2">
@@ -52,21 +49,18 @@ export const COFNumberInput = () => { // COF number input
           required={true} />
         <input 
           type="number"
-          id="cof" 
-          disabled={disabled}
-          { ...methods.register('cof', {
+          className={styles.input}
+          { ...register('cof', {
             required: "COF # is required",
-            onChange: () => methods.trigger('cof')
-          }) }
-          className={styles.input} />
+          }) } />
       </div>
-      <FormError field={'cof'} />
+      <FormError error={errors?.cof?.message?.toString()} />
     </div>
   )
 }
 
 export const OrdinanceInput = () => { // Ordinance input
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { formState: { errors }, register } } = useProjectCreateCtx()
 
   return (
     <div className="flex-1 flex flex-col gap-2">
@@ -76,17 +70,14 @@ export const OrdinanceInput = () => { // Ordinance input
           name={'ordinance'}
           required={true} />
         <select 
-          id="ordinance"
-          disabled={disabled}
-          { ...methods.register("ordinance", {
-            required: "Zoning ordinance is required",
-            onBlur: () => methods.trigger('ordinance')
-          }) }
-          className={styles.input}>
+          className={styles.input}
+          { ...register("ordinance", {
+            required: "Zoning ordinance is required"
+          }) }>
             <OrdinanceOptions />
-          </select>
+        </select>
       </div>
-      <FormError field={'ordinance'} />
+      <FormError error={errors?.ordinance?.message?.toString()} />
     </div>
   )
 }
@@ -112,34 +103,37 @@ export const MilestoneInputs = () => {
 }
 
 export const FPMCApprovalInput = () => { // FPMC approval date input
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { control } } = useProjectCreateCtx()
 
-  const handleFPMCDateChange = useHandleFPMCDateChange()
+  useHandleFPMCDateChange()
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'FPMC Approval'}
-          name={'fpmcApproval'}
-          required={true} />
-        <input 
-          type="date"
-          disabled={disabled}
-          { ...methods.register(`Approvals.${ 0 }.date`, {
-            required: "FPMC approval date is required",
-            onChange: () => handleFPMCDateChange,
-            onBlur: () => methods.trigger(`Approvals.${ 0 }.date`),
-          })}
-          className={styles.input} />
-      </div>
-      <FormError field={`Approvals.${ 0 }.date`} />
-    </div>
+    <Controller
+      name={`Approvals.${ 0 }.date`}
+      control={control}
+      rules={{
+        required: "FPMC approval date is required"
+      }}
+      render={({ field, fieldState: { error } }) => (
+        <div className="flex-1 flex flex-col gap-2">
+          <div className="flex">
+            <FormLabel
+              label={'FPMC Approval'}
+              name={'fpmcApproval'}
+              required={true} />
+            <input 
+              type="date"
+              className={styles.input}
+              { ...field } />
+          </div>
+          <FormError error={error?.message} />
+        </div>
+      )} />
   )
 }
 
 export const NotesInput = () => { // Notes input
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods } = useProjectCreateCtx()
 
   return (
     <div className="flex">
@@ -148,10 +142,8 @@ export const NotesInput = () => { // Notes input
         name={'notes'} />
       <textarea 
         rows={6}
-        id="notes"
-        disabled={disabled}
-        { ...methods.register("notes") }
-        className={styles.input}>
+        className={styles.input}
+        { ...methods.register("notes") }>
       </textarea>
     </div>
   )
@@ -169,112 +161,139 @@ export const Buttons = () => { // Form buttons
 }
 
 const TenYearVestingDateInput = () => {
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { control, watch, trigger } } = useProjectCreateCtx()
 
-  const fifteenYearDate = methods.watch(`VestingPeriods.${ 1 }.date`)
+  const fifteenYearDate = watch(`VestingPeriods.${ 1 }.date`)
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'10Y Vesting Period'}
-          name={'10YVesting'} />
-        <input 
-          type="date"
-          id="10YVesting"
-          disabled={disabled}
-          { ...methods.register(`VestingPeriods.${ 0 }.date`, {
-            validate: value =>
-              new Date(value) > new Date(fifteenYearDate) ? "10Y vesting date must be before 15Y vesting date" : true
-            , onChange: () => methods.trigger(`VestingPeriods.${ 0 }.date`)
-          }) }
-          className={styles.input} />
-      </div>
-      <div className="flex gap-2">
-        <FormError field={`VestingPeriods.${ 0 }.date`} />
-      </div>
-    </div>
+    <Controller
+      name={`VestingPeriods.${ 0 }.date`}
+      control={control}
+      rules={{
+        validate: value =>
+          new Date(value) > new Date(fifteenYearDate) ? "10Y vesting date must be before 15Y vesting date" : true
+      }}
+      render={({ field, fieldState: { error } }) => {
+        const { onChange, ...props } = field
+
+        return (
+          <div className="flex-1 flex flex-col gap-2">
+            <div className="flex">
+              <FormLabel
+                label={'10Y Vesting Period'}
+                name={'10YVesting'} />
+              <input 
+                type="date"
+                className={styles.input}
+                onChange={(e) => {
+                  field.onChange(e.currentTarget.value)
+                  trigger(`VestingPeriods.${ 0 }.date`)
+                }}
+                { ...props } />
+            </div>
+            <FormError error={error?.message} />
+          </div>
+        )}} />
   )
 }
 
 const FifteenYearVestingDateInput = () => {
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { control, watch } } = useProjectCreateCtx()
 
-  const tenYearDate = methods.watch(`VestingPeriods.${ 0 }.date`)
+  const tenYearDate = watch(`VestingPeriods.${ 0 }.date`)
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'15Y Vesting Period'}
-          name={'15YVesting'} />
-        <input 
-          type="date"
-          disabled={disabled}
-          { ...methods.register(`VestingPeriods.${ 1 }.date`, {
-            validate: value =>
-              new Date(value) < new Date(tenYearDate) ? "15Y vesting date must be after 10Y vesting date" : true
-          }) }
-          className={styles.input} />
-      </div>
-      <div className="flex gap-2">
-        <FormError field={`VestingPeriods.${ 1 }.date`} />
-      </div>
-    </div>
+    <Controller
+      name={`VestingPeriods.${ 1 }.date`}
+      control={control}
+      rules={{
+        validate: value =>
+          new Date(value) < new Date(tenYearDate) ? "15Y vesting date must be after 10Y vesting date" : true
+      }}
+      render={({ field, fieldState: { error } }) => (
+        <div className="flex-1 flex flex-col gap-2">
+          <div className="flex">
+            <FormLabel
+              label={'15Y Vesting Period'}
+              name={'15YVesting'} />
+            <input 
+              type="date"
+              className={styles.input}
+              { ...field } />
+          </div>
+          <FormError error={error?.message} />
+        </div>
+      )} />
   )
 }
 
 const FirstMilestoneDateInput = () => {
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { control, watch } } = useProjectCreateCtx()
 
-  const secondMilestoneDate = methods.watch(`Milestones.${ 1 }.date`)
+  const secondMilestoneDate = watch(`Milestones.${ 1 }.date`)
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'Milestone #1'}
-          name={'firstMilestone'}
-          required={true} />
-        <input 
-          type="date"
-          disabled={disabled}
-          { ...methods.register(`Milestones.${ 0 }.date`, {
-            required: "First milestone is required",
-            validate: value =>
-              !value || new Date(value) > new Date(secondMilestoneDate) ? "First milestone must be before second milestone" : true
-          }) }
-          className={styles.input} />
-      </div>
-      <FormError field={`Milestones.${ 0 }.date`} />
-    </div>
+    <Controller
+      name={`Milestones.${ 0 }.date`}
+      control={control}
+      rules={{
+        required: "First milestone date is required",
+        validate: value =>
+          !value || new Date(value) > new Date(secondMilestoneDate) ? "First milestone must be before second milestone" : true
+      }}
+      render={({ field, fieldState: { error } }) => (
+        <div className="flex-1 flex flex-col gap-2">
+          <div className="flex">
+            <FormLabel
+              label={'Milestone #1'}
+              name={'firstMilestone'}
+              required={true} />
+            <input 
+              type="date"
+              className={styles.input}
+              { ...field } />
+          </div>
+          <FormError error={error?.message} />
+        </div>
+      )} />
   )
 }
 
 const SecondMilestoneDateInput = () => {
-  const { methods, disabled } = useProjectCreateCtx()
+  const { methods: { watch, control, trigger } } = useProjectCreateCtx()
 
-  const firstMilestoneDate = methods.watch(`Milestones.${ 0 }.date`)
+  const firstMilestoneDate = watch(`Milestones.${ 0 }.date`)
 
   return (
-    <div className="flex-1 flex flex-col gap-2">
-      <div className="flex">
-        <FormLabel
-          label={'Milestone #2'}
-          name={'secondMilestone'}
-          required={true} />
-        <input 
-          type="date"
-          disabled={disabled}
-          { ...methods.register(`Milestones.${ 1 }.date`, {
-            required: "Second milestone is required",
-            onBlur: () => methods.trigger(`Milestones.${ 1 }.date`),
-            validate: value =>
-              !value || new Date(value) < new Date(firstMilestoneDate) ? "Second milestone must be after first milestone" : true
-          }) } 
-          className={styles.input} />
-      </div>
-      <FormError field={`Milestones.${ 1 }.date`} />
-    </div>
+    <Controller
+      name={`Milestones.${ 1 }.date`}
+      control={control}
+      rules={{
+        validate: value =>
+          !value || new Date(value) < new Date(firstMilestoneDate) ? "Second milestone must be after first milestone" : true
+      }}
+      render={({ field, fieldState: { error } }) => {
+        const { onBlur, ...props } = field
+
+        return (
+          <div className="flex-1 flex flex-col gap-2">
+            <div className="flex">
+              <FormLabel
+                label={'Milestone #2'}
+                name={'secondMilestone'}
+                required={true} />
+              <input 
+                type="date"
+                className={styles.input}
+                onBlur={() => {
+                  field.onBlur
+                  trigger(`Milestones.${ 1 }.date`)
+                }}
+                { ...props } />
+            </div>
+            <FormError error={error?.message} />
+          </div>
+        )
+      }} />
   )
 }

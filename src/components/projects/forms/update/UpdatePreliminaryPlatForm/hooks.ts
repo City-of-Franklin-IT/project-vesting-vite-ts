@@ -8,7 +8,7 @@ import { handleUpdatePreliminaryPlat } from './utils'
 
 // Types
 import { Path } from "react-hook-form"
-import { ProjectInterface, ProjectCreateInterface } from '@/context/App/types'
+import { ProjectInterface, ProjectCreateInterface } from '@/context/types'
 
 export const useUpdatePreliminaryPlatForm = (project: ProjectInterface) => {
 

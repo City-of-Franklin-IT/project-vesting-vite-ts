@@ -1,10 +1,7 @@
 import { useLocation } from 'react-router'
+import { FormTypeMap } from './utils'
 
-// Components
-import CreateDevelopmentPlanForm from '../../components/projects/forms/create/CreateDevelopmentPlanForm'
-import CreatePreliminaryPlatForm from '../../components/projects/forms/create/CreatePreliminaryPlatForm'
-import CreateSitePlanForm from '../../components/projects/forms/create/CreateSitePlanForm'
-
+// Types
 import { FormTypes } from './types'
 
 export const Form = () => { // Determine form type
@@ -12,21 +9,9 @@ export const Form = () => { // Determine form type
   const params = new URLSearchParams(location.search)
   const type = params.get('type') as FormTypes
 
-  let form = null
+  const Component = FormTypeMap.get(type) // Get create form
 
-  switch(type) {
-    case 'Development Plan':
-      form = <CreateDevelopmentPlanForm />
-      break
-    case 'Preliminary Plat':
-      form = <CreatePreliminaryPlatForm />
-      break
-    case 'Site Plan':
-      form = <CreateSitePlanForm />
-      break
-    default:
-      form = null
-  }
+  if(!Component) return null
 
-  return form
+  return <Component />
 }

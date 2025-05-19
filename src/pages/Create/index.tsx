@@ -7,7 +7,7 @@ import ErrorBoundary from '@/components/error/ErrorBoundary/ErrorBoundary'
 import * as Components from './components'
 
 function Create() {
-  useRedirect()
+  // useRedirect()
 
   return (
     <Layout>

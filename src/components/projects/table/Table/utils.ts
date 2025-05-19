@@ -1,7 +1,7 @@
 import styles from './Table.module.css'
 
 // Types
-import { ProjectInterface, ZoningOrdinanceType, MilestoneInterface, VestingPeriodInterface } from "@/context/App/types"
+import { ProjectInterface, ZoningOrdinanceType, MilestoneInterface, VestingPeriodInterface } from "@/context/types"
 import { Variants } from "@/components/icons/Icons/types"
 
 export const setMilestoneIconVariant = (milestone: MilestoneInterface | undefined, project: ProjectInterface, hovered: boolean) => {

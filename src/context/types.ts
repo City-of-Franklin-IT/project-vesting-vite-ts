@@ -1,15 +1,10 @@
-import { ZoningOrdinanceMap } from "@/components/projects/table/Table/utils"
-
-// Types
-import { Dispatch } from "react"
-
 export interface ProjectInterface extends BaseInterface { 
   type: ProjectTypes
   name: string
   cof: number
   ordinance: ZoningOrdinanceType
-  expired: boolean
-  notes: string
+  expired: boolean | null
+  notes: string | null
   Approvals?: ApprovalInterface[]
   Resolution?: ResolutionInterface
   VestingNotifications?: VestingNotificationInterface[]
@@ -69,8 +64,8 @@ export interface MilestoneExtensionInterface extends BaseInterface {
 export interface MilestoneExtensionCreateInterface extends Omit<MilestoneExtensionInterface, 'uuid' | 'createdBy' | 'createdAt' | 'updatedBy' | 'updatedAt'>{ uuid?: string }
 
 export interface MilestoneStatusInterface extends BaseInterface {
-  achieved: boolean
-  expired: boolean
+  achieved: boolean | null
+  expired: boolean | null
   parentId: string
 }
 
@@ -91,8 +86,8 @@ export interface VestingPeriodCreateInterface extends Omit<VestingPeriodInterfac
 }
 
 export interface VestingStatusInterface extends BaseInterface {
-  achieved: boolean
-  expired: boolean
+  achieved: boolean | null
+  expired: boolean | null
   parentId: string
 }
 
@@ -116,50 +111,6 @@ export interface VestingNotificationCreateInterface extends Omit<VestingNotifica
   uuid?: string
 }
 
-export interface AppReducerProps { // AppReducer props
-  state: AppState
-  action: ReducerAction
-}
-
-export interface AppContextObj { // App context object
-  dispatch: Dispatch<ReducerAction>
-  filter: string
-  milestoneFilter: {
-    start: string
-    end: string
-  },
-  searchValue: string
-  showCompleted: boolean
-  showExpired: boolean
-  showAchieved: {
-    firstMilestone: boolean
-    secondMilestone: boolean
-  }
-}
-
-export interface AppState { // App context state object
-  filter: string
-  searchValue: string
-  milestoneFilter: {
-    start: string
-    end: string
-  }
-  showCompleted: boolean
-  showExpired: boolean
-  showAchieved: {
-    firstMilestone: boolean
-    secondMilestone: boolean
-  }
-}
-
-export type ReducerAction =
-  | { type: 'SET_FILTER', payload: string }
-  | { type: 'SET_SEARCH_VALUE', payload: string }
-  | { type: 'TOGGLE_SHOW_EXPIRED', payload: boolean }
-  | { type: 'SET_MILESTONE_FILTER', payload: { start: string, end: string } }
-  | { type: 'TOGGLE_SHOW_ACHIEVED', payload: { firstMilestone: boolean, secondMilestone: boolean } }
-  | { type: 'TOGGLE_SHOW_COMPLETED', payload: boolean }
-
 export interface ServerResponse { // Server response object
   success: boolean
   msg?: string
@@ -169,10 +120,6 @@ export type NotificationTypes =
   | 'Initial'
   | 'Last Call'
   | 'Lost Vesting'
-
-export type VestingPeriods =
-  | "10Y"
-  | "15Y"
 
 export type ZoningOrdinanceType =
   | '2014-09-29'

@@ -4,14 +4,14 @@ import { useMsal } from "@azure/msal-react"
 import useHandleLogoutRedirect from "@/context/Auth/hooks/useHandleLogoutRedirect"
 
 // Types
-import { ProjectInterface } from "@/context/App/types"
+import { ProjectInterface } from "@/context/types"
 
 export const Buttons = () => { // Buttons
   const { instance } = useMsal()
 
   const activeAccount = instance.getActiveAccount()
 
-  if(!activeAccount) return null
+  // if(!activeAccount) return null
 
   return (
     <div className="flex gap-2">

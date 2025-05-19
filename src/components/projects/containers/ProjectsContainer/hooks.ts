@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect } from 'react'
 
 // Types
-import { ProjectInterface } from '../../../../context/App/types'
+import { ProjectInterface } from '@/context/types'
 import ProjectsCtx from './context'
 
 export const useSetTableData = (projects: ProjectInterface[]): ProjectInterface[] => { // Set projects array
@@ -102,11 +102,11 @@ export const useSetTotalPages = (projects: ProjectInterface[]) => {
 }
 
 export const useResetActivePage = () => { // Reset active page on filter / searchValue change
-  const { filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue, dispatch } = useContext(ProjectsCtx)
+  const { filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue, resultsPerPage, dispatch } = useContext(ProjectsCtx)
 
   const setActivePage = useCallback(() => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 })
-  }, [filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue])
+  }, [filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue, resultsPerPage])
 
   useEffect(() => {
     setActivePage()

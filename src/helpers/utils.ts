@@ -1,7 +1,7 @@
-import * as AppActions from '@/context/App//AppActions'
+import * as AppActions from '@/context/AppActions'
 
 // Types
-import * as Types from '@/context/App/types'
+import * as Types from '@/context/types'
 
 export const authHeaders = (token: string | undefined) => {
   const headers = new Headers()
