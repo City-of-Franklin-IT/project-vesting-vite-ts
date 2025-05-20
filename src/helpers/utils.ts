@@ -19,7 +19,7 @@ export const addYears = <T extends number, D extends string>(years: T, date: D) 
   const newDate = new Date(approvalDate)
   newDate.setFullYear(approvalDate.getFullYear() + years)
 
-  return newDate.toISOString()
+  return newDate.toISOString().split('T')[0]
 }
 
 export const handleMilestoneExtension = async (MilestoneExtension: Types.MilestoneExtensionCreateInterface, parentId: string, token: string) => {

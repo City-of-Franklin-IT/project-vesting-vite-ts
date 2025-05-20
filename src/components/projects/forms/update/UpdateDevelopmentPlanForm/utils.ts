@@ -18,14 +18,14 @@ export const handleUpdateDevelopmentPlan = async (formData: ProjectCreateInterfa
         await AppActions.updateMilestone(milestone, authHeaders(token)) // Update milestone
         await AppActions.updateMilestoneStatus(milestone.MilestoneStatus, authHeaders(token)) // Update milestone status
 
-        handleMilestoneExtension(milestone.MilestoneExtension, formData.uuid as string, token)
+        handleMilestoneExtension(milestone.MilestoneExtension, milestone.uuid as string, token)
       })
     ])
 
     await Promise.all([ // Vesting periods
       formData.VestingPeriods.map(async period => {
         handleVestingPeriod(period, formData.uuid as string, token)
-        handleVestingExtension(period.VestingExtension, formData.uuid as string, token)
+        handleVestingExtension(period.VestingExtension, period.uuid as string, token)
       })
     ])
 

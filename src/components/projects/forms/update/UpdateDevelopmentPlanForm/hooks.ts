@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react"
 import { useNavigate } from "react-router"
+import { useQueryClient } from "react-query"
 import { useForm } from "react-hook-form"
 import { addYears } from "@/helpers/utils"
 import { useEnableQuery, useProjectCreateCtx } from "@/helpers/hooks"
@@ -73,7 +74,7 @@ export const useHandleVestingExtensionBtn = (type: "10Y" | "15Y") => { // Hide /
 
   const vestingStatus = vestingPeriods[index].VestingStatus
 
-  if(vestingStatus?.achieved !== null || vestingStatus.expired !== null) return false
+  if(vestingStatus?.achieved || vestingStatus?.expired) return false
 
   if(getValues('expired')) return false
 
@@ -98,13 +99,18 @@ export const useHandleFormSubmit = () => {
 
   const navigate = useNavigate()
 
+  const queryClient = useQueryClient()
+
   return useCallback((formData: ProjectCreateInterface) => {
     if(!enabled || !token) {
       return
     }
 
     handleUpdateDevelopmentPlan(formData, token)
-      .then(_ => navigate('/projects'))
+      .then(_ => {
+        queryClient.invalidateQueries(['getProject', formData.uuid])
+        navigate('/projects')
+      })
       .catch(err => errorPopup(err))
   }, [navigate, enabled, token])
 }

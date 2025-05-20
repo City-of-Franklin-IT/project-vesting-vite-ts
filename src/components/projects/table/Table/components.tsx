@@ -7,7 +7,6 @@ import styles from './Table.module.css'
 import { MilestoneInterface, ProjectInterface, VestingPeriodInterface } from "@/context/types"
 
 // Components
-import DetailsBtn from "@/components/buttons/DetailsBtn/DetailsBtn"
 import Icons from "@/components/icons/Icons/Icons"
 import { Link } from "react-router"
 
@@ -59,10 +58,10 @@ const ProjectCell = ({ project, hovered }: { project: ProjectInterface, hovered:
   const [state, setState] = useState<{ expanded: boolean }>({ expanded: false })
 
   return (
-    <div className={styles.projectCell}>
+    <div className="flex flex-col gap-4 p-5">
       <div>
         <ProjectName project={project} />
-        <span className={styles.cof}><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ project.cof } on GeoCivix`}>COF# {project.cof}</a></span>
+        <span className="text-sm font-light italic ml-2 whitespace-nowrap"><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ project.cof } on GeoCivix`}>COF# {project.cof}</a></span>
       </div>
       <DetailsBtn
         expanded={state.expanded}
@@ -81,10 +80,10 @@ const ProjectName = ({ project }: { project: ProjectInterface }) => {
 
   const activeAccount = instance.getActiveAccount()
 
-  // if(!activeAccount) return <span className={styles.name} title={`Update ${ project.name }`}>{project.name} // </span>
+  // if(!activeAccount) return <span className="text-lg font-bold uppercase whitespace-wrap" title={`Update ${ project.name }`}>{project.name} // </span>
 
   return (
-    <Link to={`/update/${ project.uuid }`} className={styles.name} title={`Update ${ project.name }`}>{project.name} //</Link>
+    <Link to={`/update/${ project.uuid }`} className="text-lg font-bold uppercase whitespace-wrap hover:text-warning" title={`Update ${ project.name }`}>{project.name} //</Link>
   )
 }
 
@@ -92,8 +91,8 @@ const ProjectDetails = ({ project, hovered, expanded }: { project: ProjectInterf
   if(!expanded) return null
 
   return (
-    <div className={styles.detailsDiv}>
-      <div className="flex justify-between">
+    <div className="flex flex-col gap-3">
+      <div className="flex justify-around">
         <ProjectType
           project={project}
           hovered={hovered} />
@@ -113,7 +112,7 @@ const ProjectDetails = ({ project, hovered, expanded }: { project: ProjectInterf
 const ProjectType = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
   
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'type'}
         variant={setIconVariant(project, hovered)}
@@ -127,7 +126,7 @@ const ProjectType = ({ project, hovered }: { project: ProjectInterface, hovered:
 const Ordinance = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
 
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'ordinance'}
         variant={setIconVariant(project, hovered)}
@@ -142,7 +141,7 @@ const OrdinanceLink = ({ project }: { project: ProjectInterface }) => {
   const ordinanceLink = ZoningOrdinanceMap.get(project.ordinance)
 
   return (
-    <a href={ordinanceLink} target="_blank"><small className={styles.ordinance} title={`View ${ project.ordinance } Ordinance`}>{project.ordinance}</small></a>
+    <a href={ordinanceLink} target="_blank"><small className="hover:text-warning" title={`View ${ project.ordinance } Ordinance`}>{project.ordinance}</small></a>
   )
 }
 
@@ -150,7 +149,7 @@ const Resolution = ({ project, hovered }: { project: ProjectInterface, hovered: 
   if(!project.Resolution) return null
 
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'resolution'}
         variant={setIconVariant(project, hovered)}
@@ -172,7 +171,7 @@ const ProjectNotes = ({ project }: { project: ProjectInterface }) => {
 const Milestones = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
 
   return (
-    <div className={styles.dates}>
+    <div className="flex justify-between gap-6 m-auto p-3 w-fit">
       <FirstMilestone
         project={project}
         hovered={hovered} />
@@ -187,7 +186,7 @@ const FirstMilestone = ({ project, hovered }: { project: ProjectInterface, hover
   const firstMilestone = project.Milestones?.find(milestone => milestone.number === 1)
 
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'firstMilestone'}
         variant={setMilestoneIconVariant(firstMilestone, project, hovered)}
@@ -225,7 +224,7 @@ const SecondMilestone = ({ project, hovered }: { project: ProjectInterface, hove
   const secondMilestone = project.Milestones?.find(milestone => milestone.number === 2)
 
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'secondMilestone'}
         variant={setMilestoneIconVariant(secondMilestone, project, hovered)}
@@ -243,7 +242,7 @@ const SecondMilestone = ({ project, hovered }: { project: ProjectInterface, hove
 const VestingPeriods = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
 
   return (
-    <div className={styles.dates}>
+    <div className="flex justify-between gap-6 m-auto p-3 w-fit">
       <TenYearVesting
         project={project}
         hovered={hovered} />
@@ -260,7 +259,7 @@ const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hover
   if(!tenYearVesting) return null
 
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'tenYear'}
         variant={setVestingIconVariant(tenYearVesting, project, hovered)} 
@@ -281,7 +280,7 @@ const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, h
   if(!fifteenYearVesting) return null
 
   return (
-    <div className={styles.centeredFlexCol}>
+    <div className="flex flex-col items-center">
       <Icons
         type={'fifteenYear'}
         variant={setVestingIconVariant(fifteenYearVesting, project, hovered)} 
@@ -311,5 +310,22 @@ const VestingPeriodExtension = ({ period, hovered }: { period: VestingPeriodInte
     <div className="relative flex gap-1 w-fit">
       <div className={handleVestingStyle(period, hovered)}>{period.VestingExtension.date}<span className={styles.extension}>extended</span></div>
     </div>
+  )
+}
+
+type DetailsBtnProps = { expanded: boolean, hovered: boolean, handleClick: () => void }
+
+const DetailsBtn = (props: DetailsBtnProps) => {
+  
+  return (
+    <button 
+      type="button"
+      onClick={props.handleClick}
+      className="m-auto w-fit hover:cursor-pointer">
+        <Icons
+          type={props.expanded ? 'minimize' : 'expand'}
+          variant={props.hovered ? 'light' : 'dark' }
+          size={"small"} />
+    </button> 
   )
 }

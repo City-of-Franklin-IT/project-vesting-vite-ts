@@ -1,15 +1,12 @@
-import { useNavigate } from 'react-router'
 import { useFieldArray, Controller } from 'react-hook-form'
 import { useProjectCreateCtx, useExpireProject, useMilestoneExt } from '@/helpers/hooks'
 import { useHandleBOMADateChange, useHandleVestingExtensionBtn, useShowNotificationInputs } from './hooks'
 import styles from '@/components/form-components/Forms.module.css'
 
 // Components
-import FormError from "../../../../form-components/FormError/FormError"
-import FormLabel from '@/components/form-components/FormLabel/FormLabel'
+import FormError from "../../../../form-components/FormError"
+import FormLabel from '@/components/form-components/FormLabel'
 import { OrdinanceOptions } from '@/helpers/components'
-import CancelBtn from '@/components/form-components/buttons/CancelBtn'
-import SaveBtn from '@/components/form-components/buttons/SaveBtn'
 import { NotificationTypes } from '@/context/types'
 
 export const ExpiredCheckbox = () => { // Project expired checkbox
@@ -38,9 +35,10 @@ export const NameInput = () => { // Name input
     <div className="flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Project Name'}
           name={'name'}
-          required={true} />
+          required={true}>
+            Project Name
+        </FormLabel>
         <input 
           type="text"
           disabled={disabled} 
@@ -65,9 +63,10 @@ export const COFNumberInput = () => { // COF number input
     <div className="flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'COF #'}
           name={'cof'}
-          required={true} />
+          required={true}>
+            COF #
+        </FormLabel>
         <input
           type="number"
           disabled={disabled} 
@@ -88,9 +87,10 @@ export const OrdinanceInput = () => {
     <div className="flex-1 flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Zoning Ordinance'}
           name={'ordinance'}
-          required={true} />
+          required={true}>
+            Zoning Ordinance
+        </FormLabel>
         <select 
           disabled={disabled}
           className={styles.input}
@@ -122,9 +122,10 @@ export const ResolutionInput = () => { // Resolution input
     <div className="flex-1 flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Resolution #'}
           name={'resolution'}
-          required={true} />
+          required={true}>
+            Resolution #
+        </FormLabel>
         <input 
           type="text"
           disabled={disabled}
@@ -182,26 +183,15 @@ export const NotesInput = () => { // Notes input
 
   return (
     <div className="flex">
-      <FormLabel
-        label={'Notes'}
-        name={'notes'} />
+      <FormLabel name={'notes'}>
+          Notes
+      </FormLabel>
       <textarea 
         rows={6}
         disabled={disabled}
         className={styles.input}
         { ...methods.register("notes") }>
       </textarea>
-    </div>
-  )
-}
-
-export const Buttons = () => { // Form buttons
-  const navigate = useNavigate()
-
-  return (
-    <div className={styles.buttonsContainer}>
-      <CancelBtn handleClick={() => navigate('/projects')} />
-      <SaveBtn />
     </div>
   )
 }
@@ -218,7 +208,7 @@ const FPMCApprovalDateInput = () => {
       rules={{
         required: "FPMC approval date is required",
         validate: value => 
-          !value || new Date(value) > new Date(bomaDate) ? "FPMC approval date must be before BOMA approval date" : true
+          value && bomaDate && new Date(value) > new Date(bomaDate) ? "FPMC approval date must be before BOMA approval date" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { onBlur, ...props } = field
@@ -227,9 +217,10 @@ const FPMCApprovalDateInput = () => {
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex">
               <FormLabel
-                label={'FPMC Approval'}
-                name={'fpmcApproval'}
-                required={true} />
+                name={`Approvals.${ 0 }.date`}
+                required={true}>
+                  FPMC Approval
+              </FormLabel>
               <input 
                 type="date"
                 disabled={disabled}
@@ -258,15 +249,16 @@ const BOMAApprovalDateInput = () => {
       rules={{
         required: "BOMA approval date is required",
         validate: value => 
-          !value || new Date(value) < new Date(fpmcDate) ? "BOMA approval date must be after FPMC approval date" : true
+          value && fpmcDate && new Date(value) < new Date(fpmcDate) ? "BOMA approval date must be after FPMC approval date" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2 w-full">
           <div className="flex">
             <FormLabel
-              label={'BOMA Approval'}
-              name={'bomaApproval'}
-              required={true} />
+              name={`Approvals.${ 1 }.date`}
+              required={true}>
+                BOMA Approval
+            </FormLabel>
             <input 
               type="date"
               disabled={disabled}
@@ -321,7 +313,7 @@ const AddTenYearVestingBtn = () => {
     <button 
       type="button"
       onClick={add10YPeriod}
-      className="btn btn-lg btn-primary uppercase">
+      className="btn btn-lg btn-primary uppercase shadow-xl">
         Add 10 Year Vesting Period
     </button>
   )
@@ -336,22 +328,23 @@ const TenYearVestingDateInput = () => {
 
   if(index === -1) return null
 
+  const fifteenYearVestingPeriod = vestingPeriods.find(period => period.type === "15Y")
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.date`}
       control={methods.control}
       rules={{
-        required: "Vesting date is required",
         validate: value =>
-          new Date(value) > new Date(vestingPeriods.find(period => period.type === "15Y")?.date as string) ? "10 year vesting period must be before 15 year" : true
+          value && fifteenYearVestingPeriod && new Date(value) > new Date(fifteenYearVestingPeriod.date) ? "10 year vesting period must be before 15 year" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'10Y Vesting Period'}
-              name={'10YVesting'}
-              required={true} />
+              name={'10YVesting'}>
+                10Y Vesting Period
+            </FormLabel>
             <input 
               type="date"
               disabled={disabled}
@@ -381,7 +374,7 @@ const TenYearVestingExtensionInput = () => {
       control={methods.control}
       rules={{
         validate: value =>
-          new Date(value) < new Date(vestingPeriods[index].date) ? "Extension must be after original date" : true
+          value && new Date(value) < new Date(vestingPeriods[index].date) ? "Extension must be after original date" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col gap-2">
@@ -408,7 +401,7 @@ const AddVestingExtensionBtn = ({ type }: { type: "10Y" | "15Y" }) => {
     <button 
       type="button"
       onClick={handleVestingExtensionBtn}
-      className="btn btn-lg btn-primary uppercase">
+      className="btn btn-lg btn-primary uppercase shadow-xl">
         Add Extension
     </button>
   )
@@ -423,20 +416,22 @@ const TenYearVestingAchievedCheckbox = () => {
 
   if(index === -1 || !vestingPeriods[index].uuid) return null
 
+  const expired = watch(`VestingPeriods.${ index }.VestingStatus.expired`)
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.VestingStatus.expired`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`VestingPeriods.${ index }.VestingStatus.achieved`) ? "Vesting cannot be both achieved and expired" : true
+          value && expired ? "Vesting cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
 
         return (
           <div className="flex flex-col items-center gap-2">
-            <label htmlFor="10YAchieved" className={styles.checkboxLabel}>Achieved</label>
+            <label htmlFor={`VestingPeriods.${ index }.VestingStatus.expired`} className={styles.checkboxLabel}>Achieved</label>
             <input 
               type="checkbox"
               checked={!!value}
@@ -459,13 +454,15 @@ const TenYearVestingExpiredCheckbox = () => { // Ten year vesting period expired
 
   if(index === -1 || !vestingPeriods[index].uuid) return null
 
+  const achieved = watch(`VestingPeriods.${ index }.VestingStatus.achieved`)
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.VestingStatus.expired`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`VestingPeriods.${ index }.VestingStatus.achieved`) ? "Vesting cannot be both achieved and expired" : true
+          value && achieved ? "Vesting cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
@@ -527,7 +524,7 @@ const AddFifteenYearVestingBtn = () => {
     <button 
       type="button"
       onClick={add15YPeriod}
-      className="btn btn-lg btn-primary uppercase">
+      className="btn btn-lg btn-primary uppercase shadow-xl">
         Add 15 Year Vesting Period
     </button>
   )
@@ -542,21 +539,22 @@ const FifteenYearVestingDateInput = () => {
 
   if(index === -1) return <AddFifteenYearVestingBtn />
 
+  const tenYearVesting = vestingPeriods.find(period => period.type === "10Y")
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.date`}
       control={control}
       rules={{
-        required: "Vesting date is required",
         validate: value =>
-          !value || new Date(value) < new Date(vestingPeriods.find(period => period.type === "10Y")?.date as string) ? "15 year vesting period must be after 10 year vesting period" : true
+          value && tenYearVesting && new Date(value) < new Date(tenYearVesting.date) ? "15 year vesting period must be after 10 year vesting period" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
-            <FormLabel
-              label={'15Y Vesting Period'}
-              name={'15YVesting'} />
+            <FormLabel name={'15YVesting'}>
+              15Y Vesting Period
+            </FormLabel>
             <input 
               type="date"
               disabled={disabled}
@@ -580,14 +578,15 @@ const FifteenYearVestingExtensionInput = () => {
 
   if(!vestingPeriods[index].VestingExtension) return <AddVestingExtensionBtn type="15Y" /> // Add vesting extension button
 
+  const vestingPeriod = vestingPeriods[index]
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.VestingExtension.date`}
       control={control}
       rules={{
         validate: value => 
-          new Date(value) < new Date(vestingPeriods[index].date) ? "Extension must be after original vesting date" : true
-        
+          value && new Date(value) < new Date(vestingPeriod.date) ? "Extension must be after original vesting date" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col gap-2 w-full">
@@ -614,13 +613,15 @@ const FifteenYearVestingAchievedCheckbox = () => {
 
   if(index === -1 || !vestingPeriods[index]?.uuid) return null
 
+  const expired = watch(`VestingPeriods.${ index }.VestingStatus.expired`)
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.VestingStatus.achieved`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`VestingPeriods.${ index }.VestingStatus.expired`) ? "Vesting cannot be both achieved and expired" : true
+          value && expired ? "Vesting cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
@@ -650,13 +651,15 @@ const FifteenYearVestingExpiredCheckbox = () => { // Fifteen year vesting period
 
   if(index === -1 || !vestingPeriods[index]?.uuid) return null
 
+  const achieved = watch(`VestingPeriods.${ index }.VestingStatus.achieved`)
+
   return (
     <Controller
       name={`VestingPeriods.${ index }.VestingStatus.expired`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`VestingPeriods.${ index }.VestingStatus.achieved`) ? "Vesting cannot be both achieved and expired" : true
+          value && achieved ? "Vesting cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
@@ -693,13 +696,13 @@ const AddMilestoneExtensionBtn = ({ number }: { number: 1 | 2 }) => {
 
   const milestoneStatus = milestones[index].MilestoneStatus
 
-  if(milestoneStatus.achieved !== null || milestoneStatus.expired !== null) return null
+  if(milestoneStatus.achieved || milestoneStatus.expired) return null
 
   return (
     <button 
       type="button"
       onClick={handleBtnClick}
-      className="btn btn-lg btn-primary uppercase">
+      className="btn btn-lg btn-primary uppercase shadow-xl">
         Add Extension
     </button>
   )
@@ -711,6 +714,7 @@ const FirstMilestoneInputs = () => {
     <div className={styles.groupedSection}>
       <FirstMilestoneDateInput />
       <FirstMilestoneExtensionInput />
+      <AddMilestoneExtensionBtn number={1} />
 
       <div className="flex py-6 justify-evenly">
         <FirstMilestoneAchievedCheckbox />
@@ -732,15 +736,16 @@ const FirstMilestoneDateInput = () => {
       rules={{
         required: "First milestone is required",
         validate: value =>
-          !value || new Date(value) > new Date(secondMilestoneDate) ? "First milestone must be before second milestone" : true
+          value && secondMilestoneDate && new Date(value) > new Date(secondMilestoneDate) ? "First milestone must be before second milestone" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Milestone #1'}
-              name={'firstMilestone'}
-              required={true} />
+              name={`Milestones.${ 0 }.date`}
+              required={true}>
+                Milestone #1
+            </FormLabel>
             <input 
               type="date"
               disabled={disabled}
@@ -767,14 +772,13 @@ const FirstMilestoneExtensionInput = () => { //
       name={`Milestones.${ 0 }.MilestoneExtension.date`}
       control={control}
       rules={{
-        required: "Extension date is required",
         validate: value =>
-          !firstMilestone || new Date(value) < new Date(firstMilestone.date) ? "Extension must be after original milestone date" : true
+          value && firstMilestone && new Date(value) < new Date(firstMilestone.date) ? "Extension must be after original milestone date" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col gap-2">
           <div className="flex">
-            <label htmlFor="firstMilestoneExt" className={`${ styles.label } ${ styles.extensionLabel }`}>Extension</label>
+            <label htmlFor={`Milestones.${ 0 }.MilestoneExtension.date`} className={`${ styles.label } ${ styles.extensionLabel }`}>Extension</label>
             <input 
               type="date"
               className={styles.input}
@@ -790,20 +794,22 @@ const FirstMilestoneExtensionInput = () => { //
 const FirstMilestoneAchievedCheckbox = () => { // First milestone achieved checkbox
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
+  const expired = watch(`Milestones.${ 0 }.MilestoneStatus.expired`)
+
   return (
     <Controller
       name={`Milestones.${ 0 }.MilestoneStatus.achieved`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`Milestones.${ 0 }.MilestoneStatus.expired`) ? "Milestone cannot be both achieved and expired" : true
+          value && expired ? "Milestone cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
 
         return (
         <div className="flex flex-col items-center gap-2">
-          <label htmlFor="firstMilestoneAchieved" className={styles.checkboxLabel}>Achieved</label>
+          <label htmlFor={`Milestones.${ 0 }.MilestoneStatus.achieved`} className={styles.checkboxLabel}>Achieved</label>
           <input 
             type="checkbox"
             checked={!!value}
@@ -820,20 +826,22 @@ const FirstMilestoneAchievedCheckbox = () => { // First milestone achieved check
 const FirstMilestoneExpiredCheckbox = () => { // First milestone expired checkbox
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
+  const achieved = watch(`Milestones.${ 0 }.MilestoneStatus.achieved`)
+
   return (
     <Controller
       name={`Milestones.${ 0 }.MilestoneStatus.expired`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`Milestones.${ 0 }.MilestoneStatus.achieved`) ? "Milestone cannot be both achieved and expired" : true
+          value && achieved ? "Milestone cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
 
         return (
           <div className="flex flex-col items-center gap-2">
-            <label htmlFor="firstMilestoneExpired" className={styles.checkboxLabel}>Expired</label>
+            <label htmlFor={`Milestones.${ 0 }.MilestoneStatus.expired`} className={styles.checkboxLabel}>Expired</label>
             <input 
               type="checkbox"
               checked={!!value}
@@ -874,15 +882,16 @@ const SecondMilestoneDateInput = () => {
       rules={{
         required: "Second milestone is required",
         validate: value =>
-          !value || new Date(value) < new Date(firstMilestoneDate) ? "Second milestone must be after first milestone" : true
+          value && firstMilestoneDate && new Date(value) < new Date(firstMilestoneDate) ? "Second milestone must be after first milestone" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Milestone #2'}
               name={'secondMilestone'}
-              required={true} />
+              required={true}>
+                Milestone #2
+            </FormLabel>
             <input 
               type="date"
               disabled={disabled}
@@ -907,14 +916,13 @@ const SecondMilestoneExtensionInput = () => {
       name={`Milestones.${ 1 }.MilestoneExtension.date`}
       control={methods.control}
       rules={{
-        required: "Extension date is required",
         validate: value =>
-          !secondMilestone || new Date(value) < new Date(secondMilestone.date) ? "Extension must be after original milestone date" : true
+          value && secondMilestone && new Date(value) < new Date(secondMilestone.date) ? "Extension must be after original milestone date" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex flex-col gap-2">
           <div className="flex">
-            <label htmlFor="secondMilestoneExt" className={`${ styles.label } ${ styles.extensionLabel }`}>Extension</label>
+            <label htmlFor={`Milestones.${ 1 }.MilestoneExtension.date`} className={`${ styles.label } ${ styles.extensionLabel }`}>Extension</label>
             <input 
               type="date"
               disabled={disabled}
@@ -930,20 +938,22 @@ const SecondMilestoneExtensionInput = () => {
 const SecondMilestoneAchievedCheckbox = () => { // Second milestone achieved checkbox
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
+  const expired = watch(`Milestones.${ 1 }.MilestoneStatus.expired`)
+
   return (
     <Controller
       name={`Milestones.${ 1 }.MilestoneStatus.achieved`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`Milestones.${ 1 }.MilestoneStatus.expired`) ? "Milestone cannot be both achieved and expired" : true
+          value && expired ? "Milestone cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
 
         return (
           <div className="flex flex-col items-center gap-2">
-            <label htmlFor="secondMilestoneAchieved" className={styles.checkboxLabel}>Achieved</label>
+            <label htmlFor={`Milestones.${ 1 }.MilestoneStatus.achieved`} className={styles.checkboxLabel}>Achieved</label>
             <input 
               type="checkbox"
               checked={!!value}
@@ -961,20 +971,22 @@ const SecondMilestoneAchievedCheckbox = () => { // Second milestone achieved che
 const SecondMilestoneExpiredCheckbox = () => { // Second milestone expired checkbox
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
+  const achieved = watch(`Milestones.${ 1 }.MilestoneStatus.achieved`)
+
   return (
     <Controller
       name={`Milestones.${ 1 }.MilestoneStatus.expired`}
       control={control}
       rules={{
         validate: value =>
-          value && watch(`Milestones.${ 1 }.MilestoneStatus.achieved`) ? "Milestone cannot be both achieved and expired" : true
+          value && achieved ? "Milestone cannot be both achieved and expired" : true
       }}
       render={({ field, fieldState: { error } }) => {
         const { value, ...props } = field
 
         return (
           <div className="flex flex-col items-center gap-2">
-            <label htmlFor="secondMilestoneExpired" className={styles.checkboxLabel}>Expired</label>
+            <label htmlFor={`Milestones.${ 1 }.MilestoneStatus.expired`} className={styles.checkboxLabel}>Expired</label>
             <input 
               type="checkbox"
               checked={!!value}
@@ -1025,7 +1037,7 @@ const AddNotificationBtn = ({ type }: { type: NotificationTypes }) => {
     <button 
       type="button"
       onClick={addNotification}
-      className="btn btn-lg btn-primary uppercase">
+      className="btn btn-lg btn-primary uppercase shadow-xl">
         Add {type} Notification
     </button>
   )
@@ -1044,12 +1056,9 @@ const InitialNotificationInput = () => { // Initial notification input
     <Controller
       name={`VestingNotifications.${ index }.date`}
       control={methods.control}
-      rules={{
-        required: "Notification date is required"
-      }}
       render={({ field }) => (
         <div className="flex">
-          <label htmlFor="initialNotification" className={`${ styles.label } flex-1`}>Initial</label>
+          <label htmlFor={`VestingNotifications.${ index }.date`} className={`${ styles.label } flex-1`}>Initial</label>
           <input 
             type="date"
             disabled={disabled}
@@ -1073,12 +1082,9 @@ const LastCallNotificationInput = () => { // Last call notification input
     <Controller
       name={`VestingNotifications.${ index }.date`}
       control={methods.control}
-      rules={{
-        required: "Notification date is required"
-      }}
       render={({ field }) => (
         <div className="flex">
-          <label htmlFor="lastCallNotification" className={`${ styles.label } flex-1`}>Last Call</label>
+          <label htmlFor={`VestingNotifications.${ index }.date`} className={`${ styles.label } flex-1`}>Last Call</label>
           <input 
             type="date"
             disabled={disabled}
@@ -1102,12 +1108,9 @@ const LostVestingNotificationInput = () => { // Lost vesting notification input
     <Controller
       name={`VestingNotifications.${ index }.date`}
       control={methods.control}
-      rules={{
-        required: "Notification date is required"
-      }}
       render={({ field }) => (
         <div className="flex">
-          <label htmlFor="lostVestingNotification" className={`${ styles.label } flex-1`}>Lost Vesting</label>
+          <label htmlFor={`VestingNotifications.${ index }.date`} className={`${ styles.label } flex-1`}>Lost Vesting</label>
           <input 
             type="date"
             disabled={disabled}

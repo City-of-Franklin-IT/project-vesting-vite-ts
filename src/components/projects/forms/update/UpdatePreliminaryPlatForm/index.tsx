@@ -6,8 +6,9 @@ import styles from '@/components/form-components/Forms.module.css'
 import { ProjectInterface } from "@/context/types"
 
 // Components
-import DeleteProjectBtn from "../../../../form-components/buttons/DeleteProjectBtn/DeleteProjectBtn"
-import { ExpiredCheckbox, NameInput, COFNumberInput, OrdinanceInput, VestingInputs, MilestoneInputs, NotificationInputs, NotesInput, Buttons } from '../UpdateDevelopmentPlanForm/components'
+import DeleteProjectBtn from "../../../../form-components/buttons/DeleteProjectBtn"
+import { ExpiredCheckbox, NameInput, COFNumberInput, OrdinanceInput, VestingInputs, MilestoneInputs, NotificationInputs, NotesInput } from '../UpdateDevelopmentPlanForm/components'
+import FormBtns from "@/components/form-components/buttons/FormBtns"
 import * as Components from './components'
 
 function UpdatePreliminaryPlatForm({ project }: { project: ProjectInterface }) {
@@ -49,8 +50,7 @@ function UpdatePreliminaryPlatForm({ project }: { project: ProjectInterface }) {
 
           </div>
 
-          <Buttons />
-
+        <FormBtns />
         </form>
       </FormProvider>
       

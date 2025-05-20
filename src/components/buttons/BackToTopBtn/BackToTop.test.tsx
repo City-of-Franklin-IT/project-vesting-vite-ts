@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 
 // Components
-import BackToTopBtn from './BackToTopBtn'
+import BackToTopBtn from '.'
 
 describe('BackToTop', () => {
   const handleClickMock = vi.fn()

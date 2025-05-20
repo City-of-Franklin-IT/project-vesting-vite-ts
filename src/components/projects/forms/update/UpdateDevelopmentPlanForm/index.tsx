@@ -1,5 +1,4 @@
 import { FormProvider } from "react-hook-form"
-import { DevTool } from '@hookform/devtools'
 import { useUpdateDevelopmentPlanForm, useHandleFormSubmit } from "./hooks"
 import styles from '@/components/form-components/Forms.module.css'
 
@@ -7,7 +6,8 @@ import styles from '@/components/form-components/Forms.module.css'
 import { ProjectInterface } from "@/context/types"
 
 // Components
-import DeleteProjectBtn from "../../../../form-components/buttons/DeleteProjectBtn/DeleteProjectBtn"
+import DeleteProjectBtn from "../../../../form-components/buttons/DeleteProjectBtn"
+import FormBtns from "@/components/form-components/buttons/FormBtns"
 import * as Components from './components'
 
 function UpdateDevelopmentPlanForm({ project }: { project: ProjectInterface }) {
@@ -50,8 +50,7 @@ function UpdateDevelopmentPlanForm({ project }: { project: ProjectInterface }) {
 
           </div>
 
-          <Components.Buttons />
-          <DevTool control={methods.control} />
+          <FormBtns />
         </form>
         
         <div className="mt-8 ml-auto">

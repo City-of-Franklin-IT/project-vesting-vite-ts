@@ -7,7 +7,7 @@ export default () => {
     instance
       .logoutPopup({
         account: accounts[0],
-        postLogoutRedirectUri: '/vesting'
+        postLogoutRedirectUri: '/vesting/projects'
       })
   }
 }

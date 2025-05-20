@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 // Types
 import { ProjectInterface } from '@/context/types'
@@ -91,24 +91,4 @@ export const useSetTableData = (projects: ProjectInterface[]): ProjectInterface[
       }
     }).slice((currentPage * resultsPerPage) - resultsPerPage, currentPage * resultsPerPage)
   }
-}
-
-export const useSetTotalPages = (projects: ProjectInterface[]) => {
-  const { resultsPerPage, dispatch } = useContext(ProjectsCtx)
-
-  useEffect(() => {
-    dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(projects.length / resultsPerPage) })
-  }, [projects, resultsPerPage])
-}
-
-export const useResetActivePage = () => { // Reset active page on filter / searchValue change
-  const { filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue, resultsPerPage, dispatch } = useContext(ProjectsCtx)
-
-  const setActivePage = useCallback(() => {
-    dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 })
-  }, [filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue, resultsPerPage])
-
-  useEffect(() => {
-    setActivePage()
-  }, [setActivePage])
 }

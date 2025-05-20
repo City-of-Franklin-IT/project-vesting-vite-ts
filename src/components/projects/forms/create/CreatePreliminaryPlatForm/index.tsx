@@ -3,6 +3,7 @@ import { useCreatePreliminaryPlatForm, useHandleFormSubmit } from './hooks'
 import styles from '@/components/form-components/Forms.module.css'
 
 // Components
+import FormBtns from '@/components/form-components/buttons/FormBtns'
 import * as Components from './components'
 
 function CreatePreliminaryPlatForm() {
@@ -31,7 +32,7 @@ function CreatePreliminaryPlatForm() {
             <Components.NotesInput />
           </div>
 
-          <Components.Buttons />
+          <FormBtns />
         </form>
       </FormProvider>
     

@@ -4,10 +4,8 @@ import { useProjectCreateCtx } from "@/helpers/hooks"
 import styles from '@/components/form-components/Forms.module.css'
 
 // Components
-import FormLabel from '../../../../form-components/FormLabel/FormLabel'
-import FormError from '../../../../form-components/FormError/FormError'
-import CancelBtn from '../../../../form-components/buttons/CancelBtn'
-import SaveBtn from '../../../../form-components/buttons/SaveBtn'
+import FormLabel from '../../../../form-components/FormLabel'
+import FormError from '../../../../form-components/FormError'
 import { OrdinanceOptions } from "@/helpers/components"
 
 export const NameInput = () => { // Name input
@@ -17,9 +15,10 @@ export const NameInput = () => { // Name input
     <div className="flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Project Name'}
           name={'name'}
-          required={true} />
+          required={true}>
+            Project Name
+        </FormLabel>
         <input 
           type="text" 
           { ...register('name', {
@@ -43,9 +42,10 @@ export const COFNumberInput = () => { // COF number input
     <div className="flex-1 flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'COF #'}
           name={'cof'}
-          required={true} />
+          required={true}>
+            COF #
+        </FormLabel>
         <input 
           type="number"
           { ...register('cof', {
@@ -65,9 +65,10 @@ export const OrdinanceInput = () => { // Ordinance input
     <div className="flex-1 flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Zoning Ordinance'}
           name={'ordinance'}
-          required={true} />
+          required={true}>
+            Zoning Ordinance
+        </FormLabel>
         <select 
           className={styles.input}
           { ...register("ordinance", {
@@ -111,6 +112,25 @@ export const MilestoneInputs = () => {
   )
 }
 
+export const NotesInput = () => { // Notes input
+  const { methods, disabled } = useProjectCreateCtx()
+
+  return (
+    <div className="flex">
+      <FormLabel name={'notes'}>
+        Notes
+      </FormLabel>
+      <textarea 
+        rows={6}
+        id="notes"
+        disabled={disabled}
+        { ...methods.register("notes") }
+        className={styles.input}>
+      </textarea>
+    </div>
+  )
+}
+
 const TenYearVestingDateInput = () => {
   const { methods: { control, watch } } = useProjectCreateCtx()
 
@@ -127,9 +147,9 @@ const TenYearVestingDateInput = () => {
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
-            <FormLabel
-              label={'10Y Vesting Period'}
-              name={'10YVesting'} />
+            <FormLabel name={`VestingPeriods.${ 0 }.date`}>
+              10 Year Vesting Period
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -157,9 +177,9 @@ const FifteenYearVestingDateInput = () => {
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
-            <FormLabel
-              label={'15Y Vesting Period'}
-              name={'15YVesting'} />
+            <FormLabel name={`VestingPeriods.${ 1 }.date`}>
+              15Y Vesting Period
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -190,9 +210,10 @@ const FirstMilestoneDateInput = () => {
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Milestone #1'}
-              name={'firstMilestone'}
-              required={true} />
+              name={`Milestones.${ 0 }.date`}
+              required={true}>
+                Milestone #1
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -222,9 +243,10 @@ const SecondMilestoneDateInput = () => {
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Milestone #2'}
               name={'secondMilestone'}
-              required={true} />
+              required={true}>
+                Milestone #2
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -233,36 +255,6 @@ const SecondMilestoneDateInput = () => {
           <FormError error={error?.message} />
         </div>
       )} />
-  )
-}
-
-export const NotesInput = () => { // Notes input
-  const { methods, disabled } = useProjectCreateCtx()
-
-  return (
-    <div className="flex">
-      <FormLabel
-        label={'Notes'}
-        name={'notes'} />
-      <textarea 
-        rows={6}
-        id="notes"
-        disabled={disabled}
-        { ...methods.register("notes") }
-        className={styles.input}>
-      </textarea>
-    </div>
-  )
-}
-
-export const Buttons = () => { // Form buttons
-  const navigate = useNavigate()
-
-  return (
-    <div className={styles.buttonsContainer}>
-      <CancelBtn handleClick={() => navigate('/')} />
-      <SaveBtn />
-    </div>
   )
 }
 
@@ -280,13 +272,15 @@ const ApprovedBySelect = () => { // Site plan approval by select
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Approved By'}
-              name={'approvedBy'} />
+              name={`Approvals.${ 0 }.approvedBy`}
+              required={true}>
+                Approved By
+            </FormLabel>
             <select
               disabled={disabled}
               className={styles.input}
-              defaultValue={""}
               { ...field }>
+                <option value=""></option>
                 <option value="Admin">Admin</option>
                 <option value="FPMC">FPMC</option>
             </select>
@@ -312,9 +306,10 @@ const ApprovalDateInput = () => { // Site plan approved on date input
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Approved On'}
               name={'approvalDate'}
-              required={true} />
+              required={true}>
+                Approved On
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}

@@ -2,7 +2,7 @@ import { useRedirect } from './hooks'
 
 // Components
 import Layout from '@/components/layout/Layout'
-import FormContainer from '@/components/form-components/FormContainer/FormContainer'
+import FormContainer from '@/components/form-components/FormContainer'
 import ErrorBoundary from '@/components/error/ErrorBoundary/ErrorBoundary'
 import * as Components from './components'
 

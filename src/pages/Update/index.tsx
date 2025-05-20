@@ -16,11 +16,11 @@ function Update() {
 
   return (
     <Layout>
-      {/* <ErrorBoundary href={'/projects'}> */}
+      <ErrorBoundary href={'/projects'}>
         <HandleLoading isLoaded={isSuccess}>
           <Project project={data?.data} />
         </HandleLoading>
-      {/* </ErrorBoundary> */}
+      </ErrorBoundary>
     </Layout>
   )
 }

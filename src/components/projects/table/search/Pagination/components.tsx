@@ -1,19 +1,18 @@
-import React, { useContext } from "react"
-import ProjectsCtx from "@/components/projects/containers/ProjectsContainer/context"
+import { useHandlePaginationBtns } from './hooks'
 
 export const PaginationButtons = () => {
-  const { currentPage, totalPages, dispatch } = useContext(ProjectsCtx)
+  const { handlePrevPage, handleNextPage, currentPage, totalPages } = useHandlePaginationBtns()
 
   return (
     <div className="flex gap-3 h-fit mt-auto">
       <PaginationButton
         disabled={currentPage === 1}
-        onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage - 1 })}>
+        onClick={handlePrevPage}>
           Prev Page
       </PaginationButton>
       <PaginationButton
         disabled={currentPage === totalPages}
-        onClick={() => dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage + 1 })}>
+        onClick={handleNextPage}>
           Next Page
       </PaginationButton>
     </div>

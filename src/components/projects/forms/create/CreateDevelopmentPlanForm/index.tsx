@@ -3,12 +3,15 @@ import { useCreateDevelopmentPlanForm, useHandleFormSubmit } from './hooks'
 import styles from '@/components/form-components/Forms.module.css'
 
 // Components
+import FormBtns from '@/components/form-components/buttons/FormBtns'
 import * as Components from './components'
 
 function CreateDevelopmentPlanForm() {
   const methods = useCreateDevelopmentPlanForm() // useForm
 
   const handleFormSubmit = useHandleFormSubmit()
+
+  console.log(methods.watch())
 
   return (
     <div className={styles.container}>
@@ -32,7 +35,7 @@ function CreateDevelopmentPlanForm() {
             <Components.NotesInput />
           </div>
 
-          <Components.Buttons />
+          <FormBtns />
         </form>
       </FormProvider>
       

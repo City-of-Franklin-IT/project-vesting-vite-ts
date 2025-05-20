@@ -9,14 +9,12 @@ export const setMilestoneIconVariant = (milestone: MilestoneInterface | undefine
     return hovered ? 'light' : 'red'
   }
 
-  const completed = project.VestingPeriods?.every(period => period.VestingStatus?.achieved)
-
-  if(completed) {
+  if(milestone?.MilestoneStatus?.achieved) {
     return hovered ? 'light' : 'green'
   }
 
-  if(milestone?.MilestoneStatus?.achieved) {
-    return hovered ? 'light' : 'green'
+  if(milestone?.MilestoneStatus?.expired) {
+    return hovered ? 'light' : 'red'
   }
 
   return hovered ? 'light' : 'dark'
@@ -27,14 +25,12 @@ export const setVestingIconVariant = (period: VestingPeriodInterface | undefined
     return hovered ? 'light' : 'red'
   }
 
-  const completed = project.VestingPeriods?.every(period => period.VestingStatus?.achieved)
-
-  if(completed) {
+  if(period?.VestingStatus?.achieved) {
     return hovered ? 'light' : 'green'
   }
 
-  if(period?.VestingStatus?.achieved) {
-    return hovered ? 'light' : 'green'
+  if(period?.VestingStatus?.expired) {
+    return hovered ? 'light' : 'red'
   }
 
   return hovered ? 'light' : 'dark'
@@ -115,7 +111,7 @@ export const handleVestingStyle = (period: VestingPeriodInterface | undefined, h
 
 export const handleRowStyling = (project: ProjectInterface, index: number): string | undefined => { // Handle table row styling
   if(project.expired) { // Expired
-    return styles.expiredRow
+    return "text-error bg-error-content hover:text-neutral-content hover:bg-error"
   }
 
   let completed = false
@@ -127,10 +123,10 @@ export const handleRowStyling = (project: ProjectInterface, index: number): stri
   })
 
   if(completed) { // Completed / achieved
-    return styles.achievedRow
+    return "text-success bg-[#D9EBE6] hover:text-neutral-content hover:bg-success"
   }
 
   if(index % 2 === 0) {
-    return styles.evenRow
-  } else return styles.oddRow
+    return "bg-neutral-content hover:text-neutral-content hover:bg-neutral"
+  } else return "bg-primary-content hover:text-neutral-content hover:bg-neutral"
 }

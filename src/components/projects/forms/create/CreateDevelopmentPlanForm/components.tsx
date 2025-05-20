@@ -5,10 +5,8 @@ import { useHandleBOMADateChange } from './hooks'
 import styles from '@/components/form-components/Forms.module.css'
 
 // Components
-import FormLabel from '../../../../form-components/FormLabel/FormLabel'
-import FormError from '../../../../form-components/FormError/FormError'
-import CancelBtn from '../../../../form-components/buttons/CancelBtn'
-import SaveBtn from '../../../../form-components/buttons/SaveBtn'
+import FormLabel from '../../../../form-components/FormLabel'
+import FormError from '../../../../form-components/FormError'
 import { OrdinanceOptions } from '@/helpers/components'
 
 export const NameInput = () => { // Name input
@@ -18,12 +16,12 @@ export const NameInput = () => { // Name input
     <div className="flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Project Name'}
           name={'name'}
-          required={true} />
+          required={true}>
+            Project Name
+        </FormLabel>
         <input 
           type="text" 
-          id="name"
           { ...register('name', {
             required: "Project name is required",
             maxLength: {
@@ -46,9 +44,10 @@ export const COFNumberInput = () => { // COF number input
     <div className="flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'COF #'}
           name={'cof'}
-          required={true} />
+          required={true}>
+            COF #
+        </FormLabel>
         <input 
           type="number"
           { ...register('cof', {
@@ -69,9 +68,10 @@ export const OrdinanceInput = () => {
     <div className="flex-1 flex flex-col gap-2">
       <div className="flex">
         <FormLabel
-          label={'Zoning Ordinance'}
           name={'ordinance'}
-          required={true} />
+          required={true}>
+            Zoning Ordinance
+        </FormLabel>
         <select 
           className={styles.input}
           { ...register("ordinance", {
@@ -114,9 +114,10 @@ export const ResolutionInput = () => { // Resolution input
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Resolution #'}
-              name={'resolution'}
-              required={true} />
+              name={'Resolution.resolution'}
+              required={true}>
+                Resolution #
+            </FormLabel>
             <input 
               type="text"
               className={styles.input}
@@ -153,9 +154,9 @@ export const NotesInput = () => { // Notes input
 
   return (
     <div className="flex">
-      <FormLabel
-        label={'Notes'}
-        name={'notes'} />
+      <FormLabel name={'notes'}>
+        Notes
+      </FormLabel>
       <textarea 
         rows={6}
         id="notes"
@@ -163,17 +164,6 @@ export const NotesInput = () => { // Notes input
         { ...methods.register("notes") }
         className={styles.input}>
       </textarea>
-    </div>
-  )
-}
-
-export const Buttons = () => { // Form buttons
-  const navigate = useNavigate()
-
-  return (
-    <div className={styles.buttonsContainer}>
-      <CancelBtn handleClick={() => navigate('/')} />
-      <SaveBtn />
     </div>
   )
 }
@@ -196,9 +186,10 @@ const FPMCApprovalDateInput = () => {
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'FPMC Approval'}
-              name={'fpmcApproval'}
-              required={true} />
+              name={`Approvals.${ 0 }.date`}
+              required={true}>
+                FPMC
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -224,15 +215,16 @@ const BOMAApprovalDateInput = () => {
       rules={{
         required: "BOMA approval date is required",
         validate: value => 
-          !value || new Date(value) > new Date(fpmcDate) ? "BOMA approval date must be after FPMC approval date" : true,
+          !value || new Date(value) < new Date(fpmcDate) ? "BOMA approval date must be after FPMC approval date" : true,
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'BOMA Approval'}
-              name={'bomaApproval'}
-              required={true} />
+              name={`Approvals.${ 1 }.date`}
+              required={true}>
+                BOMA Approval
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -265,9 +257,9 @@ const TenYearVestingDateInput = () => {
         return (
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex">
-              <FormLabel
-                label={'10Y Vesting Period'}
-                name={'10YVesting'} />
+              <FormLabel name={'10YVesting'}>
+                  10Y Vesting Period
+              </FormLabel>
               <input 
                 type="date"
                 className={styles.input}
@@ -301,9 +293,9 @@ const FifteenYearVestingDateInput = () => {
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
-            <FormLabel
-              label={'15Y Vesting Period'}
-              name={'15YVesting'} />
+            <FormLabel name={'15YVesting'}>
+              15Y Vesting Period
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -329,15 +321,16 @@ const FirstMilestoneDateInput = () => {
       rules={{
         required: "First milestone date is required",
         validate: value =>
-          !value || new Date(value) > new Date(secondMilestoneDate) ? "First milestone must be before second milestone" : true
+          value && secondMilestoneDate && new Date(value) > new Date(secondMilestoneDate) ? "First milestone must be before second milestone" : true
       }}
       render={({ field, fieldState: { error } }) => (
         <div className="flex-1 flex flex-col gap-2">
           <div className="flex">
             <FormLabel
-              label={'Milestone #1'}
-              name={'firstMilestone'}
-              required={true} />
+              name={`Milestones.${ 0 }.date`}
+              required={true}>
+                Milestone #1
+            </FormLabel>
             <input 
               type="date"
               className={styles.input}
@@ -350,7 +343,7 @@ const FirstMilestoneDateInput = () => {
 }
 
 const SecondMilestoneDateInput = () => {
-  const { methods: { control, watch, trigger } } = useProjectCreateCtx()
+  const { methods: { control, watch } } = useProjectCreateCtx()
 
   const firstMilestoneDate = watch(`Milestones.${ 0 }.date`)
 
@@ -361,27 +354,24 @@ const SecondMilestoneDateInput = () => {
       rules={{
         required: "Second milestone date is required",
         validate: value =>
-          !value || new Date(value) < new Date(firstMilestoneDate) ? "Second milestone must be after first milestone" : true
+          value && firstMilestoneDate && new Date(value) < new Date(firstMilestoneDate) ? "Second milestone must be after first milestone" : true
       }}
-      render={({ field, fieldState: { error } }) => {
-        const { onBlur, ...props } = field
-
-        return (
+      render={({ field, fieldState: { error } }) => (
           <div className="flex-1 flex flex-col gap-2">
             <div className="flex">
               <FormLabel
-                label={'Milestone #2'}
-                name={'secondMilestone'}
-                required={true} />
+                name={`Milestones.${ 1 }.date`}
+                required={true}>
+                  Milestone #2 
+              </FormLabel>
               <input 
                 type="date"
                 className={styles.input}
-                onBlur={() => trigger(`Milestones.${ 1 }.date`)}
-                { ...props } />
+                { ...field } />
             </div>
             <FormError error={error?.message} />
           </div>
         )
-      }} />
+      } />
   )
 }
