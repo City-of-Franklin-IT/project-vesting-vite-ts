@@ -80,7 +80,7 @@ const ProjectName = ({ project }: { project: ProjectInterface }) => {
 
   const activeAccount = instance.getActiveAccount()
 
-  // if(!activeAccount) return <span className="text-lg font-bold uppercase whitespace-wrap" title={`Update ${ project.name }`}>{project.name} // </span>
+  if(!activeAccount) return <span className="text-lg font-bold uppercase whitespace-wrap" title={`Update ${ project.name }`}>{project.name} // </span>
 
   return (
     <Link to={`/update/${ project.uuid }`} className="text-lg font-bold uppercase whitespace-wrap hover:text-warning" title={`Update ${ project.name }`}>{project.name} //</Link>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 import { useMsal } from "@azure/msal-react"
 import useHandleLogoutRedirect from "@/context/Auth/hooks/useHandleLogoutRedirect"
 
@@ -11,7 +11,7 @@ export const Buttons = () => { // Buttons
 
   const activeAccount = instance.getActiveAccount()
 
-  // if(!activeAccount) return null
+  if(!activeAccount) return null
 
   return (
     <div className="flex gap-2">
@@ -42,6 +42,13 @@ export const ReportLink = ({ href }: { href: string }) => { // Link to Power BI 
 }
 
 export const LoginPageLink = () => { // Link to login page
+  const { instance } = useMsal()
+
+  const activeAccount = instance.getActiveAccount()
+
+  const pathname = useLocation().pathname
+
+  if(activeAccount || pathname === '/') return null
 
   return (
     <Link to={'/'} className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">Planning Dept Login</Link>

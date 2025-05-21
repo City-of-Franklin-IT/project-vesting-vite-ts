@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 import { APP_TITLE } from '@/config'
 
 // Components
-import { Buttons, ReportLink, LoginPageLink } from './components'
+import * as Components from './components'
 
 function Header() {
 
@@ -15,9 +15,9 @@ function Header() {
         </div>
       </Link>
       <div className="flex gap-4">
-        {/* <ReportLink href={'http://cofdbv10/reports/powerbi/Planning/Project%20Vesting'} /> */}
-        <Buttons />
-        <LoginPageLink />
+        <Components.ReportLink href={'http://cofdbv10/reports/powerbi/Planning/Project%20Vesting'} />
+        <Components.Buttons />
+        <Components.LoginPageLink />
       </div>
     </header>
   )

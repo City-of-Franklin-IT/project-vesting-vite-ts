@@ -10,7 +10,7 @@ import ErrorBoundary from '@/components/error/ErrorBoundary/ErrorBoundary'
 import HandleLoading from '../../utils/HandleLoading'
 
 function Update() {
-  // useRedirect()
+  useRedirect()
   
   const { data, isSuccess } = useGetProject()
 

@@ -5,8 +5,8 @@ import * as Types from './types'
 
 // Get projects
 // GET /api/v2/eng/vesting/project
-export const getProjects = async (headers: Headers): Promise<Types.ServerResponse & { data: Types.ProjectInterface[] }> => {
-  const res = await fetch(`${ baseUrl }/vesting/project`, { headers })
+export const getProjects = async (): Promise<Types.ServerResponse & { data: Types.ProjectInterface[] }> => {
+  const res = await fetch(`${ baseUrl }/vesting/project`)
 
   return await res.json()
 }

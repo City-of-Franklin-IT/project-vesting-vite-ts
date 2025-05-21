@@ -14,7 +14,7 @@ export const useRedirect = (href: string) => {
     if(isReady) {
       if(activeAccount) {
         navigate(href)
-      } else navigate('/projects')
+      } else navigate('/')
     }
 
   }, [isReady, activeAccount])

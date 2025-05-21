@@ -40,7 +40,7 @@ export const useScrollToTopRef = (topRef: React.RefObject<HTMLDivElement>) => {
 
   useEffect(() => {
     if(topRef.current) {
-      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+      topRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }, [currentPage, topRef])
 }
