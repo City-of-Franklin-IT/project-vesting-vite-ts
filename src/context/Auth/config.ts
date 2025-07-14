@@ -4,7 +4,7 @@ export const msalConfig = {
     auth: {
         clientId: '27b0f13e-b9e9-4b04-9a28-8130cf2ba6b5',
         authority: 'https://login.microsoftonline.com/f6644f52-f834-4a2f-a433-e6bc40d7c17f/',
-        redirectUri: 'https://istest.franklintn.gov/vesting',
+        redirectUri: 'https://dev.franklintn.gov/vesting',
         postLogoutRedirectUri: '/',
         navigateToLoginRequestUrl: false
     },
@@ -38,5 +38,5 @@ export const msalConfig = {
 
 export const loginRequest = {
     scopes: ["openid", "profile"],
-    redirectUri: "https://istest.franklintn.gov/vesting"
+    redirectUri: "https://dev.franklintn.gov/vesting"
 };

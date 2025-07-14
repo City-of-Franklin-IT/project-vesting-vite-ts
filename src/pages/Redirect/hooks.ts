@@ -4,7 +4,6 @@ import { useMsal } from "@azure/msal-react"
 
 export const useRedirect = (href: string) => {
   const { instance, inProgress } = useMsal()
-  const activeAccount = instance.getActiveAccount()
 
   const navigate = useNavigate()
 
@@ -12,10 +11,10 @@ export const useRedirect = (href: string) => {
 
   useEffect(() => {
     if(isReady) {
+      const activeAccount = instance.getActiveAccount()
       if(activeAccount) {
         navigate(href)
       } else navigate('/')
     }
-
-  }, [isReady, activeAccount])
+  }, [isReady, instance, navigate, href])
 }
