@@ -15,7 +15,7 @@ function Header() {
         </div>
       </Link>
       <div className="flex gap-4">
-        <Components.ReportLink href={'http://cofdbv10/reports/powerbi/Planning/Project%20Vesting'} />
+        <Components.ReportLink href={'https://cofdbv10/reports/powerbi/Planning/Project%20Vesting'} />
         <Components.Buttons />
         <Components.LoginPageLink />
       </div>
