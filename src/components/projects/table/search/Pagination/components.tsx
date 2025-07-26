@@ -4,7 +4,7 @@ export const PaginationButtons = () => {
   const { handlePrevPage, handleNextPage, currentPage, totalPages } = useHandlePaginationBtns()
 
   return (
-    <div className="flex gap-3 h-fit mt-auto">
+    <div className="flex flex-col gap-2 h-fit mt-auto lg:flex-row lg:gap-3">
       <PaginationButton
         disabled={currentPage === 1}
         onClick={handlePrevPage}>

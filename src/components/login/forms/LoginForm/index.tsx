@@ -14,6 +14,10 @@ function LoginForm() {
         <div className="p-4">
           <Components.LoginBtn />
         </div>
+
+        <div className="p-4">
+          <Components.ProjectsLink />
+        </div>
       </div>
     </div>
   )

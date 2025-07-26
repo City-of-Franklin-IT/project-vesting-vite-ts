@@ -6,7 +6,7 @@ import { ProjectInterface } from "@/context/types"
 export const FilterBtns = () => { 
 
   return (
-    <div className="flex gap-4 mt-6 md:m-auto">
+    <div className="flex flex-col gap-4 mt-6 lg:flex-row">
       <FilterBtn type={'Development Plan'} />
       <FilterBtn type={'Preliminary Plat'} />
       <FilterBtn type={'Site Plan'} />
@@ -20,7 +20,7 @@ const FilterBtn = ({ type }: { type: ProjectInterface['type'] }) => {
   return (
     <button 
       onClick={handleFilterBtnClick}
-      className={`btn btn-lg btn-outline text-neutral-content font-[jura] px-3 outline outline-neutral-content w-[200px] hover:text-neutral ${ active ? 'bg-neutral outline-none hover:text-neutral-content' : null }`}>
+      className={`btn btn-lg btn-outline text-neutral-content font-[jura] px-3 outline outline-neutral-content w-full lg:w-[200px] hover:text-neutral ${ active ? 'bg-neutral outline-none hover:text-neutral-content' : null }`}>
         <div className="whitespace-nowrap overflow-hidden text-ellipsis">{type}</div>
     </button>
   )

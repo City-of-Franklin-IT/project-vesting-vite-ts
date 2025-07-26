@@ -1,5 +1,3 @@
-import styles from './Table.module.css'
-
 // Types
 import { ProjectInterface, ZoningOrdinanceType, MilestoneInterface, VestingPeriodInterface } from "@/context/types"
 import { Variants } from "@/components/icons/Icons/types"
@@ -84,30 +82,6 @@ export const ordinanceOptions: { text: ZoningOrdinanceType | '', value: string }
   { text: '2023-01-01', value: '2023-01-01' },
   { text: '2024-07-01', value: '2024-07-01' }
 ]
-
-export const handleMilestoneStyle = (milestone: MilestoneInterface | undefined, hovered: boolean): string | undefined => { // Handle milestone date styling
-  if(milestone && milestone.MilestoneStatus?.achieved) {
-    return hovered ? styles.achievedHover : styles.achieved
-  }
-
-  if(milestone && milestone.MilestoneStatus?.expired) {
-    return hovered ? styles.expiredHover : styles.expired
-  }
-
-  return undefined
-}
-
-export const handleVestingStyle = (period: VestingPeriodInterface | undefined, hovered: boolean): string | undefined => {
-  if(period && period.VestingStatus?.achieved) {
-    return hovered ? styles.achievedHover : styles.achieved
-  }
-
-  if(period && period.VestingStatus?.expired) {
-    return hovered ? styles.expiredHover : styles.expired
-  }
-
-  return undefined
-}
 
 export const handleRowStyling = (project: ProjectInterface, index: number): string | undefined => { // Handle table row styling
   if(project.expired) { // Expired

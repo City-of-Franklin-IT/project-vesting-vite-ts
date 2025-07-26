@@ -51,7 +51,7 @@ export const LoginPageLink = () => { // Link to login page
   if(activeAccount || pathname === '/') return null
 
   return (
-    <Link to={'/'} className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">Planning Dept Login</Link>
+    <Link to={'/'} className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">Login</Link>
   )
 }
 

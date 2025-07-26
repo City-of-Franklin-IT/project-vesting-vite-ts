@@ -21,10 +21,10 @@ function ProjectsContainer({ projects }: { projects: ProjectInterface[] }) {
   return (
     <div className="flex flex-col gap-6 my-10 w-full">
 
-      <div ref={topRef} className="flex justify-between">
+      <div ref={topRef} className="flex flex-col gap-10 justify-between lg:flex-row">
         <SearchAndFilterContainer />
         <div className="flex gap-8 items-end">
-          <div className="flex gap-6">
+          <div className="flex flex-col gap-2 lg:flex-row lg:gap-6">
             <Components.ShowExpiredCheckbox />
             <Components.ShowCompletedCheckbox />
           </div>

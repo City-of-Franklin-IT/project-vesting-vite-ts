@@ -5,7 +5,7 @@ import { useHandleSearch } from './hooks'
 export const Header = () => {
 
   return (
-    <h2 className="absolute text-warning text-4xl font-[fugaz_one] text-shadow-lg -top-5 -left-5 z-10">Search</h2>
+    <h2 className="absolute text-warning text-4xl font-[fugaz_one] text-shadow-lg -top-5 -left-3 z-10">Search</h2>
   )
 }
 

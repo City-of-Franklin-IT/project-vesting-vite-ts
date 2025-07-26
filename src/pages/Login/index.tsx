@@ -9,7 +9,7 @@ function Login() {
 
   return (
     <Layout>
-      <div className="flex flex-col my-10 mx-auto bg-neutral-content w-fit h-fit rounded-xl overflow-hidden">
+      <div className="flex flex-col gap-4 my-10 mx-auto bg-neutral-content w-fit h-fit rounded-xl overflow-hidden">
         <LoginForm />
       </div>
     </Layout>
