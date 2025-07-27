@@ -83,9 +83,9 @@ export const ordinanceOptions: { text: ZoningOrdinanceType | '', value: string }
   { text: '2024-07-01', value: '2024-07-01' }
 ]
 
-export const handleRowStyling = (project: ProjectInterface, index: number): string | undefined => { // Handle table row styling
+export const handleRowStyling = (project: ProjectInterface): string | undefined => { // Handle table row styling
   if(project.expired) { // Expired
-    return "text-error bg-error-content hover:text-neutral-content hover:bg-error"
+    return "text-error bg-error-content border-b-2 border-error/20 hover:text-neutral-content hover:bg-error"
   }
 
   let completed = false
@@ -97,10 +97,8 @@ export const handleRowStyling = (project: ProjectInterface, index: number): stri
   })
 
   if(completed) { // Completed / achieved
-    return "text-success bg-[#D9EBE6] hover:text-neutral-content hover:bg-success"
+    return "text-success bg-[#D9EBE6] border-b-2 border-success-content hover:text-neutral-content hover:bg-success"
   }
 
-  if(index % 2 === 0) {
-    return "bg-neutral-content hover:text-neutral-content hover:bg-neutral"
-  } else return "bg-primary-content hover:text-neutral-content hover:bg-neutral"
+  return "bg-neutral-content border-b-2 border-neutral/20 hover:text-neutral-content hover:bg-neutral"
 }

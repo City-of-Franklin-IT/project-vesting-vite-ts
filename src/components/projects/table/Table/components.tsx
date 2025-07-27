@@ -15,11 +15,10 @@ export const TableBody = ({ projects }: { projects: ProjectInterface[] }) => { /
 
   return (
     <tbody>
-      {projects.map((project, index) => {
+      {projects.map((project) => {
         return (
           <TableRow
             key={`project-table-row-${ project.uuid }`}
-            index={index}
             project={project} />
         )
       })}
@@ -27,7 +26,7 @@ export const TableBody = ({ projects }: { projects: ProjectInterface[] }) => { /
   )
 }
 
-const TableRow = ({ project, index }: { project: ProjectInterface, index: number }) => {
+const TableRow = ({ project }: { project: ProjectInterface }) => {
   const { onMouseEnter, onMouseLeave, hovered } = useHandleTableRowHover()
 
   return (
@@ -35,7 +34,7 @@ const TableRow = ({ project, index }: { project: ProjectInterface, index: number
       key={`table-row-${ project.uuid }`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className={handleRowStyling(project, index)}>
+      className={handleRowStyling(project)}>
         <td>
           <ProjectCell
             project={project}
@@ -93,7 +92,7 @@ const ProjectDetails = ({ project, hovered, expanded }: { project: ProjectInterf
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex justify-around">
+      <div className="flex gap-4 justify-around">
         <ProjectType
           project={project}
           hovered={hovered} />
@@ -192,6 +191,7 @@ const FirstMilestone = ({ project, hovered }: { project: ProjectInterface, hover
         type={'firstMilestone'}
         variant={setMilestoneIconVariant(firstMilestone, project, hovered)}
         size={'large'} />
+      <small className="-translate-y-1">1st Milestone</small>
       <Milestone milestone={firstMilestone} />
       <MilestoneExtension milestone={firstMilestone} />
     </div>
@@ -226,6 +226,7 @@ const SecondMilestone = ({ project, hovered }: { project: ProjectInterface, hove
         type={'secondMilestone'}
         variant={setMilestoneIconVariant(secondMilestone, project, hovered)}
         size={'large'} />
+      <small className="-translate-y-1">2nd Milestone</small>
       <Milestone milestone={secondMilestone} />
       <MilestoneExtension milestone={secondMilestone} />
     </div>
@@ -252,11 +253,12 @@ const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hover
   if(!tenYearVesting) return null
 
   return (
-    <div className="flex flex-col items-center" title="10 year vesting period date">
+    <div className="flex flex-col items-center text-center" title="10 year vesting period date">
       <Icons
         type={'tenYear'}
         variant={setVestingIconVariant(tenYearVesting, project, hovered)} 
         size={'large'} />
+      <small>10 Year Vesting</small>
       <VestingPeriod period={tenYearVesting} />
       <VestingPeriodExtension period={tenYearVesting} />
     </div>
@@ -269,11 +271,12 @@ const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, h
   if(!fifteenYearVesting) return null
 
   return (
-    <div className="flex flex-col items-center" title="15 year vesting period date">
+    <div className="flex flex-col items-center text-center" title="15 year vesting period date">
       <Icons
         type={'fifteenYear'}
         variant={setVestingIconVariant(fifteenYearVesting, project, hovered)} 
         size={'large'} />
+      <small>Fifteen Year Vesting</small>
       <VestingPeriod period={fifteenYearVesting} />
       <VestingPeriodExtension period={fifteenYearVesting} />
     </div>
