@@ -11,8 +11,6 @@ function CreateDevelopmentPlanForm() {
 
   const handleFormSubmit = useHandleFormSubmit()
 
-  console.log(methods.watch())
-
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Create Development Plan</h2>

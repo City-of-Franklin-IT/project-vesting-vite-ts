@@ -7,8 +7,7 @@ function ResultsPerPage() {
   return (
     <div className="flex flex-col gap-1 items-center">
       <label htmlFor="resultsPerPage" className="text-neutral-content font-[jura] text-sm uppercase">Results Per Page:</label>
-      <select 
-        id="resultsPerPage" 
+      <select
         value={resultsPerPage} 
         onChange={(e) => dispatch({ type: 'SET_RESULTS_PER_PAGE', payload: parseInt(e.currentTarget.value) })} 
         className="input">

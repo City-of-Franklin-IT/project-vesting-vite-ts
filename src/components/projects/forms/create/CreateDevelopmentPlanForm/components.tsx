@@ -9,7 +9,7 @@ import FormError from '../../../../form-components/FormError'
 import { OrdinanceOptions } from '@/helpers/components'
 
 export const NameInput = () => { // Name input
-  const { methods: { formState: { errors }, register, trigger } } = useProjectCreateCtx()
+  const { methods: { formState: { errors }, register } } = useProjectCreateCtx()
 
   return (
     <div className="flex flex-col gap-2">
@@ -26,8 +26,7 @@ export const NameInput = () => { // Name input
             maxLength: {
               value: 255,
               message: "Project name must be 255 characters or less"
-            },
-            onChange: () => trigger('name')
+            }
           }) }
           className={styles.input} />
       </div>
@@ -37,7 +36,7 @@ export const NameInput = () => { // Name input
 }
 
 export const COFNumberInput = () => { // COF number input
-  const { methods: { register, trigger, formState: { errors } } } = useProjectCreateCtx()
+  const { methods: { register, formState: { errors } } } = useProjectCreateCtx()
 
   return (
     <div className="flex flex-col gap-2">
@@ -50,8 +49,7 @@ export const COFNumberInput = () => { // COF number input
         <input 
           type="number"
           { ...register('cof', {
-            required: "COF # is required",
-            onChange: () => trigger('cof')
+            required: "COF # is required"
           }) }
           className={styles.input} />
       </div>
@@ -61,7 +59,7 @@ export const COFNumberInput = () => { // COF number input
 }
 
 export const OrdinanceInput = () => {
-  const { methods: { register, trigger, formState: { errors } } } = useProjectCreateCtx()
+  const { methods: { register, formState: { errors } } } = useProjectCreateCtx()
 
   return (
     <div className="flex-1 flex flex-col gap-2">
@@ -74,8 +72,7 @@ export const OrdinanceInput = () => {
         <select 
           className={styles.input}
           { ...register("ordinance", {
-            required: "Zoning ordinance is required",
-            onBlur: () => trigger('ordinance')
+            required: "Zoning ordinance is required"
           }) }>
             <OrdinanceOptions />
         </select>
@@ -237,7 +234,7 @@ const BOMAApprovalDateInput = () => {
 }
 
 const TenYearVestingDateInput = () => {
-  const { methods: { control, watch, trigger } } = useProjectCreateCtx()
+  const { methods: { control, watch } } = useProjectCreateCtx()
 
   const fifteenYearDate = watch(`VestingPeriods.${ 1 }.date`)
 
@@ -264,7 +261,6 @@ const TenYearVestingDateInput = () => {
                 className={styles.input}
                 onChange={(e) => {
                   field.onChange(e.currentTarget.value)
-                  trigger(`VestingPeriods.${ 0 }.date`)
                 }}
                 { ...props } />
             </div>

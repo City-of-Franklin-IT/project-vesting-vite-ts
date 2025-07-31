@@ -13,6 +13,7 @@ import { ProjectInterface, ProjectCreateInterface } from '@/context/types'
 export const useUpdatePreliminaryPlatForm = (project: ProjectInterface) => {
 
   return useForm<ProjectCreateInterface>({
+    mode: 'onBlur',
     defaultValues: {
       expired: project.expired,
       name: project.name,

@@ -143,7 +143,7 @@ type ProjectTypes =
 type BaseInterface = {
   uuid: string
   createdBy: string
-  createdAt: Date
+  createdAt: string
   updatedBy: string
-  updatedAt: Date
+  updatedAt: string
 }

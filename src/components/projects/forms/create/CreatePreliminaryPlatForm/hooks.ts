@@ -13,6 +13,7 @@ import { ProjectCreateInterface } from '@/context/types'
 export const useCreatePreliminaryPlatForm = (): UseFormReturn<ProjectCreateInterface> => { // CreatePreliminaryPlatForm useForm
   
   return useForm<ProjectCreateInterface>({
+    mode: 'onBlur',
     defaultValues: {
       type: 'Preliminary Plat',
       name: '',

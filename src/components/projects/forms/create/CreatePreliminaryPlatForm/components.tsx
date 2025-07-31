@@ -151,7 +151,7 @@ export const NotesInput = () => { // Notes input
 }
 
 const TenYearVestingDateInput = () => {
-  const { methods: { control, watch, trigger } } = useProjectCreateCtx()
+  const { methods: { control, watch } } = useProjectCreateCtx()
 
   const fifteenYearDate = watch(`VestingPeriods.${ 1 }.date`)
 
@@ -177,7 +177,6 @@ const TenYearVestingDateInput = () => {
                 className={styles.input}
                 onChange={(e) => {
                   field.onChange(e.currentTarget.value)
-                  trigger(`VestingPeriods.${ 0 }.date`)
                 }}
                 { ...props } />
             </div>
@@ -251,7 +250,7 @@ const FirstMilestoneDateInput = () => {
 }
 
 const SecondMilestoneDateInput = () => {
-  const { methods: { watch, control, trigger } } = useProjectCreateCtx()
+  const { methods: { watch, control } } = useProjectCreateCtx()
 
   const firstMilestoneDate = watch(`Milestones.${ 0 }.date`)
 
@@ -277,10 +276,6 @@ const SecondMilestoneDateInput = () => {
               <input 
                 type="date"
                 className={styles.input}
-                onBlur={() => {
-                  field.onBlur
-                  trigger(`Milestones.${ 1 }.date`)
-                }}
                 { ...props } />
             </div>
             <FormError error={error?.message} />

@@ -7,7 +7,7 @@ export const ShowExpiredCheckbox = () => {
   return (
     <div className="flex gap-2 items-center">
       <label className="text-primary-content text-lg font-[play] uppercase whitespace-nowrap">Show Expired:</label>
-      <input 
+      <input
         type="checkbox"
         checked={showExpired}
         className="checkbox checkbox-primary"

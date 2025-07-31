@@ -74,7 +74,8 @@ const StartDateInput = () => {
   return (
     <div className="flex flex-col items-center">
       <label htmlFor="start" className="text-neutral-content font-[play] uppercase">Start:</label>
-      <input 
+      <input
+        data-testid="start-input"
         id="start"
         type="date"
         className="input"
@@ -91,6 +92,7 @@ const EndDateInput = () => {
     <div className="flex flex-col items-center">
       <label htmlFor="end" className="text-neutral-content font-[play] uppercase">End:</label>
       <input 
+        data-testid="end-input"
         id="end"
         type="date"
         className="input"

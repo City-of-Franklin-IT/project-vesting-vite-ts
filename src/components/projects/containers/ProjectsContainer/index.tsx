@@ -48,7 +48,6 @@ function ProjectsContainer({ projects }: { projects: ProjectInterface[] }) {
       </div>
 
       <BackToTopBtn handleClick={() => scrollToTop(topRef)} />
-        
     </div>      
   )
 }

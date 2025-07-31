@@ -13,6 +13,7 @@ import { ProjectCreateInterface } from '@/context/types'
 export const useCreateSitePlanForm = (): UseFormReturn<ProjectCreateInterface> => { // CreateSitePlanForm useForm
 
   return useForm<ProjectCreateInterface>({
+    mode: 'onBlur',
     defaultValues: {
       type: 'Site Plan',
       name: '',
@@ -62,8 +63,8 @@ export const useHandleApprovalDateChange = () => { // Set other dates on approva
         const yearsToAdd = period.type === "10Y" ? 10 : 15
         setFormValue(`VestingPeriods.${ index }.date`, yearsToAdd)
       })
-      }
-    }, [approvalDate, setValue, getValues])
+    }
+  }, [approvalDate, setValue, getValues])
   
   useEffect(() => {
     cb()
