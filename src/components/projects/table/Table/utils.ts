@@ -65,7 +65,8 @@ export const ZoningOrdinanceMap = new Map<ZoningOrdinanceType,string>([
   ['2020-12-08', 'https://web.franklintn.gov/flippingbook/2020FranklinZoningOrdinance'],
   ['2022-01-01', 'https://web.franklintn.gov/flippingbook/2022franklinzoningordinance/'],
   ['2023-01-01', 'https://web.franklintn.gov/FlippingBook/FranklinZoningOrdinance/index.html'],
-  ['2024-07-01', 'https://www.franklintn.gov/home/showpublisheddocument/38613']
+  ['2024-07-01', 'https://www.franklintn.gov/home/showpublisheddocument/38613'],
+  ['2025-01-01', '']
 ])
 
 export const ordinanceOptions: { text: ZoningOrdinanceType | '', value: string }[] = [ // Zoning ordinance select options
@@ -80,7 +81,8 @@ export const ordinanceOptions: { text: ZoningOrdinanceType | '', value: string }
   { text: '2020-12-08', value: '2020-12-08' },
   { text: '2022-01-01', value: '2022-01-01' },
   { text: '2023-01-01', value: '2023-01-01' },
-  { text: '2024-07-01', value: '2024-07-01' }
+  { text: '2024-07-01', value: '2024-07-01' },
+  { text: '2025-01-01', value: '2025-01-01' }
 ]
 
 export const handleRowStyling = (project: ProjectInterface): string | undefined => { // Handle table row styling

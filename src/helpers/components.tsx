@@ -1,4 +1,4 @@
-import { ordinanceOptions } from "@/utils"
+import { ordinanceOptions } from "@/components/projects/table/Table/utils"
 
 export const OrdinanceOptions = () => {
   

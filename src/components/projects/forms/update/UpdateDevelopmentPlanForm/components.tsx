@@ -420,7 +420,7 @@ const TenYearVestingAchievedCheckbox = () => {
 
   return (
     <Controller
-      name={`VestingPeriods.${ index }.VestingStatus.expired`}
+      name={`VestingPeriods.${ index }.VestingStatus.achieved`}
       control={control}
       rules={{
         validate: value =>
