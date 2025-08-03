@@ -249,8 +249,15 @@ const VestingPeriods = ({ project, hovered }: { project: ProjectInterface, hover
 
 const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
   const tenYearVesting = project.VestingPeriods?.find(period => period.type === "10Y")
+  if(project.expired) return (
+    <span className="text-3xl font-[play] italic uppercase font-bold">Expired</span>
+  )
 
   if(!tenYearVesting) return null
+
+  if(tenYearVesting.VestingStatus?.achieved) return (
+    <span className="text-3xl font-[play] italic uppercase font-bold">Completed</span>
+  )
 
   return (
     <div className="flex flex-col items-center text-center" title="10 year vesting period date">
@@ -269,6 +276,10 @@ const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, h
   const fifteenYearVesting = project.VestingPeriods?.find(period => period.type === "15Y")
 
   if(!fifteenYearVesting) return null
+
+  if(fifteenYearVesting.VestingStatus?.achieved) return (
+    <span className="text-3xl font-[play] italic uppercase font-bold">Completed</span>
+  )
 
   return (
     <div className="flex flex-col items-center text-center" title="15 year vesting period date">
