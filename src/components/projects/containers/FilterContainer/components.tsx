@@ -1,7 +1,7 @@
-import { useHandleFilterBtnClick } from './hooks'
+import { useHandleFilterBtn } from './hooks'
 
 // Types
-import { ProjectInterface } from "@/context/types"
+import * as AppTypes from "@/context/types"
 
 export const FilterBtns = () => { 
 
@@ -14,14 +14,12 @@ export const FilterBtns = () => {
   )
 }
 
-const FilterBtn = ({ type }: { type: ProjectInterface['type'] }) => {
-  const { handleFilterBtnClick, active } = useHandleFilterBtnClick(type)
+const FilterBtn = ({ type }: { type: AppTypes.ProjectInterface['type'] }) => {
+  const btnProps = useHandleFilterBtn(type)
 
   return (
-    <button 
-      onClick={handleFilterBtnClick}
-      className={`btn btn-lg btn-outline text-neutral-content font-[jura] px-3 outline outline-neutral-content w-full lg:w-[200px] hover:text-neutral ${ active ? 'bg-neutral outline-none hover:text-neutral-content' : null }`}>
-        <div className="whitespace-nowrap overflow-hidden text-ellipsis">{type}</div>
+    <button { ...btnProps }>
+      <div className="whitespace-nowrap overflow-hidden text-ellipsis">{type}</div>
     </button>
   )
 }

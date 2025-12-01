@@ -1,10 +1,43 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
+import { scrollToTop } from './utils'
 
 // Types
-import { ProjectInterface } from '@/context/types'
+import * as AppTypes from '@/context/types'
 import ProjectsCtx from './context'
 
-export const useSetTableData = (projects: ProjectInterface[]): ProjectInterface[] => { // Set projects array
+export const useHandleProjectsContainer = (projects: AppTypes.ProjectInterface[]) => {
+  const topRef = useRef<HTMLDivElement>(null)
+  const tableData = useSetTableData(projects)
+  const onBackToTopBtnClick = () => scrollToTop(topRef)
+
+  return { topRef, tableData, onBackToTopBtnClick }
+}
+
+export const useHandleShowExpiredCheckbox = () => {
+  const { showExpired, dispatch } = useContext(ProjectsCtx)
+
+  const onChange = () => {
+    dispatch({ type: 'TOGGLE_SHOW_EXPIRED' })
+  }
+
+  const checked = showExpired
+
+  return { onChange, checked }
+}
+
+export const useHandleShowCompletedCheckbox = () => {
+  const { showCompleted, dispatch } = useContext(ProjectsCtx)
+
+  const onChange = () => {
+    dispatch({ type: 'TOGGLE_SHOW_COMPLETED' })
+  }
+  
+  const checked = showCompleted
+
+  return { onChange, checked }
+}
+
+const useSetTableData = (projects: AppTypes.ProjectInterface[]) => { // Set projects array
   const { filter, searchValue, milestoneFilter, showAchieved, showCompleted, showExpired, currentPage, resultsPerPage } = useContext(ProjectsCtx)
 
   let array = []

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useMsal } from "@azure/msal-react"
 
 export const useHandleTableRowHover = () => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
@@ -15,5 +16,23 @@ export const useHandleTableRowHover = () => {
     setState({ hovered: false })
   }
 
-  return { onMouseEnter, onMouseLeave, hovered: state.hovered }
+  return { trProps: { onMouseEnter, onMouseLeave }, hovered: state.hovered }
+}
+
+export const useHandleProjectCell = () => {
+  const [state, setState] = useState<{ expanded: boolean }>({ expanded: false })
+
+  const onClick = () => {
+    setState(prevState => ({ expanded: !prevState.expanded }))
+  }
+
+  return { onClick, expanded: state.expanded }
+}
+
+export const useHandleProjectName = () => {
+  const { instance } = useMsal()
+
+  const activeAccount = instance.getActiveAccount()
+
+  return !!activeAccount
 }

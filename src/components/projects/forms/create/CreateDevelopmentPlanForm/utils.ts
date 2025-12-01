@@ -3,9 +3,9 @@ import * as AppActions from '@/context/AppActions'
 import { savedPopup, errorPopup } from "@/utils/Toast/Toast"
 
 // Types
-import { ProjectCreateInterface } from "@/context/types"
+import * as AppTypes from "@/context/types"
 
-export const handleCreateDevelopmentPlan = async (formData: ProjectCreateInterface, token: string): Promise<void> => { // Handle form submit
+export const handleCreateDevelopmentPlan = async (formData: AppTypes.ProjectCreateInterface, token: string): Promise<void> => { // Handle form submit
   const result = await AppActions.createProject(formData, authHeaders(token))
 
   if(result.success) {

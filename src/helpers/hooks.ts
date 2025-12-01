@@ -5,7 +5,7 @@ import { useMsal } from "@azure/msal-react"
 import { NODE_ENV } from '../config'
 
 // Types
-import { ProjectCreateInterface } from "@/context/types"
+import * as AppTypes from "@/context/types"
 
 export const useGetToken = () => {
   const [state, setState] = useState<{ token: string | undefined }>({ token: undefined })
@@ -119,7 +119,7 @@ export const useRedirectAfterLogin = () => {
 }
 
 export const useProjectCreateCtx = () => { // Project create ctx
-  const methods = useFormContext<ProjectCreateInterface>()
+  const methods = useFormContext<AppTypes.ProjectCreateInterface>()
 
   const disabled = methods.watch('expired')
 

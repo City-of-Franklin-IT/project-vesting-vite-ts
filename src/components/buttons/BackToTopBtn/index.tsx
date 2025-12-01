@@ -1,11 +1,12 @@
+import React from 'react'
 import styles from './BackToTopBtn.module.css'
 
-function BackToTopBtn({ handleClick }: { handleClick: () => void }) {
+function BackToTopBtn({ onClick }: { onClick: React.MouseEventHandler<HTMLButtonElement> }) {
   
   return (
     <button
       type="button" 
-      onClick={() => handleClick()}
+      onClick={onClick}
       className={styles.btn}>
         Back To Top
     </button>

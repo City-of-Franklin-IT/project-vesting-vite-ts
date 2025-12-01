@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router'
+import { useQueryClient } from 'react-query'
 import { useForm, Path } from 'react-hook-form'
 import { addYears } from '@/helpers/utils'
 import { useEnableQuery, useProjectCreateCtx } from '@/helpers/hooks'
@@ -8,11 +9,48 @@ import { errorPopup } from '@/utils/Toast/Toast'
 
 // Types
 import { UseFormReturn } from 'react-hook-form'
-import { ProjectCreateInterface } from '@/context/types'
+import * as AppTypes from '@/context/types'
 
-export const useCreatePreliminaryPlatForm = (): UseFormReturn<ProjectCreateInterface> => { // CreatePreliminaryPlatForm useForm
+export const useHandleCreatePreliminaryPlatForm = () => {
+  const methods = useCreatePreliminaryPlatForm()
+  const handleFormSubmit = useHandleFormSubmit()
+
+  return { methods, handleFormSubmit }
+}
+
+export const useHandleFPMCDateChange = () => { // Set other dates on FPMC date change
+  const { methods } = useProjectCreateCtx()
+
+  const { setValue, watch, getValues } = methods
+
+  const fpmcDate = watch(`Approvals.${ 0 }.date`)
+
+  const cb = useCallback(() => {
+    if(fpmcDate) {
+      const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
+        setValue(field, addYears(years, fpmcDate), { shouldValidate: true, shouldDirty: true })
+      }
+
+      setFormValue(`Milestones.${ 0 }.date`, 3)
+      setFormValue(`Milestones.${ 1 }.date`, 5)
+
+      const newVestingPeriods = getValues(`VestingPeriods`) || []
+
+      newVestingPeriods.forEach((period, index) => {
+        const yearsToAdd = period.type === "10Y" ? 10 : 15
+        setFormValue(`VestingPeriods.${ index }.date`, yearsToAdd)
+      })
+    }
+  }, [fpmcDate, setValue, getValues])
+
+  useEffect(() => {
+    cb()
+  }, [cb])
+}
+
+const useCreatePreliminaryPlatForm = (): UseFormReturn<AppTypes.ProjectCreateInterface> => { // CreatePreliminaryPlatForm useForm
   
-  return useForm<ProjectCreateInterface>({
+  return useForm<AppTypes.ProjectCreateInterface>({
     mode: 'onBlur',
     defaultValues: {
       type: 'Preliminary Plat',
@@ -42,48 +80,23 @@ export const useCreatePreliminaryPlatForm = (): UseFormReturn<ProjectCreateInter
   })
 }
 
-export const useHandleFPMCDateChange = () => { // Set other dates on FPMC date change
-  const { methods } = useProjectCreateCtx()
-
-  const { setValue, watch, getValues } = methods
-
-  const fpmcDate = watch(`Approvals.${ 0 }.date`)
-
-  const cb = useCallback(() => {
-    if(fpmcDate) {
-      const setFormValue = (field: Path<ProjectCreateInterface>, years: number) => {
-        setValue(field, addYears(years, fpmcDate), { shouldValidate: true, shouldDirty: true })
-      }
-
-      setFormValue(`Milestones.${ 0 }.date`, 3)
-      setFormValue(`Milestones.${ 1 }.date`, 5)
-
-      const newVestingPeriods = getValues(`VestingPeriods`) || []
-
-      newVestingPeriods.forEach((period, index) => {
-        const yearsToAdd = period.type === "10Y" ? 10 : 15
-        setFormValue(`VestingPeriods.${ index }.date`, yearsToAdd)
-      })
-    }
-  }, [fpmcDate, setValue, getValues])
-
-  useEffect(() => {
-    cb()
-  }, [cb])
-}
-
-export const useHandleFormSubmit = () => {
+const useHandleFormSubmit = () => {
   const { enabled, token } = useEnableQuery()
 
   const navigate = useNavigate()
 
-  return useCallback((formData: ProjectCreateInterface) => {
+  const queryClient = useQueryClient()
+
+  return useCallback((formData: AppTypes.ProjectCreateInterface) => {
     if(!enabled || !token) {
       return
     }
 
     handleCreatePreliminaryPlat(formData, token)
-      .then(_ => navigate('/projects'))
+      .then(_ => {
+        queryClient.invalidateQueries('getProjects')
+        navigate('/projects')
+      })
       .catch(err => errorPopup(err))
-  }, [navigate, enabled, token])
+  }, [navigate, queryClient, enabled, token])
 }

@@ -1,5 +1,4 @@
-import React, { useContext } from "react"
-import ProjectsCtx from "@/components/projects/containers/ProjectsContainer/context"
+import { useHandleRemoveFilterBtn, useHandleShowAchieved, useHandleDateInput } from './hooks'
 
 export const Header = () => {
 
@@ -15,24 +14,24 @@ export const Header = () => {
 export const DateInputs = () => {
 
   return (
-    <div className="flex flex-col gap-12 px-10 w-full md:flex-row md:m-auto md:w-fit">
-      <StartDateInput />
-      <EndDateInput />
+    <div className="flex flex-col gap-6 px-10 w-full md:flex-row md:m-auto md:w-fit xl:gap-10">
+      <DateInput field={'start'} />
+      <DateInput field={'end'} />
     </div>
   )
 }
 
 export const RemoveFilterBtn = () => {
-  const { milestoneFilter, dispatch } = useContext(ProjectsCtx)
+  const { visible, onClick } = useHandleRemoveFilterBtn()
 
-  if(!milestoneFilter.start || !milestoneFilter.end) return null
+  if(!visible) return null
 
   return (
     <div className="mt-2">
       <button
         type="button"
         className="btn btn-ghost text-neutral-content font-[jura] uppercase hover:text-neutral"
-        onClick={() => dispatch({ type: 'SET_MILESTONE_FILTER', payload: { start: '', end: '' } })}>
+        onClick={onClick}>
           Remove Filter
       </button>
     </div>
@@ -40,7 +39,7 @@ export const RemoveFilterBtn = () => {
 }
 
 export const ShowAchieved = () => {
-  const { showAchieved: { firstMilestone, secondMilestone }, dispatch } = useContext(ProjectsCtx)
+  const { firstMilestoneProps, secondMilestoneProps } = useHandleShowAchieved()
 
   return (
     <div className="flex flex-col gap-2 px-10 items-center">
@@ -49,72 +48,45 @@ export const ShowAchieved = () => {
       <div className="flex gap-8">
         <MilestoneCheckbox
           label={'1st Milestone:'}
-          checked={firstMilestone}
-          onClick={() => {
-            if(!firstMilestone) {
-              dispatch({ type: 'SET_SHOW_ACHIEVED_FILTER', payload: { firstMilestone: true, secondMilestone } })
-            } else dispatch({ type: 'SET_SHOW_ACHIEVED_FILTER', payload: { firstMilestone: false, secondMilestone: false } })
-          }} />
+          id={'firstMilestone'}
+          { ...firstMilestoneProps } />
         <MilestoneCheckbox
           label={'2nd Milestone:'}
-          checked={secondMilestone}
-          onClick={() => {
-            if(!secondMilestone) {
-              dispatch({ type: 'SET_SHOW_ACHIEVED_FILTER', payload: { firstMilestone: true, secondMilestone: true } })
-            } else dispatch({ type: 'SET_SHOW_ACHIEVED_FILTER', payload: { firstMilestone, secondMilestone: false } })
-          }} />
+          id={'secondMilestone'}
+          { ...secondMilestoneProps } />
       </div>
     </div>
   )
 }
 
-const StartDateInput = () => {
-  const {  milestoneFilter: { start, end }, dispatch } = useContext(ProjectsCtx)
+const DateInput = ({ field }: { field: 'start' | 'end' }) => {
+  const { inputProps, label } = useHandleDateInput(field)
 
   return (
     <div className="flex flex-col items-center">
-      <label htmlFor="start" className="text-neutral-content font-[play] uppercase">Start:</label>
+      <label htmlFor={field} className="text-neutral-content font-[play] uppercase">{label}</label>
       <input
-        data-testid="start-input"
-        id="start"
+        id={field}
         type="date"
         className="input"
-        value={start}
-        onChange={(e) => dispatch({ type: 'SET_MILESTONE_FILTER', payload: { start: e.currentTarget.value, end } })} />
+        { ...inputProps } />
     </div>
   )
 }
 
-const EndDateInput = () => {
-  const {  milestoneFilter: { start, end }, dispatch } = useContext(ProjectsCtx)
-
-  return (
-    <div className="flex flex-col items-center">
-      <label htmlFor="end" className="text-neutral-content font-[play] uppercase">End:</label>
-      <input 
-        data-testid="end-input"
-        id="end"
-        type="date"
-        className="input"
-        value={end}
-        onChange={(e) => dispatch({ type: 'SET_MILESTONE_FILTER', payload: { start, end: e.currentTarget.value } })} />
-    </div>
-  )
-}
-
-type MilestoneCheckboxProps = { label: string, checked: boolean, onClick: React.ChangeEventHandler<HTMLInputElement> }
+type MilestoneCheckboxProps = { label: string, id: string, checked: boolean, onChange: React.ChangeEventHandler<HTMLInputElement> }
 
 const MilestoneCheckbox = (props: MilestoneCheckboxProps) => {
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <label className="text-primary-content text-sm font-[play] uppercase text-center">{props.label}</label>
-      <input 
+      <label htmlFor={props.id} className="text-primary-content text-sm font-[play] uppercase text-center">{props.label}</label>
+      <input
         type="checkbox"
-        id="firstMilestone"
+        id={props.id}
         checked={props.checked}
         className="checkbox checkbox-primary"
-        onChange={props.onClick} />
+        onChange={props.onChange} />
     </div>
   )
 }

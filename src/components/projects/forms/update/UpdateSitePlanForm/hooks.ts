@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react"
 import { useNavigate } from "react-router"
+import { useQueryClient } from "react-query"
 import { useForm } from "react-hook-form"
 import { addYears } from "@/helpers/utils"
 import { useEnableQuery, useProjectCreateCtx } from "@/helpers/hooks"
@@ -8,25 +9,13 @@ import { handleUpdateSitePlan } from './utils'
 
 // Types
 import { Path } from "react-hook-form"
-import { ProjectInterface, ProjectCreateInterface } from "@/context/types"
+import * as AppTypes from '@/context/types'
 
-export const useUpdateSitePlanForm = (project: ProjectInterface) => {
+export const useHandleUpdateSitePlanForm = (project: AppTypes.ProjectInterface) => {
+  const methods = useUpdateSitePlanForm(project)
+  const handleFormSubmit = useHandleFormSubmit()
 
-  return useForm<ProjectCreateInterface>({
-    mode: 'onBlur',
-    defaultValues: {
-      expired: project.expired,
-      name: project.name,
-      cof: project.cof,
-      ordinance: project.ordinance,
-      Approvals: project.Approvals,
-      VestingPeriods: project.VestingPeriods,
-      Milestones: project.Milestones,
-      VestingNotifications: project.VestingNotifications,
-      notes: project.notes,
-      uuid: project.uuid
-    }
-  })
+  return { methods, handleFormSubmit }
 }
 
 export const useHandleApprovalDateChange = () => { // Set other dates on approval date change
@@ -38,7 +27,7 @@ export const useHandleApprovalDateChange = () => { // Set other dates on approva
 
   const cb = useCallback(() => {
       if(approvalDate) {
-        const setFormValue = (field: Path<ProjectCreateInterface>, years: number) => {
+        const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
           setValue(field, addYears(years, approvalDate), { shouldValidate: true, shouldDirty: true })
         }
   
@@ -60,18 +49,43 @@ export const useHandleApprovalDateChange = () => { // Set other dates on approva
     }, [cb])
 }
 
-export const useHandleFormSubmit = () => {
+const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface) => {
+
+  return useForm<AppTypes.ProjectCreateInterface>({
+    mode: 'onBlur',
+    defaultValues: {
+      expired: project.expired,
+      name: project.name,
+      cof: project.cof,
+      ordinance: project.ordinance,
+      Approvals: project.Approvals,
+      VestingPeriods: project.VestingPeriods,
+      Milestones: project.Milestones,
+      VestingNotifications: project.VestingNotifications,
+      notes: project.notes,
+      uuid: project.uuid
+    }
+  })
+}
+
+const useHandleFormSubmit = () => {
   const { enabled, token } = useEnableQuery()
 
   const navigate = useNavigate()
 
-  return useCallback((formData: ProjectCreateInterface) => {
+  const queryClient = useQueryClient()
+
+  return useCallback((formData: AppTypes.ProjectCreateInterface) => {
       if(!enabled || !token) {
         return
       }
   
       handleUpdateSitePlan(formData, token)
-        .then(_ => navigate('/projects'))
+        .then(_ => {
+          queryClient.invalidateQueries(['getProject', formData.uuid])
+          queryClient.invalidateQueries('getProjects')
+          navigate('/projects')
+        })
         .catch(err => errorPopup(err))
-    }, [navigate, enabled, token])
+    }, [navigate, queryClient, enabled, token])
 }

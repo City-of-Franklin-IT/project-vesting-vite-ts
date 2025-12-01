@@ -1,12 +1,12 @@
 import styles from './Table.module.css'
 
 // Types
-import { ProjectInterface } from '@/context/types'
+import * as AppTypes from '@/context/types'
 
 // Components
 import { TableBody } from './components'
 
-function Table({ projects }: { projects: ProjectInterface[] }) {
+function Table({ projects }: { projects: AppTypes.ProjectInterface[] }) {
 
   return (
     <div className={styles.container}>

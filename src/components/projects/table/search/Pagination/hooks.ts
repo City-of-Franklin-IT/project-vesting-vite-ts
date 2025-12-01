@@ -1,5 +1,11 @@
-import { useContext, useCallback, useEffect } from "react"
+import React, { useContext, useCallback, useEffect } from "react"
 import ProjectsCtx from "@/components/projects/containers/ProjectsContainer/context"
+
+export const useHandlePagination = (topRef: React.RefObject<HTMLDivElement>, projectsCount: number) => {
+  useSetTotalPages(projectsCount) // Set total pages
+  useResetActivePage() // Reset active page on filter change
+  useScrollToTopRef(topRef) // Scroll to top on page change
+}
 
 export const useHandlePaginationBtns = () => {
   const { currentPage, totalPages, dispatch } = useContext(ProjectsCtx)
@@ -12,10 +18,20 @@ export const useHandlePaginationBtns = () => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage + 1 })
   }
 
-  return { handlePrevPage, handleNextPage, currentPage, totalPages }
+  const prevBtnProps = {
+    disabled: currentPage === 1,
+    onClick: handlePrevPage
+  }
+
+  const nextBtnProps = {
+    disabled: currentPage === totalPages,
+    onClick: handleNextPage
+  }
+
+  return { prevBtnProps, nextBtnProps }
 }
 
-export const useSetTotalPages = (projectsCount: number) => {
+const useSetTotalPages = (projectsCount: number) => {
   const { resultsPerPage, dispatch } = useContext(ProjectsCtx)
 
   useEffect(() => {
@@ -23,7 +39,7 @@ export const useSetTotalPages = (projectsCount: number) => {
   }, [projectsCount, resultsPerPage])
 }
 
-export const useResetActivePage = () => { // Reset active page on filter / searchValue change
+const useResetActivePage = () => { // Reset active page on filter / searchValue change
   const { filter, milestoneFilter, showExpired, showAchieved, showCompleted, searchValue, resultsPerPage, dispatch } = useContext(ProjectsCtx)
 
   const setActivePage = useCallback(() => {
@@ -35,7 +51,7 @@ export const useResetActivePage = () => { // Reset active page on filter / searc
   }, [setActivePage])
 }
 
-export const useScrollToTopRef = (topRef: React.RefObject<HTMLDivElement>) => {
+const useScrollToTopRef = (topRef: React.RefObject<HTMLDivElement>) => {
   const { currentPage } = useContext(ProjectsCtx)
 
   useEffect(() => {

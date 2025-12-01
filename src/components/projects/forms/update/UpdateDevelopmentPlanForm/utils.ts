@@ -3,9 +3,9 @@ import { authHeaders, handleMilestoneExtension, handleVestingPeriod, handleVesti
 import { savedPopup, errorPopup } from "../../../../../utils/Toast/Toast"
 
 // Types
-import { ProjectCreateInterface } from "@/context/types"
+import * as AppTypes from "@/context/types"
 
-export const handleUpdateDevelopmentPlan = async (formData: ProjectCreateInterface, token: string): Promise<void> => {
+export const handleUpdateDevelopmentPlan = async (formData: AppTypes.ProjectCreateInterface, token: string): Promise<void> => {
   const result = await AppActions.updateProject(formData, authHeaders(token))
 
   if(result.success) {

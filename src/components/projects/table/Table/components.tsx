@@ -1,17 +1,15 @@
-import { useState } from "react"
-import { useMsal } from "@azure/msal-react"
-import { setIconVariant, ZoningOrdinanceMap, handleRowStyling, setMilestoneIconVariant, setVestingIconVariant } from './utils'
-import { useHandleTableRowHover } from './hooks'
+import { Link } from "react-router"
+import { setIconVariant, ZoningOrdinanceMap, handleRowStyling, setMilestoneIconVariant, setVestingIconVariant, handleDetailsBtnIcon } from './utils'
+import { useHandleTableRowHover, useHandleProjectCell, useHandleProjectName } from './hooks'
 import styles from './Table.module.css'
 
 // Types
-import { MilestoneInterface, ProjectInterface, VestingPeriodInterface } from "@/context/types"
+import * as AppTypes from '@/context/types'
 
 // Components
 import Icons from "@/components/icons/Icons/Icons"
-import { Link } from "react-router"
 
-export const TableBody = ({ projects }: { projects: ProjectInterface[] }) => { // Projects table body
+export const TableBody = ({ projects }: { projects: AppTypes.ProjectInterface[] }) => { // Projects table body
 
   return (
     <tbody>
@@ -26,118 +24,117 @@ export const TableBody = ({ projects }: { projects: ProjectInterface[] }) => { /
   )
 }
 
-const TableRow = ({ project }: { project: ProjectInterface }) => {
-  const { onMouseEnter, onMouseLeave, hovered } = useHandleTableRowHover()
+const TableRow = ({ project }: { project: AppTypes.ProjectInterface }) => {
+  const { trProps, hovered } = useHandleTableRowHover()
+
+  const cellProps = { project, hovered }
 
   return (
     <tr 
       key={`table-row-${ project.uuid }`}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      className={handleRowStyling(project)}>
-        <td>
-          <ProjectCell
-            project={project}
-            hovered={hovered} />
-        </td>
-        <td>
-          <Milestones
-            project={project}
-            hovered={hovered} />
-        </td>
-        <td>
-          <VestingPeriods
-            project={project}
-            hovered={hovered} />
-        </td>
+      className={handleRowStyling(project)}
+      { ...trProps }>
+        <ProjectCell { ...cellProps } />
+        <Milestones { ...cellProps } />
+        <VestingPeriods { ...cellProps } />
     </tr>
   )
 }
 
-const ProjectCell = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
-  const [state, setState] = useState<{ expanded: boolean }>({ expanded: false })
+type ProjectCellProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const ProjectCell = (props: ProjectCellProps) => {
+  const btnProps = useHandleProjectCell()
 
   return (
-    <div className="flex flex-col gap-4 p-5">
-      <div>
-        <ProjectName project={project} />
-        <span className="text-sm font-light italic ml-2 whitespace-nowrap"><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ project.cof } on GeoCivix`}>COF# {project.cof}</a></span>
+    <td>
+      <div className="flex flex-col gap-4 p-5">
+        <div>
+          <ProjectName project={props.project} />
+          <span className="text-sm font-light italic ml-2 whitespace-nowrap"><a href={`https://franklintn.geocivix.com/secure/project/?projTitle=${ props.project.cof }&searchtype=review&ProjectActive=1&step=results`} target='_blank' title={`Search COF# ${ props.project.cof } on GeoCivix`}>COF# {props.project.cof}</a></span>
+        </div>
+        <DetailsBtn
+          hovered={props.hovered}
+          { ...btnProps } />
+        <ProjectDetails
+          project={props.project}
+          hovered={props.hovered}
+          expanded={btnProps.expanded} />
       </div>
-      <DetailsBtn
-        expanded={state.expanded}
-        hovered={hovered}
-        handleClick={() => setState(prevState => ({ expanded: !prevState.expanded }))} />
-      <ProjectDetails
-        project={project}
-        hovered={hovered}
-        expanded={state.expanded} />
-    </div>
+    </td>
   )
 }
 
-const ProjectName = ({ project }: { project: ProjectInterface }) => {
-  const { instance } = useMsal()
+const ProjectName = ({ project }: { project: AppTypes.ProjectInterface }) => {
+  const hasActiveAccount = useHandleProjectName()
 
-  const activeAccount = instance.getActiveAccount()
-
-  if(!activeAccount) return <span className="text-lg font-bold uppercase whitespace-wrap" title={`Update ${ project.name }`}>{project.name} // </span>
+  if(!hasActiveAccount) return ( // Unauthenticated
+    <span className="text-lg font-bold uppercase whitespace-wrap">{project.name} // </span>
+  )
 
   return (
-    <Link to={`/update/${ project.uuid }`} className="text-lg font-bold uppercase whitespace-wrap hover:text-warning" title={`Update ${ project.name }`}>{project.name} //</Link>
+    <Link 
+      to={`/update/${ project.uuid }`} 
+      className="text-lg font-bold uppercase whitespace-wrap hover:text-warning" 
+      title={`Update ${ project.name }`}>
+        {project.name} //
+    </Link>
   )
 }
 
-const ProjectDetails = ({ project, hovered, expanded }: { project: ProjectInterface, hovered: boolean, expanded: boolean }) => {
+type ProjectDetailsProps = { project: AppTypes.ProjectInterface, hovered: boolean, expanded: boolean }
+
+const ProjectDetails = (props: ProjectDetailsProps) => {
+  const { expanded, ...detailProps } = props
+
   if(!expanded) return null
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-4 justify-around">
-        <ProjectType
-          project={project}
-          hovered={hovered} />
-        <Ordinance
-          project={project}
-          hovered={hovered} />
-        <Resolution
-          project={project}
-          hovered={hovered} />
+        <ProjectType { ...detailProps } />
+        <Ordinance { ...detailProps } />
+        <Resolution { ...detailProps } />
       </div>
 
-      <ProjectNotes project={project} />
+      <ProjectNotes project={detailProps.project} />
     </div>
   )
 }
 
-const ProjectType = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+type ProjectTypeProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const ProjectType = (props: ProjectTypeProps) => {
   
   return (
     <div className="flex flex-col items-center">
       <Icons
         type={'type'}
-        variant={setIconVariant(project, hovered)}
+        variant={setIconVariant(props.project, props.hovered)}
         size={'small'} />
       <small className="underline">Type:</small>
-      <small className="whitespace-nowrap">{project.type}</small>
+      <small className="whitespace-nowrap">{props.project.type}</small>
     </div>
   )
 }
 
-const Ordinance = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+type OrdinanceProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const Ordinance = (props: OrdinanceProps) => {
 
   return (
     <div className="flex flex-col items-center">
       <Icons
         type={'ordinance'}
-        variant={setIconVariant(project, hovered)}
+        variant={setIconVariant(props.project, props.hovered)}
         size={'small'} />
       <small className="underline">Ordinance:</small>
-      <OrdinanceLink project={project} />
+      <OrdinanceLink project={props.project} />
     </div>
   )
 }
 
-const OrdinanceLink = ({ project }: { project: ProjectInterface }) => {
+const OrdinanceLink = ({ project }: { project: AppTypes.ProjectInterface }) => {
   const ordinanceLink = ZoningOrdinanceMap.get(project.ordinance)
 
   return (
@@ -145,22 +142,24 @@ const OrdinanceLink = ({ project }: { project: ProjectInterface }) => {
   )
 }
 
-const Resolution = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
-  if(!project.Resolution) return null
+type ResolutionProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const Resolution = (props: ResolutionProps) => {
+  if(!props.project.Resolution) return null
 
   return (
     <div className="flex flex-col items-center">
       <Icons
         type={'resolution'}
-        variant={setIconVariant(project, hovered)}
+        variant={setIconVariant(props.project, props.hovered)}
         size={'small'} />
       <small className="underline">Resolution:</small>
-      <small className="whitespace-nowrap">{project.Resolution.resolution}</small>
+      <small className="whitespace-nowrap">{props.project.Resolution.resolution}</small>
     </div>
   )
 }
 
-const ProjectNotes = ({ project }: { project: ProjectInterface }) => {
+const ProjectNotes = ({ project }: { project: AppTypes.ProjectInterface }) => {
   if(!project.notes) return null
 
   return (
@@ -168,28 +167,30 @@ const ProjectNotes = ({ project }: { project: ProjectInterface }) => {
   )
 }
 
-const Milestones = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+type MilestonesProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const Milestones = (props: MilestonesProps) => {
 
   return (
-    <div className="flex flex-col justify-between gap-6 m-auto p-3 w-fit lg:flex-row">
-      <FirstMilestone
-        project={project}
-        hovered={hovered} />
-      <SecondMilestone
-        project={project}
-        hovered={hovered} />
-    </div>
+    <td>
+      <div className="flex flex-col justify-between gap-6 m-auto p-3 w-fit lg:flex-row">
+        <FirstMilestone { ...props } />
+        <SecondMilestone { ...props } />
+      </div>
+    </td>
   )
 }
 
-const FirstMilestone = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
-  const firstMilestone = project.Milestones?.find(milestone => milestone.number === 1)
+type FirstMilestoneProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const FirstMilestone = (props: FirstMilestoneProps) => {
+  const firstMilestone = props.project.Milestones?.find(milestone => milestone.number === 1)
 
   return (
     <div className="flex flex-col items-center" title="1st Milestone: Site Preperation">
       <Icons
         type={'firstMilestone'}
-        variant={setMilestoneIconVariant(firstMilestone, project, hovered)}
+        variant={setMilestoneIconVariant(firstMilestone, props.project, props.hovered)}
         size={'large'} />
       <small className="-translate-y-1">1st Milestone</small>
       <Milestone milestone={firstMilestone} />
@@ -198,7 +199,7 @@ const FirstMilestone = ({ project, hovered }: { project: ProjectInterface, hover
   )
 }
 
-const Milestone = ({ milestone }: { milestone: MilestoneInterface | undefined }) => {
+const Milestone = ({ milestone }: { milestone: AppTypes.MilestoneInterface | undefined }) => {
   if(!milestone || milestone?.MilestoneExtension) return null
 
   return (
@@ -206,7 +207,7 @@ const Milestone = ({ milestone }: { milestone: MilestoneInterface | undefined })
   )
 }
 
-const MilestoneExtension = ({ milestone }: { milestone: MilestoneInterface | undefined }) => {
+const MilestoneExtension = ({ milestone }: { milestone: AppTypes.MilestoneInterface | undefined }) => {
   if(!milestone?.MilestoneExtension) return null
 
   return (
@@ -216,15 +217,16 @@ const MilestoneExtension = ({ milestone }: { milestone: MilestoneInterface | und
   )
 }
 
-const SecondMilestone = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+type SecondMilestoneProps = { project: AppTypes.ProjectInterface, hovered: boolean }
 
-  const secondMilestone = project.Milestones?.find(milestone => milestone.number === 2)
+const SecondMilestone = (props: SecondMilestoneProps) => {
+  const secondMilestone = props.project.Milestones?.find(milestone => milestone.number === 2)
 
   return (
     <div className="flex flex-col items-center" title="2nd Milestone: Vertical Construction">
       <Icons
         type={'secondMilestone'}
-        variant={setMilestoneIconVariant(secondMilestone, project, hovered)}
+        variant={setMilestoneIconVariant(secondMilestone, props.project, props.hovered)}
         size={'large'} />
       <small className="-translate-y-1">2nd Milestone</small>
       <Milestone milestone={secondMilestone} />
@@ -233,27 +235,30 @@ const SecondMilestone = ({ project, hovered }: { project: ProjectInterface, hove
   )
 }
 
-const VestingPeriods = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
+type VestingPeriodsProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const VestingPeriods = (props: VestingPeriodsProps) => {
 
   return (
-    <div className="flex justify-between gap-6 m-auto p-3 w-fit">
-      <TenYearVesting
-        project={project}
-        hovered={hovered} />
-      <FifteenYearVesting
-        project={project}
-        hovered={hovered} />
-    </div>
+    <td>
+      <div className="flex justify-between gap-6 m-auto p-3 w-fit">
+        <TenYearVesting { ...props } />
+        <FifteenYearVesting { ...props } />
+      </div>
+    </td>
   )
 }
 
-const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
-  const tenYearVesting = project.VestingPeriods?.find(period => period.type === "10Y")
-  if(project.expired) return (
-    <span className="text-3xl font-[play] italic uppercase font-bold">Expired</span>
-  )
+type TenYearVestingProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const TenYearVesting = (props: TenYearVestingProps) => {
+  const tenYearVesting = props.project.VestingPeriods?.find(period => period.type === "10Y")
 
   if(!tenYearVesting) return null
+
+  if(props.project.expired) return (
+    <span className="text-3xl font-[play] italic uppercase font-bold">Expired</span>
+  )
 
   if(tenYearVesting.VestingStatus?.achieved) return (
     <span className="text-3xl font-[play] italic uppercase font-bold">Completed</span>
@@ -263,7 +268,7 @@ const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hover
     <div className="flex flex-col items-center text-center" title="10 year vesting period date">
       <Icons
         type={'tenYear'}
-        variant={setVestingIconVariant(tenYearVesting, project, hovered)} 
+        variant={setVestingIconVariant(tenYearVesting, props.project, props.hovered)} 
         size={'large'} />
       <small>10 Year Vesting</small>
       <VestingPeriod period={tenYearVesting} />
@@ -272,8 +277,10 @@ const TenYearVesting = ({ project, hovered }: { project: ProjectInterface, hover
   )
 }
 
-const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, hovered: boolean }) => {
-  const fifteenYearVesting = project.VestingPeriods?.find(period => period.type === "15Y")
+type FifteenYearVestingProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+
+const FifteenYearVesting = (props: FifteenYearVestingProps) => {
+  const fifteenYearVesting = props.project.VestingPeriods?.find(period => period.type === "15Y")
 
   if(!fifteenYearVesting) return null
 
@@ -285,7 +292,7 @@ const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, h
     <div className="flex flex-col items-center text-center" title="15 year vesting period date">
       <Icons
         type={'fifteenYear'}
-        variant={setVestingIconVariant(fifteenYearVesting, project, hovered)} 
+        variant={setVestingIconVariant(fifteenYearVesting, props.project, props.hovered)} 
         size={'large'} />
       <small>Fifteen Year Vesting</small>
       <VestingPeriod period={fifteenYearVesting} />
@@ -294,7 +301,7 @@ const FifteenYearVesting = ({ project, hovered }: { project: ProjectInterface, h
   )
 }
 
-const VestingPeriod = ({ period }: { period: VestingPeriodInterface }) => {
+const VestingPeriod = ({ period }: { period: AppTypes.VestingPeriodInterface }) => {
   if(!period || period?.VestingExtension) return null
 
   return (
@@ -302,7 +309,7 @@ const VestingPeriod = ({ period }: { period: VestingPeriodInterface }) => {
   )
 }
 
-const VestingPeriodExtension = ({ period }: { period: VestingPeriodInterface }) => {
+const VestingPeriodExtension = ({ period }: { period: AppTypes.VestingPeriodInterface }) => {
   if(!period?.VestingExtension) return null
 
   return (
@@ -312,19 +319,17 @@ const VestingPeriodExtension = ({ period }: { period: VestingPeriodInterface }) 
   )
 }
 
-type DetailsBtnProps = { expanded: boolean, hovered: boolean, handleClick: () => void }
+type DetailsBtnProps = { expanded: boolean, hovered: boolean, onClick: () => void }
 
 const DetailsBtn = (props: DetailsBtnProps) => {
-  
+  const iconProps = handleDetailsBtnIcon(props)
+
   return (
     <button 
       type="button"
-      onClick={props.handleClick}
+      onClick={props.onClick}
       className="m-auto w-fit hover:cursor-pointer">
-        <Icons
-          type={props.expanded ? 'minimize' : 'expand'}
-          variant={props.hovered ? 'light' : 'dark' }
-          size={"small"} />
+        <Icons { ...iconProps } />
     </button> 
   )
 }

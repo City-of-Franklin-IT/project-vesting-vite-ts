@@ -1,39 +1,33 @@
-import { useContext } from "react"
-import ProjectCtx from '@/components/projects/containers/ProjectsContainer/context'
-import { useHandleSearch } from './hooks'
+import { useHandleSearch, useHandleClearBtn } from './hooks'
 
 export const Header = () => {
-
   return (
-    <h2 className="absolute text-warning text-4xl font-[fugaz_one] text-shadow-lg -top-5 -left-3 z-10">Search</h2>
+    <h2 className="text-primary-content text-2xl font-[play] uppercase font-bold">Search</h2>
   )
 }
 
 export const SearchInput = () => {
-  const { searchValue } = useContext(ProjectCtx)
-
-  const handleSearch = useHandleSearch()
+  const inputProps = useHandleSearch()
 
   return (
     <input 
       type="text" 
-      value={searchValue} 
       placeholder="by project name, COF #, or zoning ordinance.." 
-      onChange={(e) => handleSearch(e)} 
-      className="input input-lg w-full" />
+      className="input w-full"
+      { ...inputProps } />
   )
 }
 
 export const ClearBtn = () => { // Clear search button
-  const { searchValue, dispatch } = useContext(ProjectCtx)
+  const { visible, onClick } = useHandleClearBtn()
 
-  if(!searchValue) return null
+  if(!visible) return null
 
   return (
     <button 
       type="button" 
-      onClick={() => dispatch({ type: 'SET_SEARCH_VALUE', payload: '' })}
-      className="absolute btn btn-lg btn-primary uppercase z-10 rounded-l-none right-0">
+      onClick={onClick}
+      className="btn btn-primary uppercase">
         Clear
     </button>
   )

@@ -3,9 +3,9 @@ import FormContainer from '../../../form-components/FormContainer'
 import * as Components from './components'
 
 // Types
-import { ProjectInterface } from '@/context/types'
+import * as AppTypes from '@/context/types'
 
-function ProjectContainer({ project }: { project: ProjectInterface }) {
+function ProjectContainer({ project }: { project: AppTypes.ProjectInterface }) {
   
   return (
     <div className="w-full">

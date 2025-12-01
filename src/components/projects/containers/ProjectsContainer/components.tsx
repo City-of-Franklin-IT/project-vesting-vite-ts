@@ -1,31 +1,28 @@
-import { useContext } from "react"
-import ProjectsCtx from "./context"
+import { useHandleShowExpiredCheckbox, useHandleShowCompletedCheckbox } from './hooks'
 
 export const ShowExpiredCheckbox = () => {
-  const { showExpired, dispatch } = useContext(ProjectsCtx)
+  const inputProps = useHandleShowExpiredCheckbox()
 
   return (
     <div className="flex gap-2 items-center">
       <label className="text-primary-content text-lg font-[play] uppercase whitespace-nowrap">Show Expired:</label>
       <input
         type="checkbox"
-        checked={showExpired}
         className="checkbox checkbox-primary"
-        onChange={() => dispatch({ type: 'TOGGLE_SHOW_EXPIRED' })} />
+        { ...inputProps } />
     </div>
   )
 }
 export const ShowCompletedCheckbox = () => {
-  const { showCompleted, dispatch } = useContext(ProjectsCtx)
+  const inputProps = useHandleShowCompletedCheckbox()
 
   return (
     <div className="flex gap-2 items-center">
       <label className="text-primary-content text-lg font-[play] uppercase whitespace-nowrap">Show Completed:</label>
       <input 
         type="checkbox"
-        checked={showCompleted}
         className="checkbox checkbox-primary"
-        onChange={() => dispatch({ type: 'TOGGLE_SHOW_COMPLETED' })} />
+        { ...inputProps } />
     </div>
   )
 }

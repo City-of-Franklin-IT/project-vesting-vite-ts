@@ -5,11 +5,9 @@ import FilterContainer from '../FilterContainer'
 function SearchAndFilterContainer() {
 
   return (
-    <div className="flex flex-col gap-2 items-center mt-10 w-fit">
-      <div className="w-full">
-        <Search />
-      </div>
+    <div className="flex gap-4 items-end flex-wrap justify-center w-full xl:justify-start xl:flex-nowrap xl:flex-2">
       <FilterContainer />
+      <Search />
     </div>
   )
 }
