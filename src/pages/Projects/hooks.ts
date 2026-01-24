@@ -1,7 +1,14 @@
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import { getProjects } from "@/context/AppActions"
 
-export const useGetProjects = () => { // Get projects
+/**
+* Returns projects from server
+**/
+export const useGetProjects = () => {
 
-  return useQuery('getProjects', () => getProjects(), { staleTime: Infinity })
+  return useQuery({
+    queryKey: ['getProjects'],
+    queryFn: () => getProjects(),
+    staleTime: Infinity
+  })
 }

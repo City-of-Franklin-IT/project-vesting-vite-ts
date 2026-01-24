@@ -1,15 +1,22 @@
-import React, { useContext, useCallback, useEffect } from "react"
+import { useContext, useCallback, useEffect } from "react"
 import ProjectsCtx from "@/components/projects/containers/ProjectsContainer/context"
 
+/**
+* Sets total pages, resets active page on filter change, and scrolls to top on page change
+**/
 export const useHandlePagination = (topRef: React.RefObject<HTMLDivElement>, projectsCount: number) => {
-  useSetTotalPages(projectsCount) // Set total pages
-  useResetActivePage() // Reset active page on filter change
-  useScrollToTopRef(topRef) // Scroll to top on page change
+
+  useSetTotalPages(projectsCount)
+  useResetActivePage()
+  useScrollToTopRef(topRef)
 }
 
+/**
+* Returns previous and next pagination button props
+**/
 export const useHandlePaginationBtns = () => {
   const { currentPage, totalPages, dispatch } = useContext(ProjectsCtx)
-  
+
   const handlePrevPage = () => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage - 1 })
   }

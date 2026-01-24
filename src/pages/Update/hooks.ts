@@ -1,15 +1,21 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router'
-import { getProject } from '@/context/AppActions'
 import { useEnableQuery } from '@/helpers/hooks'
-
-// Types
 import { authHeaders } from '@/helpers/utils'
+import * as AppActions from '@/context/AppActions'
 
+/**
+* Returns project by uuid from server
+**/
 export const useGetProject = () => {
   const { enabled, token } = useEnableQuery()
 
   const { uuid } = useParams()
 
-  return useQuery(['getProject', uuid], () => getProject(uuid as string, authHeaders(token)), { enabled: enabled && !!uuid })
+  return useQuery({
+    queryKey: ['getProject', uuid],
+    queryFn: () => AppActions.getProject(uuid as string, authHeaders(token)),
+    enabled: enabled && !!uuid,
+    staleTime: Infinity
+  })
 }

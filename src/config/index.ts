@@ -1,5 +1,3 @@
-// export const APP_URL = 'https://cofasv38.franklin-gov.com/api/v2/eng'
-export const APP_URL = 'https://dev.franklintn.gov/api/v2/eng'
 export const APP_BASE = '/vesting'
 export const APP_TITLE = 'Project Vesting'
 export const NODE_ENV: 'development' | 'test' | 'production' = 'production'

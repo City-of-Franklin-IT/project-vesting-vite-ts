@@ -1,11 +1,10 @@
 import * as AppActions from '@/context/AppActions'
 import { authHeaders, handleMilestoneExtension, handleVestingPeriod, handleVestingExtension, handleNotification } from "@/helpers/utils"
-import { savedPopup, errorPopup } from "../../../../../utils/Toast/Toast"
 
 // Types
 import * as AppTypes from "@/context/types"
 
-export const handleUpdateDevelopmentPlan = async (formData: AppTypes.ProjectCreateInterface, token: string): Promise<void> => {
+export const handleUpdateDevelopmentPlan = async (formData: AppTypes.ProjectCreateInterface, token: string) => {
   const result = await AppActions.updateProject(formData, authHeaders(token))
 
   if(result.success) {
@@ -36,7 +35,7 @@ export const handleUpdateDevelopmentPlan = async (formData: AppTypes.ProjectCrea
     ])
 
     await AppActions.updateResolution(formData.Resolution, authHeaders(token))
+  }
 
-    savedPopup(result.msg)
-  } else errorPopup()
+  return result
 }

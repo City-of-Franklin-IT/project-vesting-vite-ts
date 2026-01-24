@@ -1,6 +1,9 @@
 import { useState } from "react"
 import { useMsal } from "@azure/msal-react"
 
+/**
+* Returns table row hover event handlers and hovered state
+**/
 export const useHandleTableRowHover = () => {
   const [state, setState] = useState<{ hovered: boolean }>({ hovered: false })
 
@@ -19,6 +22,9 @@ export const useHandleTableRowHover = () => {
   return { trProps: { onMouseEnter, onMouseLeave }, hovered: state.hovered }
 }
 
+/**
+* Returns project cell onClick handler and expanded state
+**/
 export const useHandleProjectCell = () => {
   const [state, setState] = useState<{ expanded: boolean }>({ expanded: false })
 
@@ -29,6 +35,9 @@ export const useHandleProjectCell = () => {
   return { onClick, expanded: state.expanded }
 }
 
+/**
+* Returns whether user has active MSAL account
+**/
 export const useHandleProjectName = () => {
   const { instance } = useMsal()
 

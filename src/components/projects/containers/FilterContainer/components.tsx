@@ -14,7 +14,7 @@ export const FilterBtns = () => {
   )
 }
 
-const FilterBtn = ({ type }: { type: AppTypes.ProjectInterface['type'] }) => {
+const FilterBtn = ({ type }: { type: AppTypes.ProjectTypes }) => {
   const btnProps = useHandleFilterBtn(type)
 
   return (

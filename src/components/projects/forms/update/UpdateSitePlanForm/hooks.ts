@@ -1,16 +1,19 @@
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router"
-import { useQueryClient } from "react-query"
-import { useForm } from "react-hook-form"
+import { useQueryClient } from "@tanstack/react-query"
+import { useForm, UseFormReturn } from "react-hook-form"
 import { addYears } from "@/helpers/utils"
 import { useEnableQuery, useProjectCreateCtx } from "@/helpers/hooks"
-import { errorPopup } from "@/utils/Toast/Toast"
+import { errorPopup, savedPopup } from "@/utils/Toast/Toast"
 import { handleUpdateSitePlan } from './utils'
 
 // Types
 import { Path } from "react-hook-form"
 import * as AppTypes from '@/context/types'
 
+/**
+* Returns form methods and submit handler for UpdateSitePlanForm
+**/
 export const useHandleUpdateSitePlanForm = (project: AppTypes.ProjectInterface) => {
   const methods = useUpdateSitePlanForm(project)
   const handleFormSubmit = useHandleFormSubmit()
@@ -18,39 +21,39 @@ export const useHandleUpdateSitePlanForm = (project: AppTypes.ProjectInterface) 
   return { methods, handleFormSubmit }
 }
 
-export const useHandleApprovalDateChange = () => { // Set other dates on approval date change
+/**
+* Sets milestone and vesting dates when approval date changes
+**/
+export const useHandleApprovalDateChange = () => {
   const { methods } = useProjectCreateCtx()
 
   const { setValue, watch, getValues } = methods
 
   const approvalDate = watch(`Approvals.${ 0 }.date`)
 
-  const cb = useCallback(() => {
-      if(approvalDate) {
-        const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
-          setValue(field, addYears(years, approvalDate), { shouldValidate: true, shouldDirty: true })
-        }
-  
-        setFormValue(`Milestones.${ 0 }.date`, 3)
-        setFormValue(`Milestones.${ 1 }.date`, 5)
-  
-        const vestingPeriods = getValues(`VestingPeriods`) || []
-  
-        vestingPeriods.forEach((period, index) => {
-          const yearsToAdd = period.type === "10Y" ? 10 : 15
-          setFormValue(`VestingPeriods.${ index }.date`, yearsToAdd)
-        })
+  useEffect(() => {
+    if(approvalDate) {
+      const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
+        setValue(field, addYears(years, approvalDate), { shouldValidate: true, shouldDirty: true })
       }
-  
-    }, [approvalDate, setValue, getValues])
-  
-    useEffect(() => {
-      cb()
-    }, [cb])
+
+      setFormValue(`Milestones.${ 0 }.date`, 3)
+      setFormValue(`Milestones.${ 1 }.date`, 5)
+
+      const vestingPeriods = getValues(`VestingPeriods`) || []
+
+      vestingPeriods.forEach((period, index) => {
+        const yearsToAdd = period.type === "10Y" ? 10 : 15
+        setFormValue(`VestingPeriods.${ index }.date`, yearsToAdd)
+      })
+    }
+  }, [approvalDate, setValue, getValues])
 }
 
-const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface) => {
-
+/**
+* Initializes react-hook-form with existing project data for Site Plan
+**/
+const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface): UseFormReturn<AppTypes.ProjectCreateInterface> => {
   return useForm<AppTypes.ProjectCreateInterface>({
     mode: 'onBlur',
     defaultValues: {
@@ -58,9 +61,9 @@ const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface) => {
       name: project.name,
       cof: project.cof,
       ordinance: project.ordinance,
-      Approvals: project.Approvals,
-      VestingPeriods: project.VestingPeriods,
-      Milestones: project.Milestones,
+      Approvals: project.Approvals?.map(approval => { return { ...approval, date: approval.date.toString() } }),
+      VestingPeriods: project.VestingPeriods?.map(period => { return { ...period, date: period.date.toString() } }),
+      Milestones: project.Milestones?.map(milestone => { return { ...milestone, date: milestone.date.toString() } }),
       VestingNotifications: project.VestingNotifications,
       notes: project.notes,
       uuid: project.uuid
@@ -68,24 +71,26 @@ const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface) => {
   })
 }
 
+/**
+* Returns async submit handler that updates the project and navigates to projects page
+**/
 const useHandleFormSubmit = () => {
   const { enabled, token } = useEnableQuery()
 
   const navigate = useNavigate()
-
   const queryClient = useQueryClient()
 
-  return useCallback((formData: AppTypes.ProjectCreateInterface) => {
-      if(!enabled || !token) {
-        return
-      }
-  
-      handleUpdateSitePlan(formData, token)
-        .then(_ => {
-          queryClient.invalidateQueries(['getProject', formData.uuid])
-          queryClient.invalidateQueries('getProjects')
-          navigate('/projects')
-        })
-        .catch(err => errorPopup(err))
-    }, [navigate, queryClient, enabled, token])
+  return async (formData: AppTypes.ProjectCreateInterface) => {
+    if(!enabled || !token) return
+
+    const result = await handleUpdateSitePlan(formData, token)
+
+    if(!result.success) {
+      errorPopup(result.msg)
+    } else savedPopup(result.msg)
+
+    queryClient.invalidateQueries({ queryKey: ['getProject', formData.uuid] })
+    queryClient.invalidateQueries({ queryKey: ['getProjects'] })
+    navigate('/projects')
+  }
 }

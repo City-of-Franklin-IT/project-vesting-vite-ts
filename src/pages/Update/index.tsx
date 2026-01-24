@@ -3,8 +3,6 @@ import { useGetProject } from './hooks'
 
 // Components
 import Layout from "../../components/layout/Layout"
-
-// Components
 import { Project } from './components'
 import ErrorBoundary from '@/components/error/ErrorBoundary/ErrorBoundary'
 import HandleLoading from '../../utils/HandleLoading'

@@ -4,13 +4,18 @@ import ProjectsCtx from '@/components/projects/containers/ProjectsContainer/cont
 // Types
 import { ChangeEvent } from "react"
 
+/**
+* Returns search input onChange handler and value
+**/
 export const useHandleSearch = () => {
   const { searchValue, dispatch } = useContext(ProjectsCtx)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = e.currentTarget.value
+    const payload = e.currentTarget.value
 
-    dispatch({ type: 'SET_SEARCH_VALUE', payload: searchValue })
+    if(searchValue !== payload) {
+      dispatch({ type: 'SET_SEARCH_VALUE', payload: searchValue })
+    }
   }
 
   const value = searchValue
@@ -18,6 +23,9 @@ export const useHandleSearch = () => {
   return { onChange, value }
 }
 
+/**
+* Returns clear search button visibility and onClick handler
+**/
 export const useHandleClearBtn = () => {
   const { searchValue, dispatch } = useContext(ProjectsCtx)
 

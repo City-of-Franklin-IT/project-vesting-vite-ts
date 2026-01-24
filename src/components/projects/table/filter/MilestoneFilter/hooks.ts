@@ -1,6 +1,9 @@
 import { useContext } from "react"
 import ProjectsCtx from "@/components/projects/containers/ProjectsContainer/context"
 
+/**
+* Returns remove milestone filter button visibility and onClick handler
+**/
 export const useHandleRemoveFilterBtn = () => {
   const { milestoneFilter, dispatch } = useContext(ProjectsCtx)
 
@@ -13,6 +16,9 @@ export const useHandleRemoveFilterBtn = () => {
   return { visible, onClick }
 }
 
+/**
+* Returns show achieved milestone checkbox props for both milestones
+**/
 export const useHandleShowAchieved = () => {
   const { showAchieved, dispatch } = useContext(ProjectsCtx)
 
@@ -44,6 +50,9 @@ export const useHandleShowAchieved = () => {
   }
 }
 
+/**
+* Returns milestone date filter input props and label for start or end date
+**/
 export const useHandleDateInput = (field: 'start' | 'end') => {
   const { milestoneFilter, dispatch } = useContext(ProjectsCtx)
 

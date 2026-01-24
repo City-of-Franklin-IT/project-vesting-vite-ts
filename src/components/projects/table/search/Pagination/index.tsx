@@ -1,7 +1,7 @@
+import React from 'react'
 import { useHandlePagination } from './hooks'
 
 // Components
-import React from 'react'
 import * as Components from './components'
 
 function Pagination({ topRef, projectsCount }: { topRef: React.RefObject<HTMLDivElement>, projectsCount: number }) {

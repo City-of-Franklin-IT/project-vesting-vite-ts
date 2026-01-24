@@ -136,7 +136,7 @@ export type ZoningOrdinanceType =
   | '2024-07-01'
   | '2025-01-01'
 
-type ProjectTypes = 
+export type ProjectTypes = 
   | 'Development Plan'
   | 'Preliminary Plat'
   | 'Site Plan'

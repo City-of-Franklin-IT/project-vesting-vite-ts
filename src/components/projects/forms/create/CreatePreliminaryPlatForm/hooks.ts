@@ -1,16 +1,19 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { useForm, Path } from 'react-hook-form'
 import { addYears } from '@/helpers/utils'
 import { useEnableQuery, useProjectCreateCtx } from '@/helpers/hooks'
 import { handleCreatePreliminaryPlat } from './utils'
-import { errorPopup } from '@/utils/Toast/Toast'
+import { errorPopup, savedPopup } from '@/utils/Toast/Toast'
 
 // Types
 import { UseFormReturn } from 'react-hook-form'
 import * as AppTypes from '@/context/types'
 
+/**
+* Returns form methods and submit handler for CreatePreliminaryPlatForm
+**/
 export const useHandleCreatePreliminaryPlatForm = () => {
   const methods = useCreatePreliminaryPlatForm()
   const handleFormSubmit = useHandleFormSubmit()
@@ -18,14 +21,17 @@ export const useHandleCreatePreliminaryPlatForm = () => {
   return { methods, handleFormSubmit }
 }
 
-export const useHandleFPMCDateChange = () => { // Set other dates on FPMC date change
+/**
+* Sets milestone and vesting dates when FPMC approval date changes
+**/
+export const useHandleFPMCDateChange = () => {
   const { methods } = useProjectCreateCtx()
 
   const { setValue, watch, getValues } = methods
 
   const fpmcDate = watch(`Approvals.${ 0 }.date`)
 
-  const cb = useCallback(() => {
+  useEffect(() => {
     if(fpmcDate) {
       const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
         setValue(field, addYears(years, fpmcDate), { shouldValidate: true, shouldDirty: true })
@@ -42,14 +48,12 @@ export const useHandleFPMCDateChange = () => { // Set other dates on FPMC date c
       })
     }
   }, [fpmcDate, setValue, getValues])
-
-  useEffect(() => {
-    cb()
-  }, [cb])
 }
 
-const useCreatePreliminaryPlatForm = (): UseFormReturn<AppTypes.ProjectCreateInterface> => { // CreatePreliminaryPlatForm useForm
-  
+/**
+* Initializes react-hook-form with default values for Preliminary Plat
+**/
+const useCreatePreliminaryPlatForm = (): UseFormReturn<AppTypes.ProjectCreateInterface> => {
   return useForm<AppTypes.ProjectCreateInterface>({
     mode: 'onBlur',
     defaultValues: {
@@ -80,23 +84,25 @@ const useCreatePreliminaryPlatForm = (): UseFormReturn<AppTypes.ProjectCreateInt
   })
 }
 
+/**
+* Returns async submit handler that creates the project and navigates to projects page
+**/
 const useHandleFormSubmit = () => {
   const { enabled, token } = useEnableQuery()
 
   const navigate = useNavigate()
-
   const queryClient = useQueryClient()
 
-  return useCallback((formData: AppTypes.ProjectCreateInterface) => {
-    if(!enabled || !token) {
-      return
-    }
+  return async (formData: AppTypes.ProjectCreateInterface) => {
+    if(!enabled || !token) return
 
-    handleCreatePreliminaryPlat(formData, token)
-      .then(_ => {
-        queryClient.invalidateQueries('getProjects')
-        navigate('/projects')
-      })
-      .catch(err => errorPopup(err))
-  }, [navigate, queryClient, enabled, token])
+    const result = await handleCreatePreliminaryPlat(formData, token)
+
+    if(!result.success) {
+      errorPopup(result.msg)
+    } else savedPopup(result.msg)
+
+    queryClient.invalidateQueries({ queryKey: ['getProjects'] })
+    navigate('/projects')
+  }
 }

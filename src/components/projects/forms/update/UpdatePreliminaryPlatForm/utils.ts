@@ -1,7 +1,5 @@
-import { authHeaders } from "@/helpers/utils"
+import { authHeaders, handleMilestoneExtension, handleVestingPeriod, handleVestingExtension, handleNotification } from "@/helpers/utils"
 import * as AppActions from '@/context/AppActions'
-import { handleMilestoneExtension, handleVestingPeriod, handleVestingExtension, handleNotification } from "@/helpers/utils"
-import { savedPopup, errorPopup } from "@/utils/Toast/Toast"
 
 // Types
 import * as AppTypes from "@/context/types"
@@ -37,7 +35,7 @@ export const handleUpdatePreliminaryPlat = async (formData: AppTypes.ProjectCrea
     ])
 
     await AppActions.updateResolution(formData.Resolution, authHeaders(token))
-    
-    savedPopup(result.msg)
-  } else errorPopup()
+  }
+
+  return result
 }

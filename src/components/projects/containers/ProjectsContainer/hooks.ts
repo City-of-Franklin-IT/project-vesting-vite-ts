@@ -5,14 +5,22 @@ import { scrollToTop } from './utils'
 import * as AppTypes from '@/context/types'
 import ProjectsCtx from './context'
 
+/**
+* Returns top container ref, projects table data, and back to top button onClick handler
+**/
 export const useHandleProjectsContainer = (projects: AppTypes.ProjectInterface[]) => {
   const topRef = useRef<HTMLDivElement>(null)
   const tableData = useSetTableData(projects)
-  const onBackToTopBtnClick = () => scrollToTop(topRef)
+  const onBackToTopBtnClick = () => {
+    scrollToTop(topRef)
+  }
 
   return { topRef, tableData, onBackToTopBtnClick }
 }
 
+/**
+* Returns show expired projects checkbox props
+**/
 export const useHandleShowExpiredCheckbox = () => {
   const { showExpired, dispatch } = useContext(ProjectsCtx)
 
@@ -25,6 +33,9 @@ export const useHandleShowExpiredCheckbox = () => {
   return { onChange, checked }
 }
 
+/**
+* Returns show completed projects checkbox props
+**/
 export const useHandleShowCompletedCheckbox = () => {
   const { showCompleted, dispatch } = useContext(ProjectsCtx)
 

@@ -25,7 +25,6 @@ export const Title = () => {
 
 export const Buttons = () => { // Buttons
   const { instance } = useMsal()
-
   const activeAccount = instance.getActiveAccount()
 
   if(!activeAccount) return (
@@ -63,9 +62,7 @@ export const ReportLink = ({ href }: { href: string }) => { // Link to Power BI 
 
 export const LoginPageLink = () => { // Link to login page
   const { instance } = useMsal()
-
   const activeAccount = instance.getActiveAccount()
-
   const pathname = useLocation().pathname
 
   if(activeAccount || pathname === '/') return null
@@ -79,7 +76,7 @@ const LogoutBtn = () => { // Logout button
   const onClick = useHandleLogoutRedirect()
 
   return (
-    <button 
+    <button
       type="button"
       onClick={onClick}
       className="btn btn-ghost rounded-none uppercase hover:bg-primary hover:shadow-none hover:text-primary-content">

@@ -7,8 +7,8 @@ import * as AppTypes from "@/context/types"
 
 // Components
 import DeleteProjectBtn from "../../../../form-components/buttons/DeleteProjectBtn"
-import { ExpiredCheckbox, NameInput, COFNumberInput, OrdinanceInput, VestingInputs, MilestoneInputs, NotificationInputs, NotesInput } from '../UpdateDevelopmentPlanForm/components'
 import FormBtns from "@/components/form-components/buttons/FormBtns"
+import * as SharedComponents from '../UpdateDevelopmentPlanForm/components'
 import * as Components from './components'
 
 function UpdatePreliminaryPlatForm({ project }: { project: AppTypes.ProjectInterface }) {
@@ -21,25 +21,25 @@ function UpdatePreliminaryPlatForm({ project }: { project: AppTypes.ProjectInter
       <FormProvider { ...methods }>
         <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="w-full">
           <div className={styles.body}>
-            <ExpiredCheckbox />
-            <NameInput />
+            <SharedComponents.ExpiredCheckbox />
+            <SharedComponents.NameInput />
             <div className="flex gap-3">
-              <COFNumberInput />
-              <OrdinanceInput />
+              <SharedComponents.COFNumberInput />
+              <SharedComponents.OrdinanceInput />
             </div>
             <Components.FPMCApprovalDateInput />
             <h2 className={styles.sectionHeader}>Vesting</h2>
 
-            <VestingInputs />
+            <SharedComponents.VestingInputs />
             <h2 className={styles.sectionHeader}>Milestones</h2>
 
-            <MilestoneInputs />
+            <SharedComponents.MilestoneInputs />
             <h2 className={styles.sectionHeader}>Notifications</h2>
 
-            <NotificationInputs />
-            <NotesInput />
+            <SharedComponents.NotificationInputs />
+            <SharedComponents.NotesInput />
           </div>
-        <FormBtns />
+          <FormBtns />
         </form>
       </FormProvider>
       <div className="mt-8 ml-auto">

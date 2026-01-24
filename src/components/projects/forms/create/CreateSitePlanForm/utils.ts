@@ -1,11 +1,10 @@
 import * as AppActions from '@/context/AppActions'
 import { authHeaders } from '@/helpers/utils'
-import { savedPopup, errorPopup } from "@/utils/Toast/Toast"
 
 // Types
 import * as AppTypes from '@/context/types'
 
-export const handleCreateSitePlan = async (formData: AppTypes.ProjectCreateInterface, token: string): Promise<void> => {
+export const handleCreateSitePlan = async (formData: AppTypes.ProjectCreateInterface, token: string) => {
   const result = await AppActions.createProject(formData, authHeaders(token))
 
   if(result.success) {
@@ -18,7 +17,7 @@ export const handleCreateSitePlan = async (formData: AppTypes.ProjectCreateInter
       }),
       formData.Milestones.map(milestone => AppActions.createMilestone({ ...milestone, parentId: result.data.uuid }, authHeaders(token)))
     ])
+  }
 
-    savedPopup(result.msg)
-  } else errorPopup()
+  return result
 }

@@ -3,7 +3,7 @@ import { FormTypeMap } from './utils'
 // Types
 import * as AppTypes from '@/context/types'
 
-export const Form = ({ project }: { project: AppTypes.ProjectInterface } ) => { // Set update form type
+export const Form = ({ project }: { project: AppTypes.ProjectInterface } ) => {
   const { type } = project
 
   const UpdateForm = FormTypeMap.get(type)!

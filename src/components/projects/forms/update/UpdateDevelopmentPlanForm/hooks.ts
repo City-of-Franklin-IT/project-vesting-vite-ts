@@ -1,16 +1,19 @@
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router"
-import { useQueryClient } from "react-query"
-import { useForm, useFieldArray } from "react-hook-form"
+import { useQueryClient } from "@tanstack/react-query"
+import { useForm, useFieldArray, UseFormReturn } from "react-hook-form"
 import { addYears } from "@/helpers/utils"
 import { useEnableQuery, useProjectCreateCtx, useMilestoneExt } from "@/helpers/hooks"
-import { errorPopup } from "@/utils/Toast/Toast"
+import { errorPopup, savedPopup } from "@/utils/Toast/Toast"
 import { handleUpdateDevelopmentPlan } from './utils'
 
 // Types
 import { Path } from "react-hook-form"
 import * as AppTypes from '@/context/types'
 
+/**
+* Returns form methods and submit handler for UpdateDevelopmentPlanForm
+**/
 export const useHandleUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInterface) => {
   const methods = useUpdateDevelopmentPlanForm(project)
   const handleFormSubmit = useHandleFormSubmit()
@@ -18,14 +21,17 @@ export const useHandleUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInte
   return { methods, handleFormSubmit }
 }
 
-export const useHandleBOMADateChange = () => { // Set other dates on BOMA date change
+/**
+* Sets milestone and vesting dates when BOMA approval date changes
+**/
+export const useHandleBOMADateChange = () => {
   const { methods } = useProjectCreateCtx()
 
   const { setValue, watch, getValues } = methods
 
   const bomaDate = watch(`Approvals.${ 1 }.date`)
 
-  const cb = useCallback(() => {
+  useEffect(() => {
     if(bomaDate) {
       const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
         setValue(field, addYears(years, bomaDate), { shouldValidate: true, shouldDirty: true })
@@ -41,15 +47,13 @@ export const useHandleBOMADateChange = () => { // Set other dates on BOMA date c
         setFormValue(`VestingPeriods.${ index }.date`, yearsToAdd)
       })
     }
-
   }, [bomaDate, setValue, getValues])
-
-  useEffect(() => {
-    cb()
-  }, [cb])
 }
 
-export const useHandleAddVestingExtensionBtn = (type: "10Y" | "15Y") => { // Hide / show vesting extension button
+/**
+* Returns click handler and visibility state for vesting extension button
+**/
+export const useHandleAddVestingExtensionBtn = (type: "10Y" | "15Y") => {
   const { methods: { getValues, setValue } } = useProjectCreateCtx()
 
   const vestingPeriods = getValues('VestingPeriods')
@@ -80,6 +84,9 @@ export const useHandleAddVestingExtensionBtn = (type: "10Y" | "15Y") => { // Hid
   return { onClick, visible }
 }
 
+/**
+* Returns className for notification inputs container based on notifications state
+**/
 export const useHandleNotificationInputs = () => {
   const { methods: { watch } } = useProjectCreateCtx()
 
@@ -90,6 +97,9 @@ export const useHandleNotificationInputs = () => {
   return className
 }
 
+/**
+* Returns click handler, visibility state, and label for add vesting period button
+**/
 export const useHandleAddVestingBtn = (type: '10Y' | '15Y') => {
   const { methods: { getValues, control, watch } } = useProjectCreateCtx()
 
@@ -117,12 +127,15 @@ export const useHandleAddVestingBtn = (type: '10Y' | '15Y') => {
   return { onClick, visible, label }
 }
 
+/**
+* Returns controller props and visibility state for 10-year vesting date input
+**/
 export const useHandleTenYearVestingDateInput = () => {
   const { methods, disabled } = useProjectCreateCtx()
 
   const vestingPeriods = methods.watch('VestingPeriods')
 
-  const index = vestingPeriods.findIndex(period => period.type === "10Y") // Check if 10Y is in form state
+  const index = vestingPeriods.findIndex(period => period.type === "10Y")
 
   const fifteenYearVestingPeriod = vestingPeriods.find(period => period.type === "15Y")
 
@@ -136,6 +149,9 @@ export const useHandleTenYearVestingDateInput = () => {
   return { controllerProps, disabled, fifteenYearVestingPeriod, visible }
 }
 
+/**
+* Returns controller props, visibility, and button state for 10-year vesting extension input
+**/
 export const useHandleTenYearVestingExtensionInput = () => {
   const { methods, disabled } = useProjectCreateCtx()
 
@@ -158,6 +174,9 @@ export const useHandleTenYearVestingExtensionInput = () => {
   return { controllerProps, disabled, visible, showBtn }
 }
 
+/**
+* Returns controller props and visibility state for vesting achieved checkbox
+**/
 export const useHandleVestingAchievedCheckbox = (type: '10Y' | '15Y') => {
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
@@ -178,6 +197,9 @@ export const useHandleVestingAchievedCheckbox = (type: '10Y' | '15Y') => {
   return { visible, controllerProps, disabled }
 }
 
+/**
+* Returns controller props and visibility state for vesting expired checkbox
+**/
 export const useHandleVestingExpiredCheckbox = (type: '10Y' | '15Y') => {
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
@@ -198,6 +220,9 @@ export const useHandleVestingExpiredCheckbox = (type: '10Y' | '15Y') => {
   return { visible, controllerProps, disabled }
 }
 
+/**
+* Returns controller props and visibility state for 15-year vesting date input
+**/
 export const useHandleFifteenYearVestingDateInput = () => {
   const { methods: { control, watch }, disabled } = useProjectCreateCtx()
 
@@ -205,7 +230,7 @@ export const useHandleFifteenYearVestingDateInput = () => {
 
   const tenYearVesting = vestingPeriods.find(period => period.type === "10Y")
 
-  const index = vestingPeriods.findIndex(period => period.type === "15Y") // Check if 15Y is in form state
+  const index = vestingPeriods.findIndex(period => period.type === "15Y")
 
   const visible = index === -1 ? false : true
 
@@ -218,6 +243,9 @@ export const useHandleFifteenYearVestingDateInput = () => {
   return { visible, controllerProps, disabled }
 }
 
+/**
+* Returns controller props, visibility, and button state for 15-year vesting extension input
+**/
 export const useHandleFifteenYearVestingExtensionInput = () => {
   const { methods: { control, watch }, disabled } = useProjectCreateCtx()
 
@@ -240,6 +268,9 @@ export const useHandleFifteenYearVestingExtensionInput = () => {
   return { visible, controllerProps, showBtn, disabled }
 }
 
+/**
+* Returns click handler and visibility state for milestone extension button
+**/
 export const useHandleAddMilestoneExtensionBtn = (index: number) => {
   const { methods: { setValue, watch } } = useProjectCreateCtx()
 
@@ -259,9 +290,12 @@ export const useHandleAddMilestoneExtensionBtn = (index: number) => {
   return { visible, onClick }
 }
 
+/**
+* Returns controller props and button state for milestone extension input
+**/
 export const useHandleMilestoneExtensionInput = (index: number) => {
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
-  
+
   useMilestoneExt()
 
   const milestone = watch(`Milestones.${ index }`)
@@ -278,6 +312,9 @@ export const useHandleMilestoneExtensionInput = (index: number) => {
   return { showBtn, controllerProps, disabled }
 }
 
+/**
+* Returns controller props for milestone achieved checkbox
+**/
 export const useHandleMilestoneAchievedCheckbox = (index: number) => {
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
@@ -291,6 +328,9 @@ export const useHandleMilestoneAchievedCheckbox = (index: number) => {
   return { controllerProps, disabled }
 }
 
+/**
+* Returns controller props for milestone expired checkbox
+**/
 export const useHandleMilestoneExpiredCheckbox = (index: number) => {
   const { methods: { watch, control }, disabled } = useProjectCreateCtx()
 
@@ -304,6 +344,9 @@ export const useHandleMilestoneExpiredCheckbox = (index: number) => {
   return { controllerProps, disabled }
 }
 
+/**
+* Returns click handler and visibility state for add notification button
+**/
 export const useHandleAddNotificationBtn = (type: AppTypes.NotificationTypes) => {
   const { methods: { watch, control, getValues } } = useProjectCreateCtx()
 
@@ -329,6 +372,9 @@ export const useHandleAddNotificationBtn = (type: AppTypes.NotificationTypes) =>
   return { onClick, visible }
 }
 
+/**
+* Returns controller props and visibility state for notification input
+**/
 export const useHandleNotificationInput = (type: AppTypes.NotificationTypes) => {
   const { methods: { control, watch }, disabled } = useProjectCreateCtx()
 
@@ -346,8 +392,10 @@ export const useHandleNotificationInput = (type: AppTypes.NotificationTypes) => 
   return { controllerProps, visible, disabled }
 }
 
-const useUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInterface) => { // Update development plan form state
-
+/**
+* Initializes react-hook-form with existing project data for Development Plan
+**/
+const useUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInterface): UseFormReturn<AppTypes.ProjectCreateInterface> => {
   return useForm<AppTypes.ProjectCreateInterface>({
     mode: 'onBlur',
     defaultValues: {
@@ -367,24 +415,26 @@ const useUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInterface) => { /
   })
 }
 
+/**
+* Returns async submit handler that updates the project and navigates to projects page
+**/
 const useHandleFormSubmit = () => {
   const { enabled, token } = useEnableQuery()
 
   const navigate = useNavigate()
-
   const queryClient = useQueryClient()
 
-  return useCallback((formData: AppTypes.ProjectCreateInterface) => {
-    if(!enabled || !token) {
-      return
-    }
+  return async (formData: AppTypes.ProjectCreateInterface) => {
+    if(!enabled || !token) return
 
-    handleUpdateDevelopmentPlan(formData, token)
-      .then(_ => {
-        queryClient.invalidateQueries(['getProject', formData.uuid])
-        queryClient.invalidateQueries('getProjects')
-        navigate('/projects')
-      })
-      .catch(err => errorPopup(err))
-  }, [navigate, enabled, token])
+    const result = await handleUpdateDevelopmentPlan(formData, token)
+
+    if(!result.success) {
+      errorPopup(result.msg)
+    } else savedPopup(result.msg)
+
+    queryClient.invalidateQueries({ queryKey: ['getProject', formData.uuid] })
+    queryClient.invalidateQueries({ queryKey: ['getProjects'] })
+    navigate('/projects')
+  }
 }

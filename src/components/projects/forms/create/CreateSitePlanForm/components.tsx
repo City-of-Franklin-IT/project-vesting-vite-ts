@@ -1,5 +1,6 @@
 import { Controller } from "react-hook-form"
 import { useProjectCreateCtx } from "@/helpers/hooks"
+import { useHandleApprovalDateChange } from './hooks'
 import styles from '@/components/form-components/Forms.module.css'
 
 // Components
@@ -293,6 +294,8 @@ const ApprovedBySelect = () => { // Site plan approval by select
 
 const ApprovalDateInput = () => { // Site plan approved on date input
   const { methods: { control } } = useProjectCreateCtx()
+
+  useHandleApprovalDateChange()
 
   return (
     <Controller

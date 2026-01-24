@@ -5,6 +5,9 @@ import { authHeaders } from "@/helpers/utils"
 import * as AppActions from '@/context/AppActions'
 import { errorPopup, savedPopup } from "@/utils/Toast/Toast"
 
+/**
+* Returns delete project button click handler and active confirmation state
+**/
 export const useHandleBtnClick = (uuid: string) => {
   const [state, setState] = useState<{ active: boolean }>({ active: false })
 

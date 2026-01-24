@@ -1,16 +1,19 @@
-import { useCallback, useEffect } from "react"
+import { useEffect } from "react"
 import { useNavigate } from "react-router"
 import { useForm, Path } from "react-hook-form"
-import { useQueryClient } from "react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import { useEnableQuery, useProjectCreateCtx } from "@/helpers/hooks"
 import { addYears } from "@/helpers/utils"
 import { handleCreateDevelopmentPlan } from './utils'
-import { errorPopup } from "@/utils/Toast/Toast"
+import { errorPopup, savedPopup } from "@/utils/Toast/Toast"
 
 // Types
 import { UseFormReturn } from "react-hook-form"
 import * as AppTypes from "@/context/types"
 
+/**
+* Returns form methods and submit handler for CreateDevelopmentPlanForm
+**/
 export const useHandleCreateDevelopmentPlanForm = () => {
   const methods = useCreateDevelopmentPlanForm()
   const handleFormSubmit = useHandleFormSubmit()
@@ -18,14 +21,17 @@ export const useHandleCreateDevelopmentPlanForm = () => {
   return { methods, handleFormSubmit }
 }
 
-export const useHandleBOMADateChange = () => { // Set other dates on BOMA date change
+/**
+* Sets milestone and vesting dates when BOMA approval date changes
+**/
+export const useHandleBOMADateChange = () => {
   const { methods } = useProjectCreateCtx()
 
   const { setValue, watch, getValues } = methods
 
   const bomaDate = watch(`Approvals.${ 1 }.date`)
 
-  const cb = useCallback(() => {
+  useEffect(() => {
     if(bomaDate) {
       const setFormValue = (field: Path<AppTypes.ProjectCreateInterface>, years: number) => {
         setValue(field, addYears(years, bomaDate), { shouldValidate: true, shouldDirty: true })
@@ -42,14 +48,12 @@ export const useHandleBOMADateChange = () => { // Set other dates on BOMA date c
       })
     }
   }, [bomaDate, setValue, getValues])
-
-  useEffect(() => {
-    cb()
-  }, [cb])
 }
 
-const useCreateDevelopmentPlanForm = (): UseFormReturn<AppTypes.ProjectCreateInterface> => { // CreateDevelopmentPlanForm useForm
-
+/**
+* Initializes react-hook-form with default values for Development Plan
+**/
+const useCreateDevelopmentPlanForm = (): UseFormReturn<AppTypes.ProjectCreateInterface> => {
   return useForm<AppTypes.ProjectCreateInterface>({
     mode: 'onBlur',
     defaultValues: {
@@ -86,21 +90,25 @@ const useCreateDevelopmentPlanForm = (): UseFormReturn<AppTypes.ProjectCreateInt
   })
 }
 
+/**
+* Returns async submit handler that creates the project and navigates to projects page
+**/
 const useHandleFormSubmit = () => {
   const { enabled, token } = useEnableQuery()
 
   const navigate = useNavigate()
-
   const queryClient = useQueryClient()
 
-  return useCallback((formData: AppTypes.ProjectCreateInterface) => {
+  return async (formData: AppTypes.ProjectCreateInterface) => {
     if(!enabled || !token) return
 
-    handleCreateDevelopmentPlan(formData, token)
-      .then(_ => {
-        queryClient.invalidateQueries('getProjects')
-        navigate('/projects')
-      })
-      .catch(err => errorPopup(err))
-  }, [navigate, queryClient, enabled, token])
+    const result = await handleCreateDevelopmentPlan(formData, token)
+
+    if(!result.success) {
+      errorPopup(result.msg)
+    } else savedPopup(result.msg)
+
+    queryClient.invalidateQueries({ queryKey: ['getProjects'] })
+    navigate('/projects')
+  }
 }
