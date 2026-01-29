@@ -14,7 +14,7 @@ export const useHandleSearch = () => {
     const payload = e.currentTarget.value
 
     if(searchValue !== payload) {
-      dispatch({ type: 'SET_SEARCH_VALUE', payload: searchValue })
+      dispatch({ type: 'SET_SEARCH_VALUE', payload })
     }
   }
 

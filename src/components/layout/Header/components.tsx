@@ -5,13 +5,12 @@ import { useMsal } from "@azure/msal-react"
 import cofIcon from '@/assets/icons/cof/cof-primary-content.svg'
 import useHandleLogoutRedirect from "@/context/Auth/hooks/useHandleLogoutRedirect"
 
-// Types
-import * as AppTypes from "@/context/types"
-
 export const Title = () => {
   const { pathname } = useLocation()
 
-  const href = pathname === '/' ? '/' : '/projects'
+  const href = pathname === '/' ? 
+    '/' : 
+    '/projects'
 
   return (
     <Link to={href} className="flex flex-col text-primary-content text-center mt-4 w-fit lg:my-4">
@@ -63,7 +62,7 @@ export const ReportLink = ({ href }: { href: string }) => { // Link to Power BI 
 export const LoginPageLink = () => { // Link to login page
   const { instance } = useMsal()
   const activeAccount = instance.getActiveAccount()
-  const pathname = useLocation().pathname
+  const { pathname } = useLocation()
 
   if(activeAccount || pathname === '/') return null
 
@@ -93,23 +92,23 @@ const CreateBtns = () => {
         <span>Create</span>
       </div>
       <ul tabIndex={0} className="dropdown-content menu bg-primary text-neutral-content z-[1] w-52">
-        <CreateBtn
-          href={'/create?type=Development Plan'}
-          label={'Development Plan'} />
-        <CreateBtn
-          href={'/create?type=Preliminary Plat'}
-          label={'Preliminary Plat'} />
-        <CreateBtn
-          href={'/create?type=Site Plan'}
-          label={'Site Plan'} />
+        <CreateBtn href={'/create?type=Development Plan'}>
+          Development Plan
+        </CreateBtn>
+        <CreateBtn href={'/create?type=Preliminary Plat'}>
+          Preliminary Plat
+        </CreateBtn>
+        <CreateBtn href={'/create?type=Site Plan'}>
+          Site Plan
+        </CreateBtn>
       </ul>
     </div>
   )
 }
 
-const CreateBtn = ({ href, label }: { href: string, label: AppTypes.ProjectInterface['type'] }) => {
+const CreateBtn = ({ href, children }: { href: string, children: React.ReactNode }) => {
 
   return (
-    <li className="hover:cursor-pointer hover:bg-neutral"><Link to={href}>{label}</Link></li>
+    <li className="hover:cursor-pointer hover:bg-neutral"><Link to={href}>{children}</Link></li>
   )
 }
