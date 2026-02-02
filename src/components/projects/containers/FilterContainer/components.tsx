@@ -6,10 +6,13 @@ import * as AppTypes from "@/context/types"
 export const FilterBtns = () => { 
 
   return (
-    <div className="flex flex-col gap-4 mt-6 lg:flex-row">
-      <FilterBtn type={'Development Plan'} />
-      <FilterBtn type={'Preliminary Plat'} />
-      <FilterBtn type={'Site Plan'} />
+    <div className="flex flex-col gap-2 mt-auto">
+      <span className="text-lg text-primary-content font-[play] text-center">Filter By Type:</span>
+      <div className="flex flex-col gap-4">
+        <FilterBtn type={'Development Plan'} />
+        <FilterBtn type={'Preliminary Plat'} />
+        <FilterBtn type={'Site Plan'} />
+      </div>
     </div>
   )
 }

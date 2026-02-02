@@ -29,7 +29,7 @@ export const handleMilestoneExtension = async (MilestoneExtension: Types.Milesto
         await AppActions.deleteExtension(MilestoneExtension.uuid, authHeaders(token))
         return
       } else await AppActions.updateExtension(MilestoneExtension, authHeaders(token)) // Update
-    } else await AppActions.createExtension({ ...MilestoneExtension, parentId }, authHeaders(token)) // Create
+    } else if(MilestoneExtension.date) await AppActions.createExtension({ ...MilestoneExtension, parentId }, authHeaders(token)) // Create
   } else return
 }
 

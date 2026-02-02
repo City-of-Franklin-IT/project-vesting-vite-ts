@@ -20,7 +20,7 @@ export const useHandleFilterBtn = (type: AppTypes.ProjectTypes) => {
     dispatch({ type: 'SET_TYPE_FILTER', payload })
   }
 
-  const className = `btn btn-lg btn-outline text-neutral-content font-[jura] px-3 outline outline-neutral-content w-full lg:w-[200px] hover:text-neutral ${ active ? 'bg-neutral outline-none hover:text-neutral-content' : '' }`
+  const className = `btn btn-lg btn-outline text-primary-content font-[jura] px-3 outline outline-primary-content hover:text-neutral ${ active ? 'bg-neutral outline-none hover:text-neutral-content' : '' }`
 
   return { onClick, className }
 }

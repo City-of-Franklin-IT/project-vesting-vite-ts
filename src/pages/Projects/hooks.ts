@@ -8,7 +8,6 @@ export const useGetProjects = () => {
 
   return useQuery({
     queryKey: ['getProjects'],
-    queryFn: () => getProjects(),
-    staleTime: Infinity
+    queryFn: () => getProjects()
   })
 }

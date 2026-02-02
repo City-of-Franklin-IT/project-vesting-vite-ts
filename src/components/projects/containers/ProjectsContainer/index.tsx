@@ -17,7 +17,7 @@ function ProjectsContainer({ projects }: { projects: AppTypes.ProjectInterface[]
   return (
     <div className="flex flex-col gap-6 my-10 w-full">
 
-      <div ref={topRef} className="flex flex-wrap gap-10 justify-between items-end">
+      <div ref={topRef} className="flex flex-wrap gap-10 justify-between">
         <SearchAndFilterContainer />
         <div className="flex gap-8 items-end justify-end w-full lg:w-auto lg:flex-1">
           <div className="flex flex-col gap-2 items-end">

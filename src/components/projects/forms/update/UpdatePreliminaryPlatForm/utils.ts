@@ -34,7 +34,6 @@ export const handleUpdatePreliminaryPlat = async (formData: AppTypes.ProjectCrea
       })
     ])
 
-    await AppActions.updateResolution(formData.Resolution, authHeaders(token))
   }
 
   return result

@@ -13,7 +13,7 @@ export const SearchInput = () => {
     <input
       type="text"
       placeholder="by project name, COF #, or zoning ordinance.."
-      className="input w-full"
+      className="input max-w-md w-full"
       { ...inputProps } />
   )
 }

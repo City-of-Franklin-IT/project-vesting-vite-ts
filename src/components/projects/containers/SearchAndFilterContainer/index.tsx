@@ -5,7 +5,7 @@ import FilterContainer from '../FilterContainer'
 function SearchAndFilterContainer() {
 
   return (
-    <div className="flex gap-4 items-end flex-wrap justify-center w-full xl:justify-start xl:flex-nowrap xl:flex-2">
+    <div className="flex gap-4 items-end flex-wrap justify-center w-full xl:justify-start 2xl:flex-nowrap xl:flex-2">
       <FilterContainer />
       <Search />
     </div>

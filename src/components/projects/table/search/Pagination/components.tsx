@@ -4,7 +4,7 @@ export const PaginationButtons = () => {
   const { prevBtnProps, nextBtnProps } = useHandlePaginationBtns()
 
   return (
-    <div className="flex flex-col gap-2 h-fit mt-auto lg:flex-row lg:gap-3">
+    <div className="flex flex-col gap-2 h-fit mt-auto 2xl:flex-row lg:gap-3">
       <PaginationButton { ...prevBtnProps }>
         Prev Page
       </PaginationButton>

@@ -96,13 +96,13 @@ const useHandleFormSubmit = () => {
   return async (formData: AppTypes.ProjectCreateInterface) => {
     if(!enabled || !token) return
 
-    const result = await handleCreateSitePlan(formData, token)
+    const result = await handleCreateSitePlan(formData, token).catch(() => null)
 
-    if(!result.success) {
-      errorPopup(result.msg)
+    if(!result?.success) {
+      errorPopup(result?.msg || 'Error saving project')
     } else savedPopup(result.msg)
 
-    queryClient.invalidateQueries({ queryKey: ['getProjects'] })
+    await queryClient.invalidateQueries({ queryKey: ['getProjects'] })
     navigate('/projects')
   }
 }
