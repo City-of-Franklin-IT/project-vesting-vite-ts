@@ -2,6 +2,7 @@ import * as AppActions from '@/context/AppActions'
 
 // Types
 import * as Types from '@/context/types'
+import { AccountInfo, IPublicClientApplication } from '@azure/msal-browser'
 
 export const authHeaders = (token: string | undefined) => {
   const headers = new Headers()
@@ -59,8 +60,30 @@ export const handleVestingExtension = async (VestingExtension: Types.VestingExte
 
 export const handleNotification = async (VestingNotification: Types.VestingNotificationCreateInterface, token: string) => {
   if(VestingNotification.uuid) { // Existing
-    if(!VestingNotification.date) { 
+    if(!VestingNotification.date) {
       AppActions.deleteNotification(VestingNotification.uuid, authHeaders(token)) // Delete
     } else AppActions.updateNotification(VestingNotification, authHeaders(token)) // Update
   } else AppActions.createNotification(VestingNotification, authHeaders(token)) // Create
+}
+
+export const getUserDepartment = async (instance: IPublicClientApplication, activeAccount: AccountInfo) => {
+  const graphConfig = {
+    graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me?$select=department',
+    scopes: ['User.Read']
+  }
+
+  const accessTokenRequest = {
+    scopes: graphConfig.scopes,
+    account: activeAccount
+  }
+
+  const result = await instance.acquireTokenSilent(accessTokenRequest)
+  const accessToken = result.accessToken
+
+  const headers = new Headers()
+  headers.append('Authorization', `Bearer ${ accessToken }`)
+  const response = await fetch(graphConfig.graphMeEndpoint, { headers })
+  const data = await response.json()
+
+  return data.department
 }

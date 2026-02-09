@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Projects from "./pages/Projects"
 import Create from "./pages/Create"
 import Update from "./pages/Update"
+import Docs from "./pages/Docs"
 import Login from "./pages/Login"
 import Redirect from "./pages/Redirect"
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/create" element={<Create />} />
           <Route path="/update/:uuid" element={<Update />} />
+          <Route path="/docs" element={<Docs />} />
           <Route path="/*" element={<Redirect />} />
         </Routes>
       </Router>

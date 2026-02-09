@@ -3,9 +3,11 @@ import { useNavigate } from "react-router"
 import { useFormContext } from "react-hook-form"
 import { useMsal } from "@azure/msal-react"
 import { NODE_ENV } from '../config'
+import { getUserDepartment } from "./utils"
 
 // Types
 import * as AppTypes from "@/context/types"
+import { AccountInfo } from "@azure/msal-browser"
 
 export const useGetToken = () => {
   const [state, setState] = useState<{ token: string | undefined }>({ token: undefined })
@@ -168,7 +170,7 @@ export const useMilestoneExt = () => { // Handle milestone #1 extension
     if(milestoneExtension?.date) {
       const date = new Date(milestoneExtension?.date)
       const updatedSecondMilestoneDate = date.setFullYear(date.getFullYear() + 2)
-  
+
       setValue(`Milestones.${ 1 }.date`, new Date(updatedSecondMilestoneDate).toISOString().split("T")[0])
     }
   }, [milestoneExtension])
@@ -176,4 +178,31 @@ export const useMilestoneExt = () => { // Handle milestone #1 extension
   useEffect(() => {
     handleMilestoneExt()
   }, [handleMilestoneExt])
+}
+
+export const useGetUserDepartment = () => {
+  const [state, setState] = useState<{ department: string | undefined, isLoading: boolean }>({ department: undefined, isLoading: true })
+
+  const { instance, inProgress } = useMsal()
+  const activeAccount = instance.getActiveAccount()
+
+  useEffect(() => {
+    if(NODE_ENV === 'development') {
+      setState({ department: 'IT', isLoading: false })
+      return
+    }
+
+    if(activeAccount && inProgress === 'none' && !state.department) { // Get user department
+      getUserDepartment(instance, activeAccount as AccountInfo)
+        .then(department => setState({ department, isLoading: false }))
+        .catch((err) => {
+          console.log(err)
+          setState(prev => ({ ...prev, isLoading: false }))
+        })
+    } else if (inProgress === 'none' && !activeAccount) {
+      setState(prev => ({ ...prev, isLoading: false }))
+    }
+  }, [inProgress, state.department])
+
+  return { department: state.department, isLoading: state.isLoading }
 }

@@ -406,3 +406,14 @@ export const deleteNotification = async (uuid: string, headers: Headers): Promis
 
   return await res.json()
 }
+
+/**
+* Get API documentation
+*
+* GET /api/v2/eng/vesting/docs
+**/
+export const getDocs = async (headers: Headers) => {
+  const res = await fetch(`${ baseUrl }/vesting/docs`, { headers })
+
+  return await res.json()
+}
