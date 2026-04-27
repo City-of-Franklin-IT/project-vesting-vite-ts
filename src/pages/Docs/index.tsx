@@ -9,12 +9,12 @@ import ErrorBoundary from "@/components/error/ErrorBoundary/ErrorBoundary"
 import * as Components from './components'
 
 function Documentation() {
-  const { data, isSuccess } = useGetDocs()
+  const { data, isLoading } = useGetDocs()
   const collection = data as CollectionType
 
   return (
     <ErrorBoundary href={'/projects'}>
-      <HandleLoading isLoaded={isSuccess}>
+      <HandleLoading isLoading={isLoading}>
         <div className="container font-[play] text-primary-content mx-auto mt-4 mb-6 p-6 max-w-5xl">
           <h1 className="text-3xl font-bold mb-2">{collection?.info.name} API</h1>
           <p className="italic mb-6 max-w-3/4">{collection?.info.description}</p>

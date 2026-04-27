@@ -2,18 +2,18 @@ import { useRedirect } from '../Create/hooks'
 import { useGetProject } from './hooks'
 
 // Components
-import { Project } from './components'
 import ErrorBoundary from '@/components/error/ErrorBoundary/ErrorBoundary'
 import HandleLoading from '../../utils/HandleLoading'
+import { Project } from './components'
 
 function Update() {
   useRedirect()
   
-  const { data, isSuccess } = useGetProject()
+  const { data, isLoading } = useGetProject()
 
   return (
     <ErrorBoundary href={'/projects'}>
-      <HandleLoading isLoaded={isSuccess}>
+      <HandleLoading isLoading={isLoading}>
         <Project project={data?.data} />
       </HandleLoading>
     </ErrorBoundary>

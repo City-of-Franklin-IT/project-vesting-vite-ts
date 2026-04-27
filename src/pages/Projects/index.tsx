@@ -6,10 +6,10 @@ import ProjectsContainer from '../../components/projects/containers/ProjectsCont
 import HandleLoading from '../../utils/HandleLoading'
 
 function Projects() {
-  const { data, isSuccess } = useGetProjects()
+  const { data, isLoading } = useGetProjects()
 
   return (
-    <HandleLoading isLoaded={isSuccess}>
+    <HandleLoading isLoading={isLoading}>
       <div className="w-full">
         <ProjectsProvider>
           <ProjectsContainer projects={data?.data || []} />
