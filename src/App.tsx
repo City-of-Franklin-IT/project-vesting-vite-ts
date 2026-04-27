@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/Auth"
 import 'react-toastify/dist/ReactToastify.css'
 
 // Components
+import Layout from "./components/layout/Layout"
 import Projects from "./pages/Projects"
 import Create from "./pages/Create"
 import Update from "./pages/Update"
@@ -22,11 +23,13 @@ function App() {
       <AuthProvider>
         <Router basename={APP_BASE}>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/create" element={<Create />} />
-            <Route path="/update/:uuid" element={<Update />} />
-            <Route path="/docs" element={<Docs />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<Login />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/create" element={<Create />} />
+              <Route path="/update/:uuid" element={<Update />} />
+              <Route path="/docs" element={<Docs />} />
+            </Route>
             <Route path="/*" element={<Redirect />} />
           </Routes>
         </Router>

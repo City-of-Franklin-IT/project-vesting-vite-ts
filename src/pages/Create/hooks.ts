@@ -7,7 +7,7 @@ export const useRedirect = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if(!isLoading && !isAuthenticated) {
       navigate('/')
     }
   }, [isAuthenticated, isLoading, navigate])

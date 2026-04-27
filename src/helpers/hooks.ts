@@ -11,6 +11,7 @@ import { AccountInfo } from "@azure/msal-browser"
 
 export const useGetToken = () => {
   const { token } = useAuth()
+
   return token
 }
 
@@ -19,7 +20,7 @@ export const useEnableQuery = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isLoading && !token) {
+    if(!isLoading && !token) {
       navigate('/')
     }
   }, [token, isLoading, navigate])
@@ -27,34 +28,13 @@ export const useEnableQuery = () => {
   return { enabled: !!token && !isLoading, token, refreshToken }
 }
 
-export const withTokenRefresh = async <T>(
-  fn: () => Promise<T>,
-  refresh: () => Promise<string | undefined>
-): Promise<T> => {
+export const withTokenRefresh = async <T>(fn: () => Promise<T>, refresh: () => Promise<string | undefined>): Promise<T> => {
   try {
     return await fn()
   } catch (e) {
-    if (e instanceof Error && e.message === '401') await refresh()
+    if(e instanceof Error && e.message === '401') await refresh()
     throw e
   }
-}
-
-export const useRedirectAfterLogin = () => {
-  const { instance, inProgress } = useMsal()
-  const activeAccount = instance.getActiveAccount()
-
-  useEffect(() => {
-    if(inProgress === 'none') {
-      if(activeAccount) {
-        const redirectUrl = sessionStorage.getItem('redirectUrl')
-
-        if(redirectUrl) {
-          window.location.href = redirectUrl
-          sessionStorage.removeItem('redirectUrl')
-        }
-      } else window.location.pathname = '/vesting'
-    }
-  }, [activeAccount, inProgress])
 }
 
 export const useProjectCreateCtx = () => {
