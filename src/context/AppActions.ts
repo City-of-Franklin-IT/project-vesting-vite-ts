@@ -15,6 +15,7 @@ import * as Types from './types'
 export const getProjects = async (): Promise<Types.ServerResponse & { data: Types.ProjectInterface[] }> => {
   const res = await fetch(`${ baseUrl }/vesting/project`)
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -28,6 +29,7 @@ export const getProjects = async (): Promise<Types.ServerResponse & { data: Type
 export const getProject = async (uuid: string, headers: Headers): Promise<Types.ServerResponse & { data: Types.ProjectInterface }> => {
   const res = await fetch(`${ baseUrl }/vesting/project/${ uuid }`, { headers })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -47,6 +49,7 @@ export const createProject = async (formData: Types.ProjectCreateInterface, head
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -66,6 +69,7 @@ export const updateProject = async (formData: Types.ProjectCreateInterface, head
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -82,6 +86,7 @@ export const deleteProject = async (uuid: string, headers: Headers): Promise<Typ
     headers
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -101,6 +106,7 @@ export const createMilestone = async (formData: Types.MilestoneCreateInterface, 
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -120,6 +126,7 @@ export const updateMilestone = async (formData: Types.MilestoneCreateInterface, 
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -139,6 +146,7 @@ export const updateMilestoneStatus = async (formData: Types.MilestoneStatusUpdat
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -158,6 +166,7 @@ export const createExtension = async (formData: Types.MilestoneExtensionCreateIn
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -177,6 +186,7 @@ export const updateExtension = async (formData: Types.MilestoneExtensionCreateIn
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -193,6 +203,7 @@ export const deleteExtension = async (uuid: string, headers: Headers): Promise<T
     headers
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -212,6 +223,7 @@ export const createPeriod = async (formData: Types.VestingPeriodCreateInterface,
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -231,6 +243,7 @@ export const updatePeriod = async (formData: Types.VestingPeriodCreateInterface,
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -247,6 +260,7 @@ export const deletePeriod = async (uuid: string, headers: Headers): Promise<Type
     headers
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -266,6 +280,7 @@ export const updatePeriodStatus = async (formData: Types.VestingStatusUpdateInte
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -285,6 +300,7 @@ export const createVestingExtension = async (formData: Types.VestingExtensionCre
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -304,6 +320,7 @@ export const updateVestingExtension = async (formData: Types.VestingExtensionCre
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -320,6 +337,7 @@ export const deleteVestingExtension = async (uuid: string, headers: Headers): Pr
     headers
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -339,6 +357,7 @@ export const createApproval = async (formData: Types.ApprovalCreateInterface, he
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -358,6 +377,7 @@ export const updateApproval = async (formData: Types.ApprovalCreateInterface, he
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -377,6 +397,7 @@ export const createResolution = async (formData: Types.ResolutionCreateInterface
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -396,6 +417,7 @@ export const updateResolution = async (formData: Types.ResolutionCreateInterface
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -417,6 +439,7 @@ export const createNotification = async (formData: Types.VestingNotificationCrea
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -436,6 +459,7 @@ export const updateNotification = async (formData: Types.VestingNotificationCrea
     body: JSON.stringify({ ...formData })
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -452,6 +476,7 @@ export const deleteNotification = async (uuid: string, headers: Headers): Promis
     headers
   })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()
@@ -465,6 +490,7 @@ export const deleteNotification = async (uuid: string, headers: Headers): Promis
 export const getDocs = async (headers: Headers) => {
   const res = await fetch(`${ baseUrl }/vesting/docs`, { headers })
 
+  if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
 
   return await res.json()

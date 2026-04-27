@@ -2,103 +2,41 @@ import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router"
 import { useFormContext } from "react-hook-form"
 import { useMsal } from "@azure/msal-react"
-import { NODE_ENV } from '../config'
 import { getUserDepartment } from "./utils"
+import { useAuth } from "@/context/Auth"
 
 // Types
 import * as AppTypes from "@/context/types"
 import { AccountInfo } from "@azure/msal-browser"
 
 export const useGetToken = () => {
-  const [state, setState] = useState<{ token: string | undefined }>({ token: undefined })
-
-  const { instance, inProgress } = useMsal()
-
-  const activeAccount = instance.getActiveAccount()
-
-  const navigate = useNavigate()
-
-  if(NODE_ENV === 'development') {
-    return 'dev-token'
-  }
-
-  const checkToken = async () => {
-    let token: string | undefined = undefined
-
-    if(activeAccount?.idTokenClaims && activeAccount.idTokenClaims.exp) { // Check if token is expired or about to expire
-      const expiresOn = activeAccount.idTokenClaims.exp * 1000
-      const now = Date.now()
-  
-      if(expiresOn > now + 3000000) { // Still valid
-        token = activeAccount.idToken
-        setState({ token })
-        return
-      }
-  
-      const request = {
-        scopes: ["openid", "profile", "email"],
-        account: activeAccount,
-        forceRefresh: true
-      }
-  
-      const response = await instance.acquireTokenSilent(request) // Refresh token
-
-      setState({ token: response.idToken })
-    }
-
-    if(activeAccount && !activeAccount.idTokenClaims) { // Active account but !idTokenClaims
-      const request = {
-        scopes: ["openid", "profile", "email"],
-        account: activeAccount
-      }
-
-      const response = await instance.acquireTokenSilent(request) // Refresh token
-
-      setState({ token: response.idToken })
-    }
-
-    if(!activeAccount) { // !Active account - redirect to login
-      navigate('/projects')
-    }
-  }
-
-  useEffect(() => {
-    if(inProgress !== 'none') { // Wait for instance to fully initialize
-      return
-    }
-
-    checkToken()
-
-    const intervalId = setInterval(checkToken, 4 * 60 * 1000) // Check every 4 minutes
-    
-    return () => clearInterval(intervalId)
-  }, [inProgress])
-
-  return state.token
+  const { token } = useAuth()
+  return token
 }
 
 export const useEnableQuery = () => {
-  const [state, setState] = useState<{ enabled: boolean }>({ enabled: false })
-
-  const token = useGetToken()
+  const { token, isLoading, refreshToken } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    let timeout = null
-
-    if(token) {
-      timeout = setTimeout(() => {
-        setState({ enabled: true })
-      }, 300) // 300ms delay
-    } else setState({ enabled: false })
-
-    return () => {
-      if(timeout) {
-        clearTimeout(timeout)
-      }
+    if (!isLoading && !token) {
+      navigate('/')
     }
-  }, [token])
+  }, [token, isLoading, navigate])
 
-  return { enabled: state.enabled, token }
+  return { enabled: !!token && !isLoading, token, refreshToken }
+}
+
+export const withTokenRefresh = async <T>(
+  fn: () => Promise<T>,
+  refresh: () => Promise<string | undefined>
+): Promise<T> => {
+  try {
+    return await fn()
+  } catch (e) {
+    if (e instanceof Error && e.message === '401') await refresh()
+    throw e
+  }
 }
 
 export const useRedirectAfterLogin = () => {
@@ -107,11 +45,10 @@ export const useRedirectAfterLogin = () => {
 
   useEffect(() => {
     if(inProgress === 'none') {
-
       if(activeAccount) {
-        const redirectUrl = sessionStorage.getItem('redirectUrl') // Check for redirectUrl
+        const redirectUrl = sessionStorage.getItem('redirectUrl')
 
-        if(redirectUrl) {        
+        if(redirectUrl) {
           window.location.href = redirectUrl
           sessionStorage.removeItem('redirectUrl')
         }
@@ -120,7 +57,7 @@ export const useRedirectAfterLogin = () => {
   }, [activeAccount, inProgress])
 }
 
-export const useProjectCreateCtx = () => { // Project create ctx
+export const useProjectCreateCtx = () => {
   const methods = useFormContext<AppTypes.ProjectCreateInterface>()
 
   const disabled = methods.watch('expired')
@@ -128,7 +65,7 @@ export const useProjectCreateCtx = () => { // Project create ctx
   return { methods, disabled }
 }
 
-export const useExpireProject = () => { // Handle project expiration - expire milestones/vesting
+export const useExpireProject = () => {
   const { methods: { watch, setValue, getValues } } = useProjectCreateCtx()
 
   const expired = watch('expired')
@@ -160,13 +97,13 @@ export const useExpireProject = () => { // Handle project expiration - expire mi
   }, [expireProject])
 }
 
-export const useMilestoneExt = () => { // Handle milestone #1 extension
+export const useMilestoneExt = () => {
   const { methods: { setValue, getValues } } = useProjectCreateCtx()
 
   const firstMilestone = getValues('Milestones')?.find(milestone => milestone.number === 1)
   const milestoneExtension = firstMilestone?.MilestoneExtension
 
-  const handleMilestoneExt = useCallback(() => { // If extended - update milestone #2 date
+  const handleMilestoneExt = useCallback(() => {
     if(milestoneExtension?.date) {
       const date = new Date(milestoneExtension?.date)
       const updatedSecondMilestoneDate = date.setFullYear(date.getFullYear() + 2)
@@ -187,12 +124,7 @@ export const useGetUserDepartment = () => {
   const activeAccount = instance.getActiveAccount()
 
   useEffect(() => {
-    if(NODE_ENV === 'development') {
-      setState({ department: 'IT', isLoading: false })
-      return
-    }
-
-    if(activeAccount && inProgress === 'none' && !state.department) { // Get user department
+    if(activeAccount && inProgress === 'none' && !state.department) {
       getUserDepartment(instance, activeAccount as AccountInfo)
         .then(department => setState({ department, isLoading: false }))
         .catch((err) => {

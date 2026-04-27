@@ -1,24 +1,14 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
-import { useMsal } from "@azure/msal-react"
-import { NODE_ENV } from "@/config"
+import { useAuth } from "@/context/Auth"
 
-export const useRedirect = () => { // Redirect unauthenticated users
-  const { instance, inProgress } = useMsal()
-  const activeAccount = instance.getActiveAccount()
+export const useRedirect = () => {
+  const { isAuthenticated, isLoading } = useAuth()
   const navigate = useNavigate()
 
-  const isDevelopment = NODE_ENV === 'development'
-
   useEffect(() => {
-    if(isDevelopment) return
-
-    if(instance && inProgress === 'none') {
-      if(!activeAccount) {
-        navigate('/projects')
-      }
+    if (!isLoading && !isAuthenticated) {
+      navigate('/')
     }
-
-    return
-  }, [instance, inProgress, navigate, activeAccount, isDevelopment])
+  }, [isAuthenticated, isLoading, navigate])
 }

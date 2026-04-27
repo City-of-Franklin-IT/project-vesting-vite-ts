@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ToastContainer } from "react-toastify"
 import { APP_BASE } from "./config"
+import { AuthProvider } from "./context/Auth"
 import 'react-toastify/dist/ReactToastify.css'
 
 // Components
@@ -18,17 +19,19 @@ const queryClient = new QueryClient()
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router basename={APP_BASE}>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/create" element={<Create />} />
-          <Route path="/update/:uuid" element={<Update />} />
-          <Route path="/docs" element={<Docs />} />
-          <Route path="/*" element={<Redirect />} />
-        </Routes>
-      </Router>
-      <ToastContainer />
+      <AuthProvider>
+        <Router basename={APP_BASE}>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/update/:uuid" element={<Update />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="/*" element={<Redirect />} />
+          </Routes>
+        </Router>
+        <ToastContainer />
+      </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
