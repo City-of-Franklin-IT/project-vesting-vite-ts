@@ -55,18 +55,19 @@ export const setIconVariant = (project: AppTypes.ProjectInterface, hovered: bool
 }
 
 export const ZoningOrdinanceMap = new Map<AppTypes.ZoningOrdinanceType,string>([
-  ['2014-09-29', 'https://www.franklintn.gov/home/showpublisheddocument/31056/637118171429630000'],
-  ['2016-02-23', 'https://www.franklintn.gov/home/showpublisheddocument/31054/637118170903330000'],
-  ['2017-01-01', 'https://www.franklintn.gov/home/showpublisheddocument/31050/637118169714030000'],
-  ['2017-04-01', 'https://www.franklintn.gov/home/showpublisheddocument/31052/637118170362500000'],
-  ['2018-03-01', 'https://www.franklintn.gov/home/showpublisheddocument/31048/637118168705330000'],
-  ['2018-07-01', 'https://www.franklintn.gov/home/showpublisheddocument/24135/636741747183930000'],
-  ['2019-12-30', 'https://web.franklintn.gov/flippingbook/2019franklinzoningordinance/'],
-  ['2020-12-08', 'https://web.franklintn.gov/flippingbook/2020FranklinZoningOrdinance'],
+  ['2014-09-29', 'https://www.franklintn.gov/home/showpublisheddocument/33584/637601215600270000'],
+  ['2016-02-23', 'https://www.franklintn.gov/home/showpublisheddocument/33586/637601216458270000'],
+  ['2017-01-01', 'https://www.franklintn.gov/home/showpublisheddocument/33588/637601217100800000'],
+  ['2017-04-01', 'https://www.franklintn.gov/home/showpublisheddocument/33590/637601217603930000'],
+  ['2018-03-01', 'https://www.franklintn.gov/home/showpublisheddocument/33592/637601218011470000'],
+  ['2018-07-01', 'https://www.franklintn.gov/home/showpublisheddocument/33594/637601218447430000'],
+  ['2019-12-30', 'https://web.franklintn.gov/flippingbook/2019FranklinZoningOrdinance/'],
+  ['2020-12-08', 'https://web.franklintn.gov/flippingbook/2020FranklinZoningOrdinance/'],
   ['2022-01-01', 'https://web.franklintn.gov/flippingbook/2022franklinzoningordinance/'],
-  ['2023-01-01', 'https://web.franklintn.gov/FlippingBook/FranklinZoningOrdinance/index.html'],
-  ['2024-07-01', 'https://www.franklintn.gov/home/showpublisheddocument/38613'],
-  ['2025-01-01', '']
+  ['2023-01-01', 'https://web.franklintn.gov/flippingbook/FranklinZoningOrdinance2023/'],
+  ['2024-07-01', 'https://web.franklintn.gov/flippingbook/FranklinZoningOrdinance2024/'],
+  ['2025-01-01', 'https://web.franklintn.gov/flippingbook/FranklinZoningOrdinance2025/'],
+  ['2026-01-13', 'https://web.franklintn.gov/FlippingBook/FranklinZoningOrdinance/index.html']
 ])
 
 export const ordinanceOptions: { text: AppTypes.ZoningOrdinanceType | '', value: string }[] = [ // Zoning ordinance select options
@@ -82,7 +83,8 @@ export const ordinanceOptions: { text: AppTypes.ZoningOrdinanceType | '', value:
   { text: '2022-01-01', value: '2022-01-01' },
   { text: '2023-01-01', value: '2023-01-01' },
   { text: '2024-07-01', value: '2024-07-01' },
-  { text: '2025-01-01', value: '2025-01-01' }
+  { text: '2025-01-01', value: '2025-01-01' },
+  { text: '2026-01-13', value: '2026-01-13' }
 ]
 
 export const handleRowStyling = (project: AppTypes.ProjectInterface): string | undefined => { // Handle table row styling
