@@ -1,6 +1,5 @@
 import { useGetUserDepartment } from "@/helpers/hooks"
-
-const MOCK_AUTH = import.meta.env.VITE_MOCK_AUTH === 'true'
+import { MOCK_AUTH } from "@/context/Auth"
 
 export const useHandleDocsBtn = () => {
   const { department } = useGetUserDepartment()

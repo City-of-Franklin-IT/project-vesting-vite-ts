@@ -1,6 +1,6 @@
-import { NODE_ENV } from '../config'
+import { MOCK_AUTH } from './Auth'
 
-const baseUrl = NODE_ENV === 'development' ?
+const baseUrl = MOCK_AUTH ?
   'https://cofasv38.franklin-gov.com/api/v2/eng' :
   'https://dev.franklintn.gov/api/v2/eng'
 

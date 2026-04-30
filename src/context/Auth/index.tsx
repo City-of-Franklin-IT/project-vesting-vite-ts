@@ -11,10 +11,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
-const MOCK_AUTH = import.meta.env.VITE_MOCK_AUTH === 'true'
+export const MOCK_AUTH = import.meta.env.VITE_MOCK_AUTH === 'true'
 const MOCK_TOKEN = 'dev-token-12345'
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthCtxProvider({ children }: { children: ReactNode }) {
   const { instance, inProgress } = useMsal()
   const [token, setToken] = useState<string | undefined>(undefined)
 
@@ -71,8 +71,8 @@ export function useAuth() {
   const context = useContext(AuthContext)
 
   if(!context) {
-    throw new Error('useAuth must be used within AuthProvider')
+    throw new Error('useAuth must be used within AuthCtxProvider')
   }
-  
+
   return context
 }
