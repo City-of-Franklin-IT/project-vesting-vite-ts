@@ -8,7 +8,7 @@ export const useRedirect = () => {
 
   useEffect(() => {
     if(!isLoading && !isAuthenticated) {
-      navigate('/')
+      navigate('/projects')
     }
   }, [isAuthenticated, isLoading, navigate])
 }
