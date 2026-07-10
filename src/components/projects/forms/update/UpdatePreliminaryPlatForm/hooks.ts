@@ -54,8 +54,8 @@ export const useHandleFPMCDateChange = () => {
 * Initializes react-hook-form with existing project data for Preliminary Plat
 **/
 const useUpdatePreliminaryPlatForm = (project: AppTypes.ProjectInterface): UseFormReturn<AppTypes.ProjectCreateInterface> => {
-  return useForm<AppTypes.ProjectCreateInterface>({
-    mode: 'onBlur',
+  const methods = useForm<AppTypes.ProjectCreateInterface>({
+    mode: 'onChange',
     defaultValues: {
       expired: project.expired,
       name: project.name,
@@ -69,6 +69,12 @@ const useUpdatePreliminaryPlatForm = (project: AppTypes.ProjectInterface): UseFo
       uuid: project.uuid
     }
   })
+
+  useEffect(() => {
+    methods.trigger()
+  }, [methods])
+
+  return methods
 }
 
 /**

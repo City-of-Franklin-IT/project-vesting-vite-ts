@@ -4,29 +4,25 @@ import { useHandleTableRowHover, useHandleProjectCell, useHandleProjectName } fr
 import styles from './Table.module.css'
 
 // Types
-import * as AppTypes from '@/context/types'
+import type * as AppTypes from '@/context/types'
 
 // Components
 import Icons from "@/components/icons/Icons/Icons"
 
-export const TableBody = ({ projects }: { projects: AppTypes.ProjectInterface[] }) => { // Projects table body
-
-  return (
-    <tbody>
-      {projects.map((project) => {
-        return (
-          <TableRow
-            key={`project-table-row-${ project.uuid }`}
-            project={project} />
-        )
-      })}
-    </tbody>
-  )
-}
+export const TableBody = ({ projects }: { projects: AppTypes.ProjectInterface[] }) => (
+  <tbody>
+    {projects.map((project) => {
+      return (
+        <TableRow
+          key={`project-table-row-${ project.uuid }`}
+          project={project} />
+      )
+    })}
+  </tbody>
+)
 
 const TableRow = ({ project }: { project: AppTypes.ProjectInterface }) => {
   const { trProps, hovered } = useHandleTableRowHover()
-
   const cellProps = { project, hovered }
 
   return (
@@ -41,7 +37,10 @@ const TableRow = ({ project }: { project: AppTypes.ProjectInterface }) => {
   )
 }
 
-type ProjectCellProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+type ProjectCellProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
+}
 
 const ProjectCell = (props: ProjectCellProps) => {
   const btnProps = useHandleProjectCell()
@@ -82,7 +81,11 @@ const ProjectName = ({ project }: { project: AppTypes.ProjectInterface }) => {
   )
 }
 
-type ProjectDetailsProps = { project: AppTypes.ProjectInterface, hovered: boolean, expanded: boolean }
+type ProjectDetailsProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean
+  expanded: boolean 
+}
 
 const ProjectDetails = (props: ProjectDetailsProps) => {
   const { expanded, ...detailProps } = props
@@ -102,37 +105,37 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
   )
 }
 
-type ProjectTypeProps = { project: AppTypes.ProjectInterface, hovered: boolean }
-
-const ProjectType = (props: ProjectTypeProps) => {
-  
-  return (
-    <div className="flex flex-col items-center">
-      <Icons
-        type={'type'}
-        variant={setIconVariant(props.project, props.hovered)}
-        size={'small'} />
-      <small className="underline">Type:</small>
-      <small className="whitespace-nowrap">{props.project.type}</small>
-    </div>
-  )
+type ProjectTypeProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
 }
 
-type OrdinanceProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+const ProjectType = (props: ProjectTypeProps) => (
+  <div className="flex flex-col items-center">
+    <Icons
+      type={'type'}
+      variant={setIconVariant(props.project, props.hovered)}
+      size={'small'} />
+    <small className="underline">Type:</small>
+    <small className="whitespace-nowrap">{props.project.type}</small>
+  </div>
+)
 
-const Ordinance = (props: OrdinanceProps) => {
-
-  return (
-    <div className="flex flex-col items-center">
-      <Icons
-        type={'ordinance'}
-        variant={setIconVariant(props.project, props.hovered)}
-        size={'small'} />
-      <small className="underline">Ordinance:</small>
-      <OrdinanceLink project={props.project} />
-    </div>
-  )
+type OrdinanceProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
 }
+
+const Ordinance = (props: OrdinanceProps) => (
+  <div className="flex flex-col items-center">
+    <Icons
+      type={'ordinance'}
+      variant={setIconVariant(props.project, props.hovered)}
+      size={'small'} />
+    <small className="underline">Ordinance:</small>
+    <OrdinanceLink project={props.project} />
+  </div>
+)
 
 const OrdinanceLink = ({ project }: { project: AppTypes.ProjectInterface }) => {
   const ordinanceLink = ZoningOrdinanceMap.get(project.ordinance)
@@ -142,7 +145,10 @@ const OrdinanceLink = ({ project }: { project: AppTypes.ProjectInterface }) => {
   )
 }
 
-type ResolutionProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+type ResolutionProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
+}
 
 const Resolution = (props: ResolutionProps) => {
   if(!props.project.Resolution) return null
@@ -167,21 +173,24 @@ const ProjectNotes = ({ project }: { project: AppTypes.ProjectInterface }) => {
   )
 }
 
-type MilestonesProps = { project: AppTypes.ProjectInterface, hovered: boolean }
-
-const Milestones = (props: MilestonesProps) => {
-
-  return (
-    <td>
-      <div className="flex flex-col justify-between gap-6 m-auto p-3 w-fit lg:flex-row">
-        <FirstMilestone { ...props } />
-        <SecondMilestone { ...props } />
-      </div>
-    </td>
-  )
+type MilestonesProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
 }
 
-type FirstMilestoneProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+const Milestones = (props: MilestonesProps) => (
+  <td>
+    <div className="flex flex-col justify-between gap-6 m-auto p-3 w-fit lg:flex-row">
+      <FirstMilestone { ...props } />
+      <SecondMilestone { ...props } />
+    </div>
+  </td>
+)
+
+type FirstMilestoneProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
+}
 
 const FirstMilestone = (props: FirstMilestoneProps) => {
   const firstMilestone = props.project.Milestones?.find(milestone => milestone.number === 1)
@@ -217,7 +226,10 @@ const MilestoneExtension = ({ milestone }: { milestone: AppTypes.MilestoneInterf
   )
 }
 
-type SecondMilestoneProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+type SecondMilestoneProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
+}
 
 const SecondMilestone = (props: SecondMilestoneProps) => {
   const secondMilestone = props.project.Milestones?.find(milestone => milestone.number === 2)
@@ -235,21 +247,24 @@ const SecondMilestone = (props: SecondMilestoneProps) => {
   )
 }
 
-type VestingPeriodsProps = { project: AppTypes.ProjectInterface, hovered: boolean }
-
-const VestingPeriods = (props: VestingPeriodsProps) => {
-
-  return (
-    <td>
-      <div className="flex justify-between gap-6 m-auto p-3 w-fit">
-        <TenYearVesting { ...props } />
-        <FifteenYearVesting { ...props } />
-      </div>
-    </td>
-  )
+type VestingPeriodsProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
 }
 
-type TenYearVestingProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+const VestingPeriods = (props: VestingPeriodsProps) => (
+  <td>
+    <div className="flex justify-between gap-6 m-auto p-3 w-fit">
+      <TenYearVesting { ...props } />
+      <FifteenYearVesting { ...props } />
+    </div>
+  </td>
+)
+
+type TenYearVestingProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
+}
 
 const TenYearVesting = (props: TenYearVestingProps) => {
   const tenYearVesting = props.project.VestingPeriods?.find(period => period.type === "10Y")
@@ -277,7 +292,10 @@ const TenYearVesting = (props: TenYearVestingProps) => {
   )
 }
 
-type FifteenYearVestingProps = { project: AppTypes.ProjectInterface, hovered: boolean }
+type FifteenYearVestingProps = { 
+  project: AppTypes.ProjectInterface
+  hovered: boolean 
+}
 
 const FifteenYearVesting = (props: FifteenYearVestingProps) => {
   const fifteenYearVesting = props.project.VestingPeriods?.find(period => period.type === "15Y")
@@ -319,7 +337,11 @@ const VestingPeriodExtension = ({ period }: { period: AppTypes.VestingPeriodInte
   )
 }
 
-type DetailsBtnProps = { expanded: boolean, hovered: boolean, onClick: () => void }
+type DetailsBtnProps = { 
+  expanded: boolean
+  hovered: boolean
+  onClick: () => void 
+}
 
 const DetailsBtn = (props: DetailsBtnProps) => {
   const iconProps = handleDetailsBtnIcon(props)

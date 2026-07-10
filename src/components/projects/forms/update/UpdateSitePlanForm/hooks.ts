@@ -54,8 +54,8 @@ export const useHandleApprovalDateChange = () => {
 * Initializes react-hook-form with existing project data for Site Plan
 **/
 const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface): UseFormReturn<AppTypes.ProjectCreateInterface> => {
-  return useForm<AppTypes.ProjectCreateInterface>({
-    mode: 'onBlur',
+  const methods = useForm<AppTypes.ProjectCreateInterface>({
+    mode: 'onChange',
     defaultValues: {
       expired: project.expired,
       name: project.name,
@@ -69,6 +69,12 @@ const useUpdateSitePlanForm = (project: AppTypes.ProjectInterface): UseFormRetur
       uuid: project.uuid
     }
   })
+
+  useEffect(() => {
+    methods.trigger()
+  }, [methods])
+
+  return methods
 }
 
 /**

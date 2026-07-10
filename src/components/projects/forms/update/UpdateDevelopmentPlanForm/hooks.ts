@@ -396,8 +396,8 @@ export const useHandleNotificationInput = (type: AppTypes.NotificationTypes) => 
 * Initializes react-hook-form with existing project data for Development Plan
 **/
 const useUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInterface): UseFormReturn<AppTypes.ProjectCreateInterface> => {
-  return useForm<AppTypes.ProjectCreateInterface>({
-    mode: 'onBlur',
+  const methods = useForm<AppTypes.ProjectCreateInterface>({
+    mode: 'onChange',
     defaultValues: {
       type: project.type,
       expired: project.expired,
@@ -413,6 +413,12 @@ const useUpdateDevelopmentPlanForm = (project: AppTypes.ProjectInterface): UseFo
       uuid: project.uuid
     }
   })
+
+  useEffect(() => {
+    methods.trigger()
+  }, [methods])
+
+  return methods
 }
 
 /**

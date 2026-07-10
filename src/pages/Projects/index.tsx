@@ -2,20 +2,20 @@ import { ProjectsProvider } from '@/components/projects/containers/ProjectsConta
 import { useGetProjects } from './hooks'
 
 // Components
+import Loading from '@/components/loading/Loading'
 import ProjectsContainer from '../../components/projects/containers/ProjectsContainer'
-import HandleLoading from '../../utils/HandleLoading'
 
 function Projects() {
   const { data, isLoading } = useGetProjects()
 
+  if(isLoading) return <Loading />
+
   return (
-    <HandleLoading isLoading={isLoading}>
-      <div className="w-full">
-        <ProjectsProvider>
-          <ProjectsContainer projects={data?.data || []} />
-        </ProjectsProvider>
-      </div>
-    </HandleLoading>
+    <div className="w-full">
+      <ProjectsProvider>
+        <ProjectsContainer projects={data?.data || []} />
+      </ProjectsProvider>
+    </div>
   )
 }
 

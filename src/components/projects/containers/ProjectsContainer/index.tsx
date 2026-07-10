@@ -1,7 +1,7 @@
 import { useHandleProjectsContainer } from './hooks'
 
 // Types
-import * as AppTypes from '@/context/types'
+import type * as AppTypes from '@/context/types'
 
 // Components
 import SearchAndFilterContainer from '../SearchAndFilterContainer'
@@ -16,7 +16,6 @@ function ProjectsContainer({ projects }: { projects: AppTypes.ProjectInterface[]
 
   return (
     <div className="flex flex-col gap-6 my-10 w-full">
-
       <div ref={topRef} className="flex flex-wrap gap-10 justify-between">
         <SearchAndFilterContainer />
         <div className="flex gap-8 items-end justify-end w-full lg:w-auto lg:flex-1">
@@ -32,17 +31,14 @@ function ProjectsContainer({ projects }: { projects: AppTypes.ProjectInterface[]
           </div>
         </div>
       </div>
-
       <div className="shadow-xl rounded-lg">
         <Table projects={tableData || []} />
       </div>
-
       <div className="ml-auto">
         <Pagination
           topRef={topRef}
           projectsCount={projects.length} />
       </div>
-
       <BackToTopBtn onClick={onBackToTopBtnClick} />
     </div>      
   )

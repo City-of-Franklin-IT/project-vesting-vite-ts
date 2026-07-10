@@ -1,10 +1,10 @@
 import styles from './Table.module.css'
 
 // Types
-import * as AppTypes from '@/context/types'
+import type * as AppTypes from '@/context/types'
 
 // Components
-import { TableBody } from './components'
+import * as Components from './components'
 
 function Table({ projects }: { projects: AppTypes.ProjectInterface[] }) {
 
@@ -18,7 +18,7 @@ function Table({ projects }: { projects: AppTypes.ProjectInterface[] }) {
             <th className="p-3 w-1/3">Vesting</th>
           </tr>
         </thead>
-        <TableBody projects={projects} />
+        <Components.TableBody projects={projects} />
       </table>
     </div>
   )
