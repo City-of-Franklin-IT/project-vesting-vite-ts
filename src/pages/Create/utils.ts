@@ -1,4 +1,5 @@
 // Types
+import type { JSX } from "react"
 import { FormTypes } from "./types"
 
 // Components

@@ -1,4 +1,5 @@
 // Types
+import type { JSX } from "react"
 import { FormTypes } from "@/pages/Create/types"
 import * as AppTypes from "@/context/types"
 

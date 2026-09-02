@@ -1,7 +1,7 @@
 import { createContext, useReducer } from "react"
 
 // Types
-import { ReactNode, Reducer, Dispatch } from "react"
+import { ReactNode, Dispatch } from "react"
 
 type ProjectsCtx = {
   dispatch: Dispatch<ProjectsAction>
@@ -113,7 +113,7 @@ const projectsReducer = (state: ProjectsState, action: ProjectsAction) => {
 }
 
 export const ProjectsProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer<Reducer<ProjectsState, ProjectsAction>>(projectsReducer, initialState)
+  const [state, dispatch] = useReducer(projectsReducer, initialState)
 
   return (
     <ProjectsCtx.Provider value={{ ...state, dispatch }}>

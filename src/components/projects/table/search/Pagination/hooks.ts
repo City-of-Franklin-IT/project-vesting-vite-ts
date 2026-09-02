@@ -4,7 +4,7 @@ import ProjectsCtx from "@/components/projects/containers/ProjectsContainer/cont
 /**
 * Sets total pages, resets active page on filter change, and scrolls to top on page change
 **/
-export const useHandlePagination = (topRef: React.RefObject<HTMLDivElement>, projectsCount: number) => {
+export const useHandlePagination = (topRef: React.RefObject<HTMLDivElement | null>, projectsCount: number) => {
 
   useSetTotalPages(projectsCount)
   useResetActivePage()
@@ -58,7 +58,7 @@ const useResetActivePage = () => { // Reset active page on filter / searchValue 
   }, [setActivePage])
 }
 
-const useScrollToTopRef = (topRef: React.RefObject<HTMLDivElement>) => {
+const useScrollToTopRef = (topRef: React.RefObject<HTMLDivElement | null>) => {
   const { currentPage } = useContext(ProjectsCtx)
 
   useEffect(() => {
