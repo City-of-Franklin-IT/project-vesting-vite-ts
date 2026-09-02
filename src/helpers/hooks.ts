@@ -9,12 +9,6 @@ import { useAuth } from "@/context/Auth"
 import * as AppTypes from "@/context/types"
 import { AccountInfo } from "@azure/msal-browser"
 
-export const useGetToken = () => {
-  const { token } = useAuth()
-
-  return token
-}
-
 export const useEnableQuery = () => {
   const { token, isLoading, refreshToken } = useAuth()
   const navigate = useNavigate()
@@ -28,11 +22,14 @@ export const useEnableQuery = () => {
   return { enabled: !!token && !isLoading, token, refreshToken }
 }
 
-export const withTokenRefresh = async <T>(fn: () => Promise<T>, refresh: () => Promise<string | undefined>): Promise<T> => {
+export const withTokenRefresh = async <T>(fn: (token?: string) => Promise<T>, refresh: (forceRefresh?: boolean) => Promise<string | undefined>): Promise<T> => {
   try {
     return await fn()
   } catch (e) {
-    if(e instanceof Error && e.message === '401') await refresh()
+    if(e instanceof Error && e.message === '401') {
+      const token = await refresh(true)
+      return await fn(token)
+    }
     throw e
   }
 }

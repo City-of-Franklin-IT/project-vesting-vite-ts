@@ -15,7 +15,7 @@ export const useGetProject = () => {
   return useQuery({
     queryKey: ['getProject', uuid],
     queryFn: () => withTokenRefresh(
-      () => AppActions.getProject(uuid as string, authHeaders(token)),
+      (freshToken) => AppActions.getProject(uuid as string, authHeaders(freshToken ?? token)),
       refreshToken
     ),
     enabled: enabled && !!uuid

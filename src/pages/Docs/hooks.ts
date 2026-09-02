@@ -13,7 +13,7 @@ export const useGetDocs = () => {
   return useQuery({
     queryKey: ['getDocs'],
     queryFn: () => withTokenRefresh(
-      () => AppActions.getDocs(authHeaders(token)),
+      (freshToken) => AppActions.getDocs(authHeaders(freshToken ?? token)),
       refreshToken
     ),
     enabled: enabled && !!token

@@ -1,15 +1,15 @@
-import { LogLevel } from '@azure/msal-browser';
+import { LogLevel, AccountInfo } from '@azure/msal-browser'
 
 export const msalConfig = {
     auth: {
-        clientId: '27b0f13e-b9e9-4b04-9a28-8130cf2ba6b5',
-        authority: 'https://login.microsoftonline.com/f6644f52-f834-4a2f-a433-e6bc40d7c17f/',
-        redirectUri: 'https://dev.franklintn.gov/vesting',
-        postLogoutRedirectUri: '/',
+        clientId: import.meta.env.VITE_CLIENT_ID,
+        authority: import.meta.env.VITE_AUTH_AUTHORITY,
+        redirectUri: import.meta.env.VITE_AUTH_REDIRECT_URI,
+        postLogoutRedirectUri: import.meta.env.VITE_AUTH_POST_LOGOUT_REDIRECT_URI,
         navigateToLoginRequestUrl: false
     },
     cache: {
-        cacheLocation: 'sessionStorage', 
+        cacheLocation: 'localStorage',
         storeAuthStateInCookie: false
     },
     system: {
@@ -34,9 +34,14 @@ export const msalConfig = {
             },
         },
     },
-};
+}
 
 export const loginRequest = {
     scopes: ["openid", "profile"],
-    redirectUri: "https://dev.franklintn.gov/vesting"
-};
+    redirectUri: import.meta.env.VITE_AUTH_REDIRECT_URI
+}
+
+export const acquireRequest = (account: AccountInfo) => ({
+    scopes: [`${ import.meta.env.VITE_ENTRA_CLIENT_ID }/.default`],
+    account
+})
