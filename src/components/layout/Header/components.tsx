@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router"
-import { APP_TITLE } from "@/config"
 import { useMsal } from "@azure/msal-react"
 import cofIcon from '@/assets/icons/cof/cof-primary-content.svg'
 import useHandleLogoutRedirect from "@/context/Auth/hooks/useHandleLogoutRedirect"
@@ -16,7 +15,7 @@ export const Title = () => {
     <Link to={href} className="flex flex-col text-primary-content text-center mt-4 w-fit lg:my-4">
       <div className="flex gap-4 text-primary-content items-center justify-center">
         <img src={cofIcon} alt="cof icon" className="w-20" />
-        <h1 className="text-lg font-bold text-center md:text-xl lg:text-3xl">{APP_TITLE}</h1>
+        <h1 className="text-lg font-bold text-center md:text-xl lg:text-3xl">{import.meta.env.VITE_APP_TITLE}</h1>
       </div>
     </Link>
   )

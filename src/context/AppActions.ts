@@ -1,8 +1,4 @@
-import { MOCK_AUTH } from './Auth'
-
-const baseUrl = MOCK_AUTH ?
-  'https://cofasv38.franklin-gov.com/api/v2/eng' :
-  'https://dev.franklintn.gov/api/v2/eng'
+const baseUrl = import.meta.env.VITE_API_URL
 
 // Types
 import * as Types from './types'
