@@ -17,34 +17,27 @@ export function AuthCtxProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   const getToken = useCallback(async (forceRefresh = false): Promise<string | undefined> => {
-    if (import.meta.env.DEV) {
+    if(import.meta.env.DEV) {
       setToken(import.meta.env.VITE_MOCK_TOKEN)
       setIsLoading(false)
       return import.meta.env.VITE_MOCK_TOKEN
     }
 
-    if (inProgress !== 'none') return token
+    if(inProgress !== 'none' && !forceRefresh) return token
 
     setIsLoading(true)
 
-    const activeAccount = instance.getActiveAccount()
+    let activeAccount = instance.getActiveAccount()
 
-    if (!activeAccount && accounts.length === 0) {
+    if(!activeAccount && accounts.length === 0) {
       setToken(undefined)
       setIsLoading(false)
       return undefined
     }
 
-    if (!activeAccount && accounts.length > 0) {
+    if(!activeAccount) {
       instance.setActiveAccount(accounts[0])
-      setIsLoading(false)
-      return token
-    }
-
-    if (!activeAccount) {
-      setToken(undefined)
-      setIsLoading(false)
-      return undefined
+      activeAccount = accounts[0]
     }
 
     try {
@@ -60,6 +53,7 @@ export function AuthCtxProvider({ children }: { children: ReactNode }) {
         return response.accessToken
       } catch {
         instance.loginRedirect(loginRequest)
+        setIsLoading(false)
         return undefined
       }
     }
@@ -70,8 +64,16 @@ export function AuthCtxProvider({ children }: { children: ReactNode }) {
   }, [inProgress, accounts])
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      getToken()
+    }, 4 * 60 * 1000)
+
+    return () => clearInterval(interval)
+  }, [getToken])
+
+  useEffect(() => {
     const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') getToken()
+      if(document.visibilityState === 'visible') getToken()
     }
 
     document.addEventListener('visibilitychange', onVisibilityChange)

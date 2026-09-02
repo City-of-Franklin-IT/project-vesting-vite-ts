@@ -12,9 +12,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [msalInstance, setMsalInstance] = useState<IPublicClientApplication | undefined>(undefined)
 
   useEffect(() => {
+    let cancelled = false
     const instance = new PublicClientApplication(msalConfig)
 
     instance.initialize().then(() => {
+      if(cancelled) return
+
       if(!instance.getActiveAccount() && instance.getAllAccounts().length > 0) {
         instance.setActiveAccount(instance.getAllAccounts()[0])
       }
@@ -30,6 +33,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setMsalInstance(instance)
     })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   if(!msalInstance) return <Loading />
