@@ -54,7 +54,7 @@ export const ReportLink = ({ href }: { href: string }) => { // Link to Power BI 
   if(!state.isValid) return null
 
   return (
-    <a href={href} target="_blank" className="btn btn-ghost rounded-none uppercase hover:bg-primary hover:shadow-none hover:text-primary-content">View Report</a>
+    <a href={href} target="_blank" className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-nonet">View Report</a>
   )
 }
 
@@ -66,7 +66,7 @@ export const LoginPageLink = () => { // Link to login page
   if(activeAccount || pathname === '/') return null
 
   return (
-    <Link to={'/'} className="btn btn-ghost rounded-none uppercase hover:bg-primary hover:shadow-none hover:text-primary-content">Login</Link>
+    <Link to={'/'} className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">Login</Link>
   )
 }
 
@@ -77,7 +77,7 @@ const LogoutBtn = () => { // Logout button
     <button
       type="button"
       onClick={onClick}
-      className="btn btn-ghost rounded-none uppercase hover:bg-primary hover:shadow-none hover:text-primary-content">
+      className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">
         Logout
     </button>
   )
@@ -87,7 +87,7 @@ const CreateBtns = () => {
 
   return (
     <div className="dropdown dropdown-hover">
-      <div tabIndex={0} role="button" className="btn btn-ghost rounded-none uppercase hover:bg-primary hover:shadow-none hover:text-primary-content">
+      <div tabIndex={0} role="button" className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">
         <span>Create</span>
       </div>
       <ul tabIndex={0} className="dropdown-content menu bg-primary text-neutral-content z-[1] w-52">

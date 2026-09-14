@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --port 6000",
     "build": "tsc && vite build",
+    "build:istest": "tsc && vite build --mode istest",
     "deploy": "scp -r dist $USER@cofasv32:/opt/builds/project-vesting-vite-ts",
+    "deploy:istest": "scp -r dist $USER@cofasv32:/opt/builds/test/project-vesting-vite-ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest"
