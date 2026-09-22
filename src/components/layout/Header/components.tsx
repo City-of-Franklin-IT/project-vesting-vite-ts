@@ -2,7 +2,9 @@ import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router"
 import { useMsal } from "@azure/msal-react"
 import cofIcon from '@/assets/icons/cof/cof-primary-content.svg'
+import claudeIcon from '@/assets/icons/claude/claude.webp'
 import useHandleLogoutRedirect from "@/context/Auth/hooks/useHandleLogoutRedirect"
+import { useAiChatPanel } from "../AiChatPanel/hooks"
 
 export const Title = () => {
   const { pathname } = useLocation()
@@ -33,6 +35,7 @@ export const Buttons = () => { // Buttons
     <div className="flex flex-nowrap gap-2 overflow-visible w-full pl-4">
       <ReportLink href={'https://cofdbv10/reports/powerbi/Planning/Project%20Vesting'} />
       <CreateBtns />
+      <AiChatToggleBtn />
       <LogoutBtn />
     </div>
   )
@@ -109,5 +112,21 @@ const CreateBtn = ({ href, children }: { href: string, children: React.ReactNode
 
   return (
     <li className="hover:cursor-pointer hover:bg-neutral"><Link to={href}>{children}</Link></li>
+  )
+}
+
+const AiChatToggleBtn = () => {
+  const { open, dispatch } = useAiChatPanel()
+
+  return (
+    <button
+      type="button"
+      title="Ask Claude about this application"
+      aria-label={open ? "Close assistant panel" : "Open assistant panel"}
+      aria-expanded={open}
+      onClick={() => dispatch({ type: "TOGGLE" })}
+      className="btn btn-ghost btn-square rounded-none hover:bg-primary hover:shadow-none">
+        <img src={claudeIcon} alt="" className="w-8 h-8" />
+    </button>
   )
 }
