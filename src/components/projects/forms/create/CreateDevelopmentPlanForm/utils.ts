@@ -11,13 +11,9 @@ export const handleCreateDevelopmentPlan = async (formData: AppTypes.ProjectCrea
     await AppActions.createResolution({ ...formData.Resolution, parentId: result.data.uuid }, authHeaders(token))
 
     await Promise.all([
-      formData.Approvals.map(approval => AppActions.createApproval({ ...approval, parentId: result.data.uuid }, authHeaders(token))),
-      formData.VestingPeriods.map(period => {
-        if(period.date) {
-          AppActions.createPeriod({ ...period, parentId: result.data.uuid }, authHeaders(token))
-        }
-      }),
-      formData.Milestones.map(milestone => AppActions.createMilestone({ ...milestone, parentId: result.data.uuid }, authHeaders(token)))
+      ...formData.Approvals.map(approval => AppActions.createApproval({ ...approval, parentId: result.data.uuid }, authHeaders(token))),
+      ...formData.VestingPeriods.filter(period => period.date).map(period => AppActions.createPeriod({ ...period, parentId: result.data.uuid }, authHeaders(token))),
+      ...formData.Milestones.map(milestone => AppActions.createMilestone({ ...milestone, parentId: result.data.uuid }, authHeaders(token)))
     ])
   }
 

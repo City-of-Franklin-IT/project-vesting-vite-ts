@@ -11,11 +11,11 @@
 .btn:hover {
   cursor: pointer;
   color: var(--color-error);
-  background-color: var(--color-b3);
+  background-color: var(--color-base-300);
 }
 
 .btnActive {
-  background: var(--color-b3);
+  background: var(--color-base-300);
   color: var(--color-error);
   animation: 2s confirm-delete-pulse infinite;
 }

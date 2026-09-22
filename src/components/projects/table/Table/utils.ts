@@ -107,6 +107,22 @@ export const handleRowStyling = (project: AppTypes.ProjectInterface): string | u
   return "bg-neutral-content border-b-2 border-neutral/20 hover:text-neutral-content hover:bg-neutral"
 }
 
+export const handleDetailsTextColor = (project: AppTypes.ProjectInterface): string => { // Pin details text color so it doesn't shift on row hover
+  if(project.expired) return "text-error"
+
+  let completed = false
+
+  project.VestingPeriods?.forEach(obj => {
+    if(obj.VestingStatus?.achieved) {
+      completed = true
+    } else completed = false
+  })
+
+  if(completed) return "text-success"
+
+  return "text-base-content"
+}
+
 export const handleDetailsBtnIcon = ({ expanded, hovered }: { expanded: boolean, hovered: boolean }) => {
   const type: IconTypes = expanded ? 'minimize' : 'expand'
   const variant: Variants = hovered ? 'light' : 'dark'

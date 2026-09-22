@@ -9,13 +9,9 @@ export const handleCreatePreliminaryPlat = async (formData: AppTypes.ProjectCrea
 
   if(result.success) {
     await Promise.all([
-      formData.Approvals.map(approval => AppActions.createApproval({ ...approval, parentId: result.data.uuid }, authHeaders(token))),
-      formData.VestingPeriods.map(period => {
-        if(period.date) {
-          AppActions.createPeriod({ ...period, parentId: result.data.uuid }, authHeaders(token))
-        }
-      }),
-      formData.Milestones.map(milestone => AppActions.createMilestone({ ...milestone, parentId: result.data.uuid }, authHeaders(token)))
+      ...formData.Approvals.map(approval => AppActions.createApproval({ ...approval, parentId: result.data.uuid }, authHeaders(token))),
+      ...formData.VestingPeriods.filter(period => period.date).map(period => AppActions.createPeriod({ ...period, parentId: result.data.uuid }, authHeaders(token))),
+      ...formData.Milestones.map(milestone => AppActions.createMilestone({ ...milestone, parentId: result.data.uuid }, authHeaders(token)))
     ])
   }
 

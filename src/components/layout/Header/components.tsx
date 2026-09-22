@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { Link, useLocation } from "react-router"
-import { useMsal } from "@azure/msal-react"
 import cofIcon from '@/assets/icons/cof/cof-primary-content.svg'
 import claudeIcon from '@/assets/icons/claude/claude.webp'
+import { useAuth } from "@/context/Auth"
 import useHandleLogoutRedirect from "@/context/Auth/hooks/useHandleLogoutRedirect"
 import { useAiChatPanel } from "../AiChatPanel/hooks"
 
@@ -24,10 +24,9 @@ export const Title = () => {
 }
 
 export const Buttons = () => { // Buttons
-  const { instance } = useMsal()
-  const activeAccount = instance.getActiveAccount()
+  const { isAuthenticated } = useAuth()
 
-  if(!activeAccount) return (
+  if(!isAuthenticated) return (
       <LoginPageLink />
   )
 
@@ -62,11 +61,10 @@ export const ReportLink = ({ href }: { href: string }) => { // Link to Power BI 
 }
 
 export const LoginPageLink = () => { // Link to login page
-  const { instance } = useMsal()
-  const activeAccount = instance.getActiveAccount()
+  const { isAuthenticated } = useAuth()
   const { pathname } = useLocation()
 
-  if(activeAccount || pathname === '/') return null
+  if(isAuthenticated || pathname === '/') return null
 
   return (
     <Link to={'/'} className="btn btn-ghost text-neutral-content rounded-none uppercase hover:bg-primary hover:shadow-none">Login</Link>

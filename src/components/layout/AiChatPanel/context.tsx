@@ -1,7 +1,7 @@
 import { createContext, useReducer } from "react"
 
 // Types
-import { ReactNode, Reducer, Dispatch } from "react"
+import { ReactNode, Dispatch } from "react"
 
 export type ChatMessage = { id: string, role: "user" | "assistant", text: string }
 
@@ -65,7 +65,7 @@ const AiChatPanelReducer = (state: AiChatPanelState, action: AiChatPanelAction):
 }
 
 export const AiChatPanelProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer<Reducer<AiChatPanelState, AiChatPanelAction>>(AiChatPanelReducer, initialState)
+  const [state, dispatch] = useReducer(AiChatPanelReducer, initialState)
 
   return (
     <AiChatPanelCtx.Provider value={{ ...state, dispatch }}>

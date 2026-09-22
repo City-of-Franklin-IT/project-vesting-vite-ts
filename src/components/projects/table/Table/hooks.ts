@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { useMsal } from "@azure/msal-react"
 
 /**
 * Returns table row hover event handlers and hovered state
@@ -33,15 +32,4 @@ export const useHandleProjectCell = () => {
   }
 
   return { onClick, expanded: state.expanded }
-}
-
-/**
-* Returns whether user has active MSAL account
-**/
-export const useHandleProjectName = () => {
-  const { instance } = useMsal()
-
-  const activeAccount = instance.getActiveAccount()
-
-  return !!activeAccount
 }

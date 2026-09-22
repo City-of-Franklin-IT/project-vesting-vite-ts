@@ -1,6 +1,6 @@
 import { Link } from "react-router"
-import { setIconVariant, ZoningOrdinanceMap, handleRowStyling, setMilestoneIconVariant, setVestingIconVariant, handleDetailsBtnIcon } from './utils'
-import { useHandleTableRowHover, useHandleProjectCell, useHandleProjectName } from './hooks'
+import { setIconVariant, ZoningOrdinanceMap, handleRowStyling, setMilestoneIconVariant, setVestingIconVariant, handleDetailsBtnIcon, handleDetailsTextColor } from './utils'
+import { useHandleTableRowHover, useHandleProjectCell } from './hooks'
 import styles from './Table.module.css'
 
 // Types
@@ -8,6 +8,7 @@ import type * as AppTypes from '@/context/types'
 
 // Components
 import Icons from "@/components/icons/Icons/Icons"
+import { useAuth } from "@/context/Auth"
 
 export const TableBody = ({ projects }: { projects: AppTypes.ProjectInterface[] }) => (
   <tbody>
@@ -65,9 +66,9 @@ const ProjectCell = (props: ProjectCellProps) => {
 }
 
 const ProjectName = ({ project }: { project: AppTypes.ProjectInterface }) => {
-  const hasActiveAccount = useHandleProjectName()
+  const { isAuthenticated } = useAuth()
 
-  if(!hasActiveAccount) return ( // Unauthenticated
+  if(!isAuthenticated) return ( // Unauthenticated
     <span className="text-lg font-bold uppercase whitespace-wrap">{project.name} // </span>
   )
 
@@ -94,7 +95,7 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex gap-4 justify-around">
+      <div className={`stats stats-vertical sm:stats-horizontal bg-base-100 border border-base-300 shadow-sm w-fit mx-auto ${ handleDetailsTextColor(detailProps.project) }`}>
         <ProjectType { ...detailProps } />
         <Ordinance { ...detailProps } />
         <Resolution { ...detailProps } />
@@ -105,35 +106,41 @@ const ProjectDetails = (props: ProjectDetailsProps) => {
   )
 }
 
-type ProjectTypeProps = { 
+type ProjectTypeProps = {
   project: AppTypes.ProjectInterface
-  hovered: boolean 
+  hovered: boolean
 }
 
 const ProjectType = (props: ProjectTypeProps) => (
-  <div className="flex flex-col items-center">
-    <Icons
-      type={'type'}
-      variant={setIconVariant(props.project, props.hovered)}
-      size={'small'} />
-    <small className="underline">Type:</small>
-    <small className="whitespace-nowrap">{props.project.type}</small>
+  <div className="stat place-items-center py-2 px-4">
+    <div className="stat-figure">
+      <Icons
+        type={'type'}
+        variant={setIconVariant(props.project, false)}
+        size={'small'} />
+    </div>
+    <div className="stat-title">Type</div>
+    <div className="stat-value text-sm whitespace-nowrap">{props.project.type}</div>
   </div>
 )
 
-type OrdinanceProps = { 
+type OrdinanceProps = {
   project: AppTypes.ProjectInterface
-  hovered: boolean 
+  hovered: boolean
 }
 
 const Ordinance = (props: OrdinanceProps) => (
-  <div className="flex flex-col items-center">
-    <Icons
-      type={'ordinance'}
-      variant={setIconVariant(props.project, props.hovered)}
-      size={'small'} />
-    <small className="underline">Ordinance:</small>
-    <OrdinanceLink project={props.project} />
+  <div className="stat place-items-center py-2 px-4">
+    <div className="stat-figure">
+      <Icons
+        type={'ordinance'}
+        variant={setIconVariant(props.project, false)}
+        size={'small'} />
+    </div>
+    <div className="stat-title">Ordinance</div>
+    <div className="stat-value text-sm whitespace-nowrap">
+      <OrdinanceLink project={props.project} />
+    </div>
   </div>
 )
 
@@ -141,26 +148,28 @@ const OrdinanceLink = ({ project }: { project: AppTypes.ProjectInterface }) => {
   const ordinanceLink = ZoningOrdinanceMap.get(project.ordinance)
 
   return (
-    <a href={ordinanceLink} target="_blank"><small className="whitespace-nowrap hover:text-warning" title={`View ${ project.ordinance } Ordinance`}>{project.ordinance}</small></a>
+    <a href={ordinanceLink} target="_blank" title={`View ${ project.ordinance } Ordinance`}>{project.ordinance}</a>
   )
 }
 
-type ResolutionProps = { 
+type ResolutionProps = {
   project: AppTypes.ProjectInterface
-  hovered: boolean 
+  hovered: boolean
 }
 
 const Resolution = (props: ResolutionProps) => {
   if(!props.project.Resolution) return null
 
   return (
-    <div className="flex flex-col items-center">
-      <Icons
-        type={'resolution'}
-        variant={setIconVariant(props.project, props.hovered)}
-        size={'small'} />
-      <small className="underline">Resolution:</small>
-      <small className="whitespace-nowrap">{props.project.Resolution.resolution}</small>
+    <div className="stat place-items-center py-2 px-4">
+      <div className="stat-figure">
+        <Icons
+          type={'resolution'}
+          variant={setIconVariant(props.project, false)}
+          size={'small'} />
+      </div>
+      <div className="stat-title">Resolution</div>
+      <div className="stat-value text-sm whitespace-nowrap">{props.project.Resolution.resolution}</div>
     </div>
   )
 }

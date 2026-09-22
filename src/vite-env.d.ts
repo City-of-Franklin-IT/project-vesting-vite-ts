@@ -14,6 +14,7 @@ interface ImportMetaEnv {
   readonly VITE_API_URL: string
   readonly VITE_APP_BASE: string
   readonly VITE_APP_TITLE: string
+  readonly VITE_MCP_URL: string
 }
 
 interface ImportMeta {
