@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  color: #FFFFFF;
   font-family: 'Play', sans-serif;
   font-weight: 600;
   font-size: 1.3rem;
@@ -13,18 +12,22 @@
 }
 
 .savedPopup {
+  color: var(--color-success-content);
   background-color: var(--color-success);
 }
 
 .errorPopup {
+  color: var(--color-error-content);
   background-color: var(--color-error);
 }
 
 .authPopup {
+  color: var(--color-success-content);
   background-color: var(--color-success);
 }
 
 .infoPopup {
+  color: var(--color-info-content);
   background-color: var(--color-info);
 }
 
