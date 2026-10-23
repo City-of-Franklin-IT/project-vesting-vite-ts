@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router"
 import { useEnableQuery } from "@/helpers/hooks"
 import { authHeaders } from "@/helpers/utils"
@@ -15,7 +15,7 @@ export const useHandleBtnClick = (uuid: string) => {
 
   const { token } = useEnableQuery()
 
-  const handleClick = useCallback(async () => {
+  const handleClick = async () => {
     if(!state.active) {
       setState({ active: true })
       return
@@ -27,7 +27,7 @@ export const useHandleBtnClick = (uuid: string) => {
       savedPopup(result.msg)
       navigate('/projects')
     } else errorPopup(result.msg)
-  }, [uuid, token, navigate, state.active])
+  }
 
   return { handleClick, active: state.active }
 }

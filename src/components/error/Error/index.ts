@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 
 // Types
@@ -9,21 +9,19 @@ export const useHandleError = () => { // Handle error
 
   const navigate = useNavigate()
 
-  const redirect = useCallback(() => {
-    if(state.countdown === 0) {
-      navigate('/')
-    }
-  }, [state.countdown])
-
   useEffect(() => {
     const interval = setInterval(() => {
       setState(prevState => ({ countdown: prevState.countdown - 1 }))
     }, 1000)
 
-    redirect()
-
     return () => clearInterval(interval)
-  }, [redirect])
+  }, [])
+
+  useEffect(() => {
+    if(state.countdown === 0) {
+      navigate('/')
+    }
+  }, [state.countdown, navigate])
 
   return { countdown: state.countdown }
 }

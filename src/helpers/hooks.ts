@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import { useFormContext } from "react-hook-form"
 import { useMsal } from "@azure/msal-react"
@@ -47,31 +47,23 @@ export const useExpireProject = () => {
 
   const expired = watch('expired')
 
-  const expireProject = useCallback(() => {
-    if(expired) {
-      const setFormValues = () => {
-        const milestones = getValues('Milestones')
-        milestones?.forEach((milestone, index) => {
-          if(!milestone.MilestoneStatus.achieved) {
-            setValue(`Milestones.${ index }.MilestoneStatus.expired`, true, { shouldValidate: true, shouldDirty: true })
-          }
-        })
-
-        const vestingPeriods = watch(`VestingPeriods`)
-        vestingPeriods?.forEach((period, index) => {
-          if(!period.VestingStatus?.achieved) {
-            setValue(`VestingPeriods.${ index }.VestingStatus.expired`, true, { shouldValidate: true, shouldDirty: true })
-          }
-        })
-      }
-
-      setFormValues()
-    }
-  }, [expired, getValues])
-
   useEffect(() => {
-    expireProject()
-  }, [expireProject])
+    if(!expired) return
+
+    const milestones = getValues('Milestones')
+    milestones?.forEach((milestone, index) => {
+      if(!milestone.MilestoneStatus.achieved) {
+        setValue(`Milestones.${ index }.MilestoneStatus.expired`, true, { shouldValidate: true, shouldDirty: true })
+      }
+    })
+
+    const vestingPeriods = getValues('VestingPeriods')
+    vestingPeriods?.forEach((period, index) => {
+      if(!period.VestingStatus?.achieved) {
+        setValue(`VestingPeriods.${ index }.VestingStatus.expired`, true, { shouldValidate: true, shouldDirty: true })
+      }
+    })
+  }, [expired, getValues, setValue])
 }
 
 export const useMilestoneExt = () => {
@@ -80,18 +72,14 @@ export const useMilestoneExt = () => {
   const firstMilestone = getValues('Milestones')?.find(milestone => milestone.number === 1)
   const milestoneExtension = firstMilestone?.MilestoneExtension
 
-  const handleMilestoneExt = useCallback(() => {
+  useEffect(() => {
     if(milestoneExtension?.date) {
       const date = new Date(milestoneExtension?.date)
       const updatedSecondMilestoneDate = date.setFullYear(date.getFullYear() + 2)
 
       setValue(`Milestones.${ 1 }.date`, new Date(updatedSecondMilestoneDate).toISOString().split("T")[0])
     }
-  }, [milestoneExtension])
-
-  useEffect(() => {
-    handleMilestoneExt()
-  }, [handleMilestoneExt])
+  }, [milestoneExtension, setValue])
 }
 
 export const useGetUserDepartment = () => {
