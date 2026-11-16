@@ -1,0 +1,7 @@
+services:
+  project-vesting:
+    image: ghcr.io/city-of-franklin-it/project-vesting-vite-ts:1.0.0
+    container_name: project-vesting
+    ports:
+      - "6005:6005"
+    restart: unless-stopped

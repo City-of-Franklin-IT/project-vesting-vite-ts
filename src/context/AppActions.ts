@@ -1,4 +1,4 @@
-const baseUrl = import.meta.env.VITE_API_URL
+import { API_URL } from '@/config'
 
 // Types
 import * as Types from './types'
@@ -9,7 +9,7 @@ import * as Types from './types'
 * GET /api/v2/eng/vesting/project
 **/
 export const getProjects = async (): Promise<Types.ServerResponse & { data: Types.ProjectInterface[] }> => {
-  const res = await fetch(`${ baseUrl }/vesting/project`)
+  const res = await fetch(`${ API_URL }/vesting/project`)
 
   if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
@@ -23,7 +23,7 @@ export const getProjects = async (): Promise<Types.ServerResponse & { data: Type
 * GET /api/v2/eng/vesting/project/:uuid
 **/
 export const getProject = async (uuid: string, headers: Headers): Promise<Types.ServerResponse & { data: Types.ProjectInterface }> => {
-  const res = await fetch(`${ baseUrl }/vesting/project/${ uuid }`, { headers })
+  const res = await fetch(`${ API_URL }/vesting/project/${ uuid }`, { headers })
 
   if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)
@@ -39,7 +39,7 @@ export const getProject = async (uuid: string, headers: Headers): Promise<Types.
 export const createProject = async (formData: Types.ProjectCreateInterface, headers: Headers): Promise<Types.ServerResponse & { data: Types.ProjectInterface }> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/project`, {
+  const res = await fetch(`${ API_URL }/vesting/project`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -59,7 +59,7 @@ export const createProject = async (formData: Types.ProjectCreateInterface, head
 export const updateProject = async (formData: Types.ProjectCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/project/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/project/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -77,7 +77,7 @@ export const updateProject = async (formData: Types.ProjectCreateInterface, head
 * DELETE /api/v2/eng/vesting/project/:uuid
 **/
 export const deleteProject = async (uuid: string, headers: Headers): Promise<Types.ServerResponse> => {
-  const res = await fetch(`${ baseUrl }/vesting/project/${ uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/project/${ uuid }`, {
     method: 'DELETE',
     headers
   })
@@ -96,7 +96,7 @@ export const deleteProject = async (uuid: string, headers: Headers): Promise<Typ
 export const createMilestone = async (formData: Types.MilestoneCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/milestone`, {
+  const res = await fetch(`${ API_URL }/vesting/milestone`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -116,7 +116,7 @@ export const createMilestone = async (formData: Types.MilestoneCreateInterface, 
 export const updateMilestone = async (formData: Types.MilestoneCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/milestone/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/milestone/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -136,7 +136,7 @@ export const updateMilestone = async (formData: Types.MilestoneCreateInterface, 
 export const updateMilestoneStatus = async (formData: Types.MilestoneStatusUpdateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/milestone/status/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/milestone/status/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -156,7 +156,7 @@ export const updateMilestoneStatus = async (formData: Types.MilestoneStatusUpdat
 export const createExtension = async (formData: Types.MilestoneExtensionCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/extension`, {
+  const res = await fetch(`${ API_URL }/vesting/extension`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -176,7 +176,7 @@ export const createExtension = async (formData: Types.MilestoneExtensionCreateIn
 export const updateExtension = async (formData: Types.MilestoneExtensionCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/extension/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/extension/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -194,7 +194,7 @@ export const updateExtension = async (formData: Types.MilestoneExtensionCreateIn
 * DELETE /api/v2/eng/vesting/extension/:uuid
 **/
 export const deleteExtension = async (uuid: string, headers: Headers): Promise<Types.ServerResponse> => {
-  const res = await fetch(`${ baseUrl }/vesting/extension/${ uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/extension/${ uuid }`, {
     method: 'DELETE',
     headers
   })
@@ -213,7 +213,7 @@ export const deleteExtension = async (uuid: string, headers: Headers): Promise<T
 export const createPeriod = async (formData: Types.VestingPeriodCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/period`, {
+  const res = await fetch(`${ API_URL }/vesting/period`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -233,7 +233,7 @@ export const createPeriod = async (formData: Types.VestingPeriodCreateInterface,
 export const updatePeriod = async (formData: Types.VestingPeriodCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/period/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/period/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -251,7 +251,7 @@ export const updatePeriod = async (formData: Types.VestingPeriodCreateInterface,
 * DELETE /api/v2/eng/vesting/period/:uuid
 **/
 export const deletePeriod = async (uuid: string, headers: Headers): Promise<Types.ServerResponse> => {
-  const res = await fetch(`${ baseUrl }/vesting/period/${ uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/period/${ uuid }`, {
     method: 'DELETE',
     headers
   })
@@ -270,7 +270,7 @@ export const deletePeriod = async (uuid: string, headers: Headers): Promise<Type
 export const updatePeriodStatus = async (formData: Types.VestingStatusUpdateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/period/status/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/period/status/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -290,7 +290,7 @@ export const updatePeriodStatus = async (formData: Types.VestingStatusUpdateInte
 export const createVestingExtension = async (formData: Types.VestingExtensionCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/vesting-extension`, {
+  const res = await fetch(`${ API_URL }/vesting/vesting-extension`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -310,7 +310,7 @@ export const createVestingExtension = async (formData: Types.VestingExtensionCre
 export const updateVestingExtension = async (formData: Types.VestingExtensionCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/vesting-extension/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/vesting-extension/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -328,7 +328,7 @@ export const updateVestingExtension = async (formData: Types.VestingExtensionCre
 * DELETE /api/v2/eng/vesting/vesting-extension/:uuid
 **/
 export const deleteVestingExtension = async (uuid: string, headers: Headers): Promise<Types.ServerResponse> => {
-  const res = await fetch(`${ baseUrl }/vesting/vesting-extension/${ uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/vesting-extension/${ uuid }`, {
     method: 'DELETE',
     headers
   })
@@ -347,7 +347,7 @@ export const deleteVestingExtension = async (uuid: string, headers: Headers): Pr
 export const createApproval = async (formData: Types.ApprovalCreateInterface, headers: Headers): Promise<Types.ServerResponse & { data: Types.ApprovalInterface }> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/approval`, {
+  const res = await fetch(`${ API_URL }/vesting/approval`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -367,7 +367,7 @@ export const createApproval = async (formData: Types.ApprovalCreateInterface, he
 export const updateApproval = async (formData: Types.ApprovalCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/approval/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/approval/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -387,7 +387,7 @@ export const updateApproval = async (formData: Types.ApprovalCreateInterface, he
 export const createResolution = async (formData: Types.ResolutionCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/resolution`, {
+  const res = await fetch(`${ API_URL }/vesting/resolution`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...formData })
@@ -407,7 +407,7 @@ export const createResolution = async (formData: Types.ResolutionCreateInterface
 export const updateResolution = async (formData: Types.ResolutionCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/resolution/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/resolution/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -427,7 +427,7 @@ export const updateResolution = async (formData: Types.ResolutionCreateInterface
 export const createNotification = async (formData: Types.VestingNotificationCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/notification`, {
+  const res = await fetch(`${ API_URL }/vesting/notification`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -449,7 +449,7 @@ export const createNotification = async (formData: Types.VestingNotificationCrea
 export const updateNotification = async (formData: Types.VestingNotificationCreateInterface, headers: Headers): Promise<Types.ServerResponse> => {
   headers.append('Content-Type', 'application/json')
 
-  const res = await fetch(`${ baseUrl }/vesting/notification/${ formData.uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/notification/${ formData.uuid }`, {
     method: 'PUT',
     headers,
     body: JSON.stringify({ ...formData })
@@ -467,7 +467,7 @@ export const updateNotification = async (formData: Types.VestingNotificationCrea
 * DELETE /api/v2/eng/vesting/notification/:uuid
 **/
 export const deleteNotification = async (uuid: string, headers: Headers): Promise<Types.ServerResponse> => {
-  const res = await fetch(`${ baseUrl }/vesting/notification/${ uuid }`, {
+  const res = await fetch(`${ API_URL }/vesting/notification/${ uuid }`, {
     method: 'DELETE',
     headers
   })
@@ -484,7 +484,7 @@ export const deleteNotification = async (uuid: string, headers: Headers): Promis
 * GET /api/v2/eng/vesting/docs
 **/
 export const getDocs = async (headers: Headers) => {
-  const res = await fetch(`${ baseUrl }/vesting/docs`, { headers })
+  const res = await fetch(`${ API_URL }/vesting/docs`, { headers })
 
   if (res.status === 401) throw new Error('401')
   if (!res.ok) throw new Error(res.statusText)

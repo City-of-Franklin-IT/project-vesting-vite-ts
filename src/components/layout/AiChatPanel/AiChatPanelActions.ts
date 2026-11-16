@@ -1,4 +1,4 @@
-const baseUrl = import.meta.env.VITE_MCP_URL
+import { MCP_URL } from '@/config'
 
 export type ChatResponse = {
   sessionId: string
@@ -13,7 +13,7 @@ export type ChatResponse = {
 export const postChatMessage = async (payload: { sessionId?: string, message: string }, headers: Headers): Promise<ChatResponse> => {
   headers.append("Content-Type", "application/json")
 
-  const res = await fetch(`${ baseUrl }/vesting/chat`, {
+  const res = await fetch(`${ MCP_URL }/vesting/chat`, {
     method: "POST",
     headers,
     body: JSON.stringify(payload)
